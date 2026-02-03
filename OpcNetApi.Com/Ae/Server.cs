@@ -337,7 +337,8 @@ namespace OpcCom.Ae
                 int num = (attributeIDs != null) ? attributeIDs.Length : 0;
                 try
                 {
-                    ((IOPCEventServer)m_server).TranslateToItemIDs((sourceName != null) ? sourceName : "", eventCategory, (conditionName != null) ? conditionName : "", (subConditionName != null) ? subConditionName : "", num, (num > 0) ? attributeIDs : new int[0], out ppszAttrItemIDs, out ppszNodeNames, out ppCLSIDs);
+                    ((IOPCEventServer)m_server).TranslateToItemIDs((sourceName != null) ? sourceName : "", eventCategory, (conditionName != null) ? conditionName : "", (subConditionName != null) ? subConditionName : "", num,
+                        (num > 0) ? attributeIDs : new int[0], out ppszAttrItemIDs, out ppszNodeNames, out ppCLSIDs);
                 }
                 catch (Exception e)
                 {
@@ -374,7 +375,8 @@ namespace OpcCom.Ae
                 IntPtr ppConditionState = IntPtr.Zero;
                 try
                 {
-                    ((IOPCEventServer)m_server).GetConditionState((sourceName != null) ? sourceName : "", (conditionName != null) ? conditionName : "", (attributeIDs != null) ? attributeIDs.Length : 0, (attributeIDs != null) ? attributeIDs : new int[0], out ppConditionState);
+                    ((IOPCEventServer)m_server).GetConditionState((sourceName != null) ? sourceName : "", (conditionName != null) ? conditionName : "", (attributeIDs != null) ? attributeIDs.Length : 0,
+                        (attributeIDs != null) ? attributeIDs : new int[0], out ppConditionState);
                 }
                 catch (Exception e)
                 {

@@ -60,6 +60,7 @@ namespace SampleApp
                     }
                 }
             }
+
             if (Server != null)
             {
                 Server.Connect();
@@ -80,13 +81,13 @@ namespace SampleApp
 
         private static void Init()
         {
-            mMonitoringGroup.Name = "Monitoring";                          // Group Name
-            mMonitoringGroup.ServerHandle = null;                          // The handle assigned by the server to the group.
-            mMonitoringGroup.ClientHandle = Guid.NewGuid().ToString();     // The handle assigned by the client to the group.
-            mMonitoringGroup.Active = true;                                // Activate the group.
-            mMonitoringGroup.UpdateRate = 100;                             // The refresh rate is 1 second. -> 1000
-            mMonitoringGroup.Deadband = 0;                                 // When the dead zone value is set to 0, the server will notify the group of any data changes in the group.
-            mMonitoringGroup.Locale = null;                                // No regional values are set.
+            mMonitoringGroup.Name = "Monitoring"; // Group Name
+            mMonitoringGroup.ServerHandle = null; // The handle assigned by the server to the group.
+            mMonitoringGroup.ClientHandle = Guid.NewGuid().ToString(); // The handle assigned by the client to the group.
+            mMonitoringGroup.Active = true; // Activate the group.
+            mMonitoringGroup.UpdateRate = 100; // The refresh rate is 1 second. -> 1000
+            mMonitoringGroup.Deadband = 0; // When the dead zone value is set to 0, the server will notify the group of any data changes in the group.
+            mMonitoringGroup.Locale = null; // No regional values are set.
         }
 
         private static readonly List<Item> items = new List<Item>();
@@ -98,6 +99,5 @@ namespace SampleApp
                 Console.WriteLine($"Name:{item.ItemName} ,Value:{item.Value}");
             }
         }
-
     }
 }

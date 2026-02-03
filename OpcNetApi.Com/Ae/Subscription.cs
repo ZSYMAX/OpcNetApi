@@ -274,7 +274,8 @@ namespace OpcCom.Ae
                 IntPtr ppszSourceList = IntPtr.Zero;
                 try
                 {
-                    ((IOPCEventSubscriptionMgt)m_subscription).GetFilter(out pdwEventType, out pdwNumCategories, out ppdwEventCategories, out pdwLowSeverity, out pdwHighSeverity, out pdwNumAreas, out ppszAreaList, out pdwNumSources, out ppszSourceList);
+                    ((IOPCEventSubscriptionMgt)m_subscription).GetFilter(out pdwEventType, out pdwNumCategories, out ppdwEventCategories, out pdwLowSeverity, out pdwHighSeverity, out pdwNumAreas, out ppszAreaList, out pdwNumSources,
+                        out ppszSourceList);
                 }
                 catch (Exception e)
                 {
@@ -306,7 +307,8 @@ namespace OpcCom.Ae
 
                 try
                 {
-                    ((IOPCEventSubscriptionMgt)m_subscription).SetFilter(filters.EventTypes, filters.Categories.Count, filters.Categories.ToArray(), filters.LowSeverity, filters.HighSeverity, filters.Areas.Count, filters.Areas.ToArray(), filters.Sources.Count, filters.Sources.ToArray());
+                    ((IOPCEventSubscriptionMgt)m_subscription).SetFilter(filters.EventTypes, filters.Categories.Count, filters.Categories.ToArray(), filters.LowSeverity, filters.HighSeverity, filters.Areas.Count, filters.Areas.ToArray(),
+                        filters.Sources.Count, filters.Sources.ToArray());
                 }
                 catch (Exception e)
                 {

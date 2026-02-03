@@ -9,7 +9,6 @@ using OpcRcw.Da;
 
 namespace OpcCom.Da20
 {
-    // Token: 0x02000034 RID: 52
     public class Server : OpcCom.Da.Server
     {
         private bool m_disposed;
@@ -996,8 +995,8 @@ namespace OpcCom.Da20
 
                 array = enumString.Next(10);
                 num = 0;
-            }
-            while (array != null && array.Length > 0);
+            } while (array != null && array.Length > 0);
+
             if (position == null)
             {
                 enumString.Dispose();

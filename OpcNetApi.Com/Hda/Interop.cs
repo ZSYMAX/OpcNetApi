@@ -7,7 +7,6 @@ using OpcRcw.Hda;
 
 namespace OpcCom.Hda
 {
-    // Token: 0x02000017 RID: 23
     public class Interop
     {
         internal static OPCHDA_FILETIME Convert(FILETIME input)

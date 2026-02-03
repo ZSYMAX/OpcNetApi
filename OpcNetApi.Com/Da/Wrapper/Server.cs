@@ -38,14 +38,8 @@ namespace OpcCom.Da.Wrapper
 
         public Opc.Da.IServer IServer
         {
-            get
-            {
-                return m_server;
-            }
-            set
-            {
-                m_server = value;
-            }
+            get { return m_server; }
+            set { m_server = value; }
         }
 
         protected Server()
@@ -381,7 +375,8 @@ namespace OpcCom.Da.Wrapper
             }
         }
 
-        public void Browse(string szItemID, ref IntPtr pszContinuationPoint, int dwMaxElementsReturned, OPCBROWSEFILTER dwBrowseFilter, string szElementNameFilter, string szVendorFilter, int bReturnAllProperties, int bReturnPropertyValues, int dwPropertyCount, int[] pdwPropertyIDs, out int pbMoreElements, out int pdwCount, out IntPtr ppBrowseElements)
+        public void Browse(string szItemID, ref IntPtr pszContinuationPoint, int dwMaxElementsReturned, OPCBROWSEFILTER dwBrowseFilter, string szElementNameFilter, string szVendorFilter, int bReturnAllProperties, int bReturnPropertyValues,
+            int dwPropertyCount, int[] pdwPropertyIDs, out int pbMoreElements, out int pdwCount, out IntPtr ppBrowseElements)
         {
             lock (this)
             {
@@ -584,50 +579,50 @@ namespace OpcCom.Da.Wrapper
                     switch (dwBrowseDirection)
                     {
                         case OPCBROWSEDIRECTION.OPC_BROWSE_TO:
+                        {
+                            if (szString == null || szString.Length == 0)
                             {
-                                if (szString == null || szString.Length == 0)
-                                {
-                                    m_browseStack.Clear();
-                                    break;
-                                }
-
-                                itemIdentifier = new ItemIdentifier(szString);
-                                BrowseElement[] array = null;
-                                try
-                                {
-                                    array = m_server.Browse(itemIdentifier, browseFilters, out position);
-                                }
-                                catch (Exception)
-                                {
-                                    throw CreateException(-2147024809);
-                                }
-
-                                if (array == null || array.Length == 0)
-                                {
-                                    throw CreateException(-2147024809);
-                                }
-
                                 m_browseStack.Clear();
-                                m_browseStack.Push(null);
-                                m_browseStack.Push(itemIdentifier);
                                 break;
                             }
-                        case OPCBROWSEDIRECTION.OPC_BROWSE_DOWN:
+
+                            itemIdentifier = new ItemIdentifier(szString);
+                            BrowseElement[] array = null;
+                            try
                             {
-                                if (szString == null || szString.Length == 0)
-                                {
-                                    throw CreateException(-2147024809);
-                                }
-
-                                BrowseElement browseElement = FindChild(szString);
-                                if (browseElement == null || !browseElement.HasChildren)
-                                {
-                                    throw CreateException(-2147024809);
-                                }
-
-                                m_browseStack.Push(new ItemIdentifier(browseElement.ItemName));
-                                break;
+                                array = m_server.Browse(itemIdentifier, browseFilters, out position);
                             }
+                            catch (Exception)
+                            {
+                                throw CreateException(-2147024809);
+                            }
+
+                            if (array == null || array.Length == 0)
+                            {
+                                throw CreateException(-2147024809);
+                            }
+
+                            m_browseStack.Clear();
+                            m_browseStack.Push(null);
+                            m_browseStack.Push(itemIdentifier);
+                            break;
+                        }
+                        case OPCBROWSEDIRECTION.OPC_BROWSE_DOWN:
+                        {
+                            if (szString == null || szString.Length == 0)
+                            {
+                                throw CreateException(-2147024809);
+                            }
+
+                            BrowseElement browseElement = FindChild(szString);
+                            if (browseElement == null || !browseElement.HasChildren)
+                            {
+                                throw CreateException(-2147024809);
+                            }
+
+                            m_browseStack.Push(new ItemIdentifier(browseElement.ItemName));
+                            break;
+                        }
                         case OPCBROWSEDIRECTION.OPC_BROWSE_UP:
                             if (m_browseStack.Count == 0)
                             {

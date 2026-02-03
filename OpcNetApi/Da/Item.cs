@@ -29,134 +29,68 @@ namespace Opc.Da
 
         public System.Type ReqType
         {
-            get
-            {
-                return m_reqType;
-            }
-            set
-            {
-                m_reqType = value;
-            }
+            get { return m_reqType; }
+            set { m_reqType = value; }
         }
 
         public int MaxAge
         {
-            get
-            {
-                return m_maxAge;
-            }
-            set
-            {
-                m_maxAge = value;
-            }
+            get { return m_maxAge; }
+            set { m_maxAge = value; }
         }
 
         public bool MaxAgeSpecified
         {
-            get
-            {
-                return m_maxAgeSpecified;
-            }
-            set
-            {
-                m_maxAgeSpecified = value;
-            }
+            get { return m_maxAgeSpecified; }
+            set { m_maxAgeSpecified = value; }
         }
 
         public bool Active
         {
-            get
-            {
-                return m_active;
-            }
-            set
-            {
-                m_active = value;
-            }
+            get { return m_active; }
+            set { m_active = value; }
         }
 
         public bool ActiveSpecified
         {
-            get
-            {
-                return m_activeSpecified;
-            }
-            set
-            {
-                m_activeSpecified = value;
-            }
+            get { return m_activeSpecified; }
+            set { m_activeSpecified = value; }
         }
 
         public float Deadband
         {
-            get
-            {
-                return m_deadband;
-            }
-            set
-            {
-                m_deadband = value;
-            }
+            get { return m_deadband; }
+            set { m_deadband = value; }
         }
 
         public bool DeadbandSpecified
         {
-            get
-            {
-                return m_deadbandSpecified;
-            }
-            set
-            {
-                m_deadbandSpecified = value;
-            }
+            get { return m_deadbandSpecified; }
+            set { m_deadbandSpecified = value; }
         }
 
         public int SamplingRate
         {
-            get
-            {
-                return m_samplingRate;
-            }
-            set
-            {
-                m_samplingRate = value;
-            }
+            get { return m_samplingRate; }
+            set { m_samplingRate = value; }
         }
 
         public bool SamplingRateSpecified
         {
-            get
-            {
-                return m_samplingRateSpecified;
-            }
-            set
-            {
-                m_samplingRateSpecified = value;
-            }
+            get { return m_samplingRateSpecified; }
+            set { m_samplingRateSpecified = value; }
         }
 
         public bool EnableBuffering
         {
-            get
-            {
-                return m_enableBuffering;
-            }
-            set
-            {
-                m_enableBuffering = value;
-            }
+            get { return m_enableBuffering; }
+            set { m_enableBuffering = value; }
         }
 
         public bool EnableBufferingSpecified
         {
-            get
-            {
-                return m_enableBufferingSpecified;
-            }
-            set
-            {
-                m_enableBufferingSpecified = value;
-            }
+            get { return m_enableBufferingSpecified; }
+            set { m_enableBufferingSpecified = value; }
         }
 
         public Item()

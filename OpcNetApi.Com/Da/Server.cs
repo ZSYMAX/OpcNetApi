@@ -345,7 +345,8 @@ namespace OpcCom.Da
                 GCHandle gCHandle = GCHandle.Alloc(subscriptionState.Deadband, GCHandleType.Pinned);
                 try
                 {
-                    ((IOPCServer)m_server).AddGroup((subscriptionState.Name != null) ? subscriptionState.Name : "", subscriptionState.Active ? 1 : 0, subscriptionState.UpdateRate, 0, IntPtr.Zero, gCHandle.AddrOfPinnedObject(), OpcCom.Interop.GetLocale(subscriptionState.Locale), out phServerGroup, out pRevisedUpdateRate, ref riid, out ppUnk);
+                    ((IOPCServer)m_server).AddGroup((subscriptionState.Name != null) ? subscriptionState.Name : "", subscriptionState.Active ? 1 : 0, subscriptionState.UpdateRate, 0, IntPtr.Zero, gCHandle.AddrOfPinnedObject(),
+                        OpcCom.Interop.GetLocale(subscriptionState.Locale), out phServerGroup, out pRevisedUpdateRate, ref riid, out ppUnk);
                 }
                 catch (Exception e)
                 {
@@ -441,7 +442,9 @@ namespace OpcCom.Da
                 IntPtr ppBrowseElements = IntPtr.Zero;
                 try
                 {
-                    ((IOPCBrowse)m_server).Browse((itemID != null && itemID.ItemName != null) ? itemID.ItemName : "", ref pszContinuationPoint, filters.MaxElementsReturned, Interop.GetBrowseFilter(filters.BrowseFilter), (filters.ElementNameFilter != null) ? filters.ElementNameFilter : "", (filters.VendorFilter != null) ? filters.VendorFilter : "", filters.ReturnAllProperties ? 1 : 0, filters.ReturnPropertyValues ? 1 : 0, (filters.PropertyIDs != null) ? filters.PropertyIDs.Length : 0, Interop.GetPropertyIDs(filters.PropertyIDs), out pbMoreElements, out pdwCount, out ppBrowseElements);
+                    ((IOPCBrowse)m_server).Browse((itemID != null && itemID.ItemName != null) ? itemID.ItemName : "", ref pszContinuationPoint, filters.MaxElementsReturned, Interop.GetBrowseFilter(filters.BrowseFilter),
+                        (filters.ElementNameFilter != null) ? filters.ElementNameFilter : "", (filters.VendorFilter != null) ? filters.VendorFilter : "", filters.ReturnAllProperties ? 1 : 0, filters.ReturnPropertyValues ? 1 : 0,
+                        (filters.PropertyIDs != null) ? filters.PropertyIDs.Length : 0, Interop.GetPropertyIDs(filters.PropertyIDs), out pbMoreElements, out pdwCount, out ppBrowseElements);
                 }
                 catch (Exception e)
                 {
@@ -489,7 +492,9 @@ namespace OpcCom.Da
                 IntPtr ppBrowseElements = IntPtr.Zero;
                 try
                 {
-                    ((IOPCBrowse)m_server).Browse((itemID != null && itemID.ItemName != null) ? itemID.ItemName : "", ref pszContinuationPoint, filters.MaxElementsReturned, Interop.GetBrowseFilter(filters.BrowseFilter), (filters.ElementNameFilter != null) ? filters.ElementNameFilter : "", (filters.VendorFilter != null) ? filters.VendorFilter : "", filters.ReturnAllProperties ? 1 : 0, filters.ReturnPropertyValues ? 1 : 0, (filters.PropertyIDs != null) ? filters.PropertyIDs.Length : 0, Interop.GetPropertyIDs(filters.PropertyIDs), out pbMoreElements, out pdwCount, out ppBrowseElements);
+                    ((IOPCBrowse)m_server).Browse((itemID != null && itemID.ItemName != null) ? itemID.ItemName : "", ref pszContinuationPoint, filters.MaxElementsReturned, Interop.GetBrowseFilter(filters.BrowseFilter),
+                        (filters.ElementNameFilter != null) ? filters.ElementNameFilter : "", (filters.VendorFilter != null) ? filters.VendorFilter : "", filters.ReturnAllProperties ? 1 : 0, filters.ReturnPropertyValues ? 1 : 0,
+                        (filters.PropertyIDs != null) ? filters.PropertyIDs.Length : 0, Interop.GetPropertyIDs(filters.PropertyIDs), out pbMoreElements, out pdwCount, out ppBrowseElements);
                 }
                 catch (Exception e)
                 {

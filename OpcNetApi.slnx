@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/sample/">
+    <Project Path="sample/SampleApp.csproj" />
+  </Folder>
+  <Project Path="OpcComRcw/OpcComRcw.csproj" />
+  <Project Path="OpcNetApi.Com/OpcNetApi.Com.csproj" />
+  <Project Path="OpcNetApi/OpcNetApi.csproj" />
+</Solution>

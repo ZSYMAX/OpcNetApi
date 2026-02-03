@@ -144,8 +144,8 @@ namespace OpcCom.Da.Wrapper
                             case euType.analog:
                                 oPCITEMATTRIBUTES.vEUInfo = new double[2]
                                 {
-                                itemAttributes.MinValue,
-                                itemAttributes.MaxValue
+                                    itemAttributes.MinValue,
+                                    itemAttributes.MaxValue
                                 };
                                 break;
                             case euType.enumerated:

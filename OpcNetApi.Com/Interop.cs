@@ -113,11 +113,12 @@ namespace OpcCom
 
             void LockServer([MarshalAs(UnmanagedType.Bool)] bool fLock);
 
-            void GetLicInfo([In][Out] ref LICINFO pLicInfo);
+            void GetLicInfo([In] [Out] ref LICINFO pLicInfo);
 
             void RequestLicKey(int dwReserved, [MarshalAs(UnmanagedType.BStr)] string pbstrKey);
 
-            void CreateInstanceLic([MarshalAs(UnmanagedType.IUnknown)] object punkOuter, [MarshalAs(UnmanagedType.IUnknown)] object punkReserved, [MarshalAs(UnmanagedType.LPStruct)] Guid riid, [MarshalAs(UnmanagedType.BStr)] string bstrKey, [MarshalAs(UnmanagedType.IUnknown)] out object ppvObject);
+            void CreateInstanceLic([MarshalAs(UnmanagedType.IUnknown)] object punkOuter, [MarshalAs(UnmanagedType.IUnknown)] object punkReserved, [MarshalAs(UnmanagedType.LPStruct)] Guid riid, [MarshalAs(UnmanagedType.BStr)] string bstrKey,
+                [MarshalAs(UnmanagedType.IUnknown)] out object ppvObject);
         }
 
         [ComImport]
@@ -125,9 +126,11 @@ namespace OpcCom
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         private interface IClientSecurity
         {
-            void QueryBlanket([MarshalAs(UnmanagedType.IUnknown)] object pProxy, ref uint pAuthnSvc, ref uint pAuthzSvc, [MarshalAs(UnmanagedType.LPWStr)] ref string pServerPrincName, ref uint pAuthnLevel, ref uint pImpLevel, ref IntPtr pAuthInfo, ref uint pCapabilities);
+            void QueryBlanket([MarshalAs(UnmanagedType.IUnknown)] object pProxy, ref uint pAuthnSvc, ref uint pAuthzSvc, [MarshalAs(UnmanagedType.LPWStr)] ref string pServerPrincName, ref uint pAuthnLevel, ref uint pImpLevel,
+                ref IntPtr pAuthInfo, ref uint pCapabilities);
 
-            void SetBlanket([MarshalAs(UnmanagedType.IUnknown)] object pProxy, uint pAuthnSvc, uint pAuthzSvc, [MarshalAs(UnmanagedType.LPWStr)] string pServerPrincName, uint pAuthnLevel, uint pImpLevel, IntPtr pAuthInfo, uint pCapabilities);
+            void SetBlanket([MarshalAs(UnmanagedType.IUnknown)] object pProxy, uint pAuthnSvc, uint pAuthzSvc, [MarshalAs(UnmanagedType.LPWStr)] string pServerPrincName, uint pAuthnLevel, uint pImpLevel, IntPtr pAuthInfo,
+                uint pCapabilities);
 
             void CopyProxy([MarshalAs(UnmanagedType.IUnknown)] object pProxy, [MarshalAs(UnmanagedType.IUnknown)] out object ppCopy);
         }
@@ -439,10 +442,11 @@ namespace OpcCom
         private static extern int CoInitializeSecurity(IntPtr pSecDesc, int cAuthSvc, SOLE_AUTHENTICATION_SERVICE[] asAuthSvc, IntPtr pReserved1, uint dwAuthnLevel, uint dwImpLevel, IntPtr pAuthList, uint dwCapabilities, IntPtr pReserved3);
 
         [DllImport("ole32.dll")]
-        private static extern void CoCreateInstanceEx(ref Guid clsid, [MarshalAs(UnmanagedType.IUnknown)] object punkOuter, uint dwClsCtx, [In] ref COSERVERINFO pServerInfo, uint dwCount, [In][Out] MULTI_QI[] pResults);
+        private static extern void CoCreateInstanceEx(ref Guid clsid, [MarshalAs(UnmanagedType.IUnknown)] object punkOuter, uint dwClsCtx, [In] ref COSERVERINFO pServerInfo, uint dwCount, [In] [Out] MULTI_QI[] pResults);
 
         [DllImport("ole32.dll")]
-        private static extern void CoGetClassObject([MarshalAs(UnmanagedType.LPStruct)] Guid clsid, uint dwClsContext, [In] ref COSERVERINFO pServerInfo, [MarshalAs(UnmanagedType.LPStruct)] Guid riid, [MarshalAs(UnmanagedType.IUnknown)] out object ppv);
+        private static extern void CoGetClassObject([MarshalAs(UnmanagedType.LPStruct)] Guid clsid, uint dwClsContext, [In] ref COSERVERINFO pServerInfo, [MarshalAs(UnmanagedType.LPStruct)] Guid riid,
+            [MarshalAs(UnmanagedType.IUnknown)] out object ppv);
 
         public static void InitializeSecurity()
         {

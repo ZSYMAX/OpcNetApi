@@ -566,7 +566,8 @@ namespace OpcCom.Da
                 int pRevisedUpdateRate = 0;
                 try
                 {
-                    ((IOPCGroupStateMgt)m_group).SetState(((masks & 0x10) != 0) ? gCHandle3.AddrOfPinnedObject() : IntPtr.Zero, out pRevisedUpdateRate, ((masks & 8) != 0) ? gCHandle.AddrOfPinnedObject() : IntPtr.Zero, IntPtr.Zero, ((masks & 0x80) != 0) ? gCHandle4.AddrOfPinnedObject() : IntPtr.Zero, ((masks & 4) != 0) ? gCHandle2.AddrOfPinnedObject() : IntPtr.Zero, IntPtr.Zero);
+                    ((IOPCGroupStateMgt)m_group).SetState(((masks & 0x10) != 0) ? gCHandle3.AddrOfPinnedObject() : IntPtr.Zero, out pRevisedUpdateRate, ((masks & 8) != 0) ? gCHandle.AddrOfPinnedObject() : IntPtr.Zero, IntPtr.Zero,
+                        ((masks & 0x80) != 0) ? gCHandle4.AddrOfPinnedObject() : IntPtr.Zero, ((masks & 4) != 0) ? gCHandle2.AddrOfPinnedObject() : IntPtr.Zero, IntPtr.Zero);
                 }
                 catch (Exception e2)
                 {
@@ -1709,5 +1710,4 @@ namespace OpcCom.Da
             }
         }
     }
-
 }

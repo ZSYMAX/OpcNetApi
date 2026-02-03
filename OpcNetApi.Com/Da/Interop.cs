@@ -9,7 +9,6 @@ using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
 
 namespace OpcCom.Da
 {
-    // Token: 0x0200002F RID: 47
     public class Interop
     {
         internal static OpcRcw.Da.FILETIME Convert(FILETIME input)

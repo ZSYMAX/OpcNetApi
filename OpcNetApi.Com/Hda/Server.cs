@@ -74,7 +74,8 @@ namespace OpcCom.Hda
                 string ppszVendorInfo = null;
                 try
                 {
-                    ((IOPCHDA_Server)m_server).GetHistorianStatus(out pwStatus, out pftCurrentTime, out pftStartTime, out pwMajorVersion, out wMinorVersion, out pwBuildNumber, out pdwMaxReturnValues, out ppszStatusString, out ppszVendorInfo);
+                    ((IOPCHDA_Server)m_server).GetHistorianStatus(out pwStatus, out pftCurrentTime, out pftStartTime, out pwMajorVersion, out wMinorVersion, out pwBuildNumber, out pdwMaxReturnValues, out ppszStatusString,
+                        out ppszVendorInfo);
                 }
                 catch (Exception e)
                 {
@@ -593,7 +594,8 @@ namespace OpcCom.Hda
             }
         }
 
-        public IdentifiedResult[] PlaybackRaw(Time startTime, Time endTime, int maxValues, decimal updateInterval, decimal playbackDuration, ItemIdentifier[] items, object requestHandle, DataUpdateEventHandler callback, out IRequest request)
+        public IdentifiedResult[] PlaybackRaw(Time startTime, Time endTime, int maxValues, decimal updateInterval, decimal playbackDuration, ItemIdentifier[] items, object requestHandle, DataUpdateEventHandler callback,
+            out IRequest request)
         {
             if (items == null)
             {
@@ -812,7 +814,8 @@ namespace OpcCom.Hda
             }
         }
 
-        public IdentifiedResult[] PlaybackProcessed(Time startTime, Time endTime, decimal resampleInterval, int numberOfIntervals, decimal updateInterval, Item[] items, object requestHandle, DataUpdateEventHandler callback, out IRequest request)
+        public IdentifiedResult[] PlaybackProcessed(Time startTime, Time endTime, decimal resampleInterval, int numberOfIntervals, decimal updateInterval, Item[] items, object requestHandle, DataUpdateEventHandler callback,
+            out IRequest request)
         {
             if (items == null)
             {
@@ -849,7 +852,8 @@ namespace OpcCom.Hda
                 IntPtr ppErrors = IntPtr.Zero;
                 try
                 {
-                    ((IOPCHDA_Playback)m_server).ReadProcessedWithUpdate(request2.RequestID, ref htStartTime, ref htEndTime, fILETIME, numberOfIntervals, fILETIME2, serverHandles.Length, serverHandles, aggregateIDs, out pdwCancelID, out ppErrors);
+                    ((IOPCHDA_Playback)m_server).ReadProcessedWithUpdate(request2.RequestID, ref htStartTime, ref htEndTime, fILETIME, numberOfIntervals, fILETIME2, serverHandles.Length, serverHandles, aggregateIDs, out pdwCancelID,
+                        out ppErrors);
                 }
                 catch (Exception e)
                 {
@@ -1186,9 +1190,9 @@ namespace OpcCom.Hda
                 }
 
                 if (request2.Update(pdwCancelID, new ResultCollection[1]
-                {
-                    resultCollection
-                }))
+                    {
+                        resultCollection
+                    }))
                 {
                     request = null;
                     m_callback.CancelRequest(request2, null);
@@ -2220,5 +2224,4 @@ namespace OpcCom.Hda
             return array;
         }
     }
-
 }
