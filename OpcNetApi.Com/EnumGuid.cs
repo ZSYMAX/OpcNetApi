@@ -9,27 +9,27 @@ namespace OpcCom
     {
         public EnumGuid(object server)
         {
-            this.m_enumerator = (IEnumGUID)server;
+            m_enumerator = (IEnumGUID)server;
         }
 
         public void Release()
         {
-            Interop.ReleaseServer(this.m_enumerator);
-            this.m_enumerator = null;
+            Interop.ReleaseServer(m_enumerator);
+            m_enumerator = null;
         }
 
         public object GetEnumerator()
         {
-            return this.m_enumerator;
+            return m_enumerator;
         }
 
         public Guid[] GetAll()
         {
-            this.Reset();
+            Reset();
             ArrayList arrayList = new ArrayList();
             for (;;)
             {
-                Guid[] array = this.Next(1);
+                Guid[] array = Next(1);
                 if (array == null)
                 {
                     break;
@@ -50,7 +50,7 @@ namespace OpcCom
                 int num = 0;
                 try
                 {
-                    this.m_enumerator.Next(count, intPtr, out num);
+                    m_enumerator.Next(count, intPtr, out num);
                 }
                 catch (Exception)
                 {
@@ -84,18 +84,17 @@ namespace OpcCom
 
         public void Skip(int count)
         {
-            this.m_enumerator.Skip(count);
+            m_enumerator.Skip(count);
         }
 
         public void Reset()
         {
-            this.m_enumerator.Reset();
+            m_enumerator.Reset();
         }
 
         public EnumGuid Clone()
         {
-            IEnumGUID server = null;
-            this.m_enumerator.Clone(out server);
+            m_enumerator.Clone(out var server);
             return new EnumGuid(server);
         }
 

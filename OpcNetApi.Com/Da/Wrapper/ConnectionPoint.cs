@@ -9,19 +9,13 @@ namespace OpcCom.Da.Wrapper
     {
         public ConnectionPoint(Guid iid, ConnectionPointContainer container)
         {
-            this.m_interface = iid;
-            this.m_container = container;
+            m_interface = iid;
+            m_container = container;
         }
 
-        public object Callback
-        {
-            get { return this.m_callback; }
-        }
+        public object Callback => m_callback;
 
-        public bool IsConnected
-        {
-            get { return this.m_callback != null; }
-        }
+        public bool IsConnected => m_callback != null;
 
         public void Advise(object pUnkSink, out int pdwCookie)
         {
@@ -35,14 +29,14 @@ namespace OpcCom.Da.Wrapper
                     }
 
                     pdwCookie = 0;
-                    if (this.m_callback != null)
+                    if (m_callback != null)
                     {
                         throw new ExternalException("CONNECT_E_ADVISELIMIT", -2147220991);
                     }
 
-                    this.m_callback = pUnkSink;
-                    pdwCookie = ++this.m_cookie;
-                    this.m_container.OnAdvise(this.m_interface);
+                    m_callback = pUnkSink;
+                    pdwCookie = ++m_cookie;
+                    m_container.OnAdvise(m_interface);
                 }
                 catch (Exception e)
                 {
@@ -57,13 +51,13 @@ namespace OpcCom.Da.Wrapper
             {
                 try
                 {
-                    if (this.m_cookie != dwCookie || this.m_callback == null)
+                    if (m_cookie != dwCookie || m_callback == null)
                     {
                         throw new ExternalException("CONNECT_E_NOCONNECTION", -2147220992);
                     }
 
-                    this.m_callback = null;
-                    this.m_container.OnUnadvise(this.m_interface);
+                    m_callback = null;
+                    m_container.OnUnadvise(m_interface);
                 }
                 catch (Exception e)
                 {
@@ -78,7 +72,7 @@ namespace OpcCom.Da.Wrapper
             {
                 try
                 {
-                    pIID = this.m_interface;
+                    pIID = m_interface;
                 }
                 catch (Exception e)
                 {
@@ -98,7 +92,7 @@ namespace OpcCom.Da.Wrapper
             {
                 try
                 {
-                    ppCPC = this.m_container;
+                    ppCPC = m_container;
                 }
                 catch (Exception e)
                 {

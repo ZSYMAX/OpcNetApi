@@ -9,13 +9,13 @@ namespace Opc
     {
         public virtual object this[int index]
         {
-            get { return this.m_array[index]; }
-            set { this.m_array[index] = value; }
+            get => m_array[index];
+            set => m_array[index] = value;
         }
 
         public virtual Array ToArray()
         {
-            return this.m_array.ToArray(this.m_elementType);
+            return m_array.ToArray(m_elementType);
         }
 
         public virtual void AddRange(ICollection collection)
@@ -24,10 +24,10 @@ namespace Opc
             {
                 foreach (object element in collection)
                 {
-                    this.ValidateElement(element);
+                    ValidateElement(element);
                 }
 
-                this.m_array.AddRange(collection);
+                m_array.AddRange(collection);
             }
         }
 
@@ -35,49 +35,49 @@ namespace Opc
         {
             if (array != null)
             {
-                this.m_array = new ArrayList(array);
+                m_array = new ArrayList(array);
             }
             else
             {
-                this.m_array = new ArrayList();
+                m_array = new ArrayList();
             }
 
-            this.m_elementType = typeof(object);
+            m_elementType = typeof(object);
             if (elementType != null)
             {
-                foreach (object element in this.m_array)
+                foreach (object element in m_array)
                 {
-                    this.ValidateElement(element);
+                    ValidateElement(element);
                 }
 
-                this.m_elementType = elementType;
+                m_elementType = elementType;
             }
         }
 
         protected virtual ArrayList Array
         {
-            get { return this.m_array; }
+            get => m_array;
             set
             {
-                this.m_array = value;
-                if (this.m_array == null)
+                m_array = value;
+                if (m_array == null)
                 {
-                    this.m_array = new ArrayList();
+                    m_array = new ArrayList();
                 }
             }
         }
 
         protected virtual System.Type ElementType
         {
-            get { return this.m_elementType; }
+            get => m_elementType;
             set
             {
-                foreach (object element in this.m_array)
+                foreach (object element in m_array)
                 {
-                    this.ValidateElement(element);
+                    ValidateElement(element);
                 }
 
-                this.m_elementType = value;
+                m_elementType = value;
             }
         }
 
@@ -88,7 +88,7 @@ namespace Opc
                 throw new ArgumentException(string.Format("The value '{0}' cannot be added to the collection.", element));
             }
 
-            if (!this.m_elementType.IsInstanceOfType(element))
+            if (!m_elementType.IsInstanceOfType(element))
             {
                 throw new ArgumentException(string.Format("A value with type '{0}' cannot be added to the collection.", element.GetType()));
             }
@@ -96,113 +96,98 @@ namespace Opc
 
         protected WriteableCollection(SerializationInfo info, StreamingContext context)
         {
-            this.m_elementType = (System.Type)info.GetValue("ET", typeof(Type));
+            m_elementType = (System.Type)info.GetValue("ET", typeof(Type));
             int num = (int)info.GetValue("CT", typeof(int));
-            this.m_array = new ArrayList(num);
+            m_array = new ArrayList(num);
             for (int i = 0; i < num; i++)
             {
-                this.m_array.Add(info.GetValue("EL" + i.ToString(), typeof(object)));
+                m_array.Add(info.GetValue("EL" + i.ToString(), typeof(object)));
             }
         }
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("ET", this.m_elementType);
-            info.AddValue("CT", this.m_array.Count);
-            for (int i = 0; i < this.m_array.Count; i++)
+            info.AddValue("ET", m_elementType);
+            info.AddValue("CT", m_array.Count);
+            for (int i = 0; i < m_array.Count; i++)
             {
-                info.AddValue("EL" + i.ToString(), this.m_array[i]);
+                info.AddValue("EL" + i.ToString(), m_array[i]);
             }
         }
 
-        public virtual bool IsSynchronized
-        {
-            get { return false; }
-        }
+        public virtual bool IsSynchronized => false;
 
-        public virtual int Count
-        {
-            get { return this.m_array.Count; }
-        }
+        public virtual int Count => m_array.Count;
 
         public virtual void CopyTo(Array array, int index)
         {
-            if (this.m_array != null)
+            if (m_array != null)
             {
-                this.m_array.CopyTo(array, index);
+                m_array.CopyTo(array, index);
             }
         }
 
-        public virtual object SyncRoot
-        {
-            get { return this; }
-        }
+        public virtual object SyncRoot => this;
 
         public IEnumerator GetEnumerator()
         {
-            return this.m_array.GetEnumerator();
+            return m_array.GetEnumerator();
         }
 
-        public virtual bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public virtual bool IsReadOnly => false;
 
         object IList.this[int index]
         {
-            get { return this[index]; }
-            set { this[index] = value; }
+            get => this[index];
+            set => this[index] = value;
         }
 
         public virtual void RemoveAt(int index)
         {
-            this.m_array.RemoveAt(index);
+            m_array.RemoveAt(index);
         }
 
         public virtual void Insert(int index, object value)
         {
-            this.ValidateElement(value);
-            this.m_array.Insert(index, value);
+            ValidateElement(value);
+            m_array.Insert(index, value);
         }
 
         public virtual void Remove(object value)
         {
-            this.m_array.Remove(value);
+            m_array.Remove(value);
         }
 
         public virtual bool Contains(object value)
         {
-            return this.m_array.Contains(value);
+            return m_array.Contains(value);
         }
 
         public virtual void Clear()
         {
-            this.m_array.Clear();
+            m_array.Clear();
         }
 
         public virtual int IndexOf(object value)
         {
-            return this.m_array.IndexOf(value);
+            return m_array.IndexOf(value);
         }
 
         public virtual int Add(object value)
         {
-            this.ValidateElement(value);
-            return this.m_array.Add(value);
+            ValidateElement(value);
+            return m_array.Add(value);
         }
 
-        public virtual bool IsFixedSize
-        {
-            get { return false; }
-        }
+        public virtual bool IsFixedSize => false;
 
         public virtual object Clone()
         {
-            WriteableCollection writeableCollection = (WriteableCollection)base.MemberwiseClone();
+            WriteableCollection writeableCollection = (WriteableCollection)MemberwiseClone();
             writeableCollection.m_array = new ArrayList();
-            for (int i = 0; i < this.m_array.Count; i++)
+            for (int i = 0; i < m_array.Count; i++)
             {
-                writeableCollection.Add(Convert.Clone(this.m_array[i]));
+                writeableCollection.Add(Convert.Clone(m_array[i]));
             }
 
             return writeableCollection;

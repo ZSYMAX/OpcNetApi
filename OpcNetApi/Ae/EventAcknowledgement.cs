@@ -7,26 +7,26 @@ namespace Opc.Ae
     {
         public string SourceName
         {
-            get { return this.m_sourceName; }
-            set { this.m_sourceName = value; }
+            get => m_sourceName;
+            set => m_sourceName = value;
         }
 
         public string ConditionName
         {
-            get { return this.m_conditionName; }
-            set { this.m_conditionName = value; }
+            get => m_conditionName;
+            set => m_conditionName = value;
         }
 
         public DateTime ActiveTime
         {
-            get { return this.m_activeTime; }
-            set { this.m_activeTime = value; }
+            get => m_activeTime;
+            set => m_activeTime = value;
         }
 
         public int Cookie
         {
-            get { return this.m_cookie; }
-            set { this.m_cookie = value; }
+            get => m_cookie;
+            set => m_cookie = value;
         }
 
         public EventAcknowledgement()
@@ -35,15 +35,15 @@ namespace Opc.Ae
 
         public EventAcknowledgement(EventNotification notification)
         {
-            this.m_sourceName = notification.SourceID;
-            this.m_conditionName = notification.ConditionName;
-            this.m_activeTime = notification.ActiveTime;
-            this.m_cookie = notification.Cookie;
+            m_sourceName = notification.SourceID;
+            m_conditionName = notification.ConditionName;
+            m_activeTime = notification.ActiveTime;
+            m_cookie = notification.Cookie;
         }
 
         public virtual object Clone()
         {
-            return base.MemberwiseClone();
+            return MemberwiseClone();
         }
 
         private string m_sourceName;

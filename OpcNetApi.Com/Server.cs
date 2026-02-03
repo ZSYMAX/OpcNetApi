@@ -5,13 +5,13 @@ using OpcRcw.Comn;
 
 namespace OpcCom
 {
-    public class Server : IServer, IDisposable
+    public class Server : IServer
     {
         internal Server()
         {
-            this.m_url = null;
-            this.m_server = null;
-            this.m_callback = new Server.Callback(this);
+            m_url = null;
+            m_server = null;
+            m_callback = new Callback(this);
         }
 
         internal Server(URL url, object server)
@@ -21,39 +21,39 @@ namespace OpcCom
                 throw new ArgumentNullException("url");
             }
 
-            this.m_url = (URL)url.Clone();
-            this.m_server = server;
-            this.m_callback = new Server.Callback(this);
+            m_url = (URL)url.Clone();
+            m_server = server;
+            m_callback = new Callback(this);
         }
 
         ~Server()
         {
-            this.Dispose(false);
+            Dispose(false);
         }
 
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.m_disposed)
+            if (!m_disposed)
             {
                 lock (this)
                 {
-                    if (disposing && this.m_connection != null)
+                    if (disposing && m_connection != null)
                     {
-                        this.m_connection.Dispose();
-                        this.m_connection = null;
+                        m_connection.Dispose();
+                        m_connection = null;
                     }
 
-                    Interop.ReleaseServer(this.m_server);
-                    this.m_server = null;
+                    Interop.ReleaseServer(m_server);
+                    m_server = null;
                 }
 
-                this.m_disposed = true;
+                m_disposed = true;
             }
         }
 
@@ -66,17 +66,17 @@ namespace OpcCom
 
             lock (this)
             {
-                if (this.m_url == null || !this.m_url.Equals(url))
+                if (m_url == null || !m_url.Equals(url))
                 {
-                    if (this.m_server != null)
+                    if (m_server != null)
                     {
-                        this.Uninitialize();
+                        Uninitialize();
                     }
 
-                    this.m_server = (IOPCCommon)Factory.Connect(url, connectData);
+                    m_server = (IOPCCommon)Factory.Connect(url, connectData);
                 }
 
-                this.m_url = (URL)url.Clone();
+                m_url = (URL)url.Clone();
             }
         }
 
@@ -84,7 +84,7 @@ namespace OpcCom
         {
             lock (this)
             {
-                this.Dispose();
+                Dispose();
             }
         }
 
@@ -96,8 +96,8 @@ namespace OpcCom
                 {
                     try
                     {
-                        this.Advise();
-                        this.m_callback.ServerShutdown += value;
+                        Advise();
+                        m_callback.ServerShutdown += value;
                     }
                     catch
                     {
@@ -108,8 +108,8 @@ namespace OpcCom
             {
                 lock (this)
                 {
-                    this.m_callback.ServerShutdown -= value;
-                    this.Unadvise();
+                    m_callback.ServerShutdown -= value;
+                    Unadvise();
                 }
             }
         }
@@ -119,15 +119,14 @@ namespace OpcCom
             string locale;
             lock (this)
             {
-                if (this.m_server == null)
+                if (m_server == null)
                 {
                     throw new NotConnectedException();
                 }
 
                 try
                 {
-                    int input = 0;
-                    ((IOPCCommon)this.m_server).GetLocaleID(out input);
+                    ((IOPCCommon)m_server).GetLocaleID(out var input);
                     locale = Interop.GetLocale(input);
                 }
                 catch (Exception e)
@@ -144,7 +143,7 @@ namespace OpcCom
             string locale3;
             lock (this)
             {
-                if (this.m_server == null)
+                if (m_server == null)
                 {
                     throw new NotConnectedException();
                 }
@@ -152,7 +151,7 @@ namespace OpcCom
                 int locale2 = Interop.GetLocale(locale);
                 try
                 {
-                    ((IOPCCommon)this.m_server).SetLocaleID(locale2);
+                    ((IOPCCommon)m_server).SetLocaleID(locale2);
                 }
                 catch (Exception e)
                 {
@@ -163,14 +162,14 @@ namespace OpcCom
 
                     try
                     {
-                        ((IOPCCommon)this.m_server).SetLocaleID(2048);
+                        ((IOPCCommon)m_server).SetLocaleID(2048);
                     }
                     catch
                     {
                     }
                 }
 
-                locale3 = this.GetLocale();
+                locale3 = GetLocale();
             }
 
             return locale3;
@@ -181,16 +180,14 @@ namespace OpcCom
             string[] result;
             lock (this)
             {
-                if (this.m_server == null)
+                if (m_server == null)
                 {
                     throw new NotConnectedException();
                 }
 
                 try
                 {
-                    int size = 0;
-                    IntPtr zero = IntPtr.Zero;
-                    ((IOPCCommon)this.m_server).QueryAvailableLocaleIDs(out size, out zero);
+                    ((IOPCCommon)m_server).QueryAvailableLocaleIDs(out var size, out var zero);
                     int[] int32s = Interop.GetInt32s(ref zero, size, true);
                     if (int32s != null)
                     {
@@ -227,24 +224,23 @@ namespace OpcCom
             string result;
             lock (this)
             {
-                if (this.m_server == null)
+                if (m_server == null)
                 {
                     throw new NotConnectedException();
                 }
 
                 try
                 {
-                    string locale2 = this.GetLocale();
+                    string locale2 = GetLocale();
                     if (locale2 != locale)
                     {
-                        this.SetLocale(locale);
+                        SetLocale(locale);
                     }
 
-                    string text = null;
-                    ((IOPCCommon)this.m_server).GetErrorString(resultID.Code, out text);
+                    ((IOPCCommon)m_server).GetErrorString(resultID.Code, out var text);
                     if (locale2 != locale)
                     {
-                        this.SetLocale(locale2);
+                        SetLocale(locale2);
                     }
 
                     result = text;
@@ -260,19 +256,19 @@ namespace OpcCom
 
         private void Advise()
         {
-            if (this.m_connection == null)
+            if (m_connection == null)
             {
-                this.m_connection = new ConnectionPoint(this.m_server, typeof(IOPCShutdown).GUID);
-                this.m_connection.Advise(this.m_callback);
+                m_connection = new ConnectionPoint(m_server, typeof(IOPCShutdown).GUID);
+                m_connection.Advise(m_callback);
             }
         }
 
         private void Unadvise()
         {
-            if (this.m_connection != null && this.m_connection.Unadvise() == 0)
+            if (m_connection != null && m_connection.Unadvise() == 0)
             {
-                this.m_connection.Dispose();
-                this.m_connection = null;
+                m_connection.Dispose();
+                m_connection = null;
             }
         }
 
@@ -284,13 +280,13 @@ namespace OpcCom
 
         private ConnectionPoint m_connection;
 
-        private Server.Callback m_callback;
+        private Callback m_callback;
 
         private class Callback : IOPCShutdown
         {
             public Callback(Server server)
             {
-                this.m_server = server;
+                m_server = server;
             }
 
             public event ServerShutdownEventHandler ServerShutdown
@@ -299,14 +295,14 @@ namespace OpcCom
                 {
                     lock (this)
                     {
-                        this.m_serverShutdown = (ServerShutdownEventHandler)Delegate.Combine(this.m_serverShutdown, value);
+                        m_serverShutdown = (ServerShutdownEventHandler)Delegate.Combine(m_serverShutdown, value);
                     }
                 }
                 remove
                 {
                     lock (this)
                     {
-                        this.m_serverShutdown = (ServerShutdownEventHandler)Delegate.Remove(this.m_serverShutdown, value);
+                        m_serverShutdown = (ServerShutdownEventHandler)Delegate.Remove(m_serverShutdown, value);
                     }
                 }
             }
@@ -319,9 +315,9 @@ namespace OpcCom
                 {
                     lock (this)
                     {
-                        if (this.m_serverShutdown != null)
+                        if (m_serverShutdown != null)
                         {
-                            this.m_serverShutdown(reason);
+                            m_serverShutdown(reason);
                         }
                     }
                 }

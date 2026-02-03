@@ -90,12 +90,12 @@ namespace OpcCom
                 }
                 else
                 {
-                    if (!(url.Scheme == "opcdx"))
+                    if (url.Scheme != "opcdx")
                     {
                         throw new NotSupportedException($"The URL scheme '{url.Scheme}' is not supported.");
                     }
 
-                    if (!typeof(IOPCConfiguration).IsInstanceOfType(obj))
+                    if (!(obj is IOPCConfiguration))
                     {
                         type = typeof(IOPCConfiguration);
                         throw new NotSupportedException();
@@ -120,13 +120,13 @@ namespace OpcCom
                     throw new NotSupportedException(stringBuilder.ToString());
                 }
 
-                throw ex;
+                throw;
             }
             catch (Exception ex2)
             {
                 Interop.ReleaseServer(server);
                 server = null;
-                throw ex2;
+                throw;
             }
 
             server?.Initialize(url, connectData);

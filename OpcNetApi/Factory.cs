@@ -8,52 +8,52 @@ namespace Opc
     {
         public Factory(System.Type systemType, bool useRemoting)
         {
-            this.m_systemType = systemType;
-            this.m_useRemoting = useRemoting;
+            m_systemType = systemType;
+            m_useRemoting = useRemoting;
         }
 
         ~Factory()
         {
-            this.Dispose(false);
+            Dispose(false);
         }
 
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.m_disposed)
+            if (!m_disposed)
             {
-                this.m_disposed = true;
+                m_disposed = true;
             }
         }
 
         protected Factory(SerializationInfo info, StreamingContext context)
         {
-            this.m_useRemoting = info.GetBoolean("UseRemoting");
-            this.m_systemType = (System.Type)info.GetValue("SystemType", typeof(Type));
+            m_useRemoting = info.GetBoolean("UseRemoting");
+            m_systemType = (System.Type)info.GetValue("SystemType", typeof(Type));
         }
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("UseRemoting", this.m_useRemoting);
-            info.AddValue("SystemType", this.m_systemType);
+            info.AddValue("UseRemoting", m_useRemoting);
+            info.AddValue("SystemType", m_systemType);
         }
 
         public virtual object Clone()
         {
-            return base.MemberwiseClone();
+            return MemberwiseClone();
         }
 
         public virtual IServer CreateInstance(URL url, ConnectData connectData)
         {
             IServer result;
-            if (!this.m_useRemoting)
+            if (!m_useRemoting)
             {
-                result = (IServer)Activator.CreateInstance(this.m_systemType, new object[]
+                result = (IServer)Activator.CreateInstance(m_systemType, new object[]
                 {
                     url,
                     connectData
@@ -70,14 +70,14 @@ namespace Opc
 
         protected System.Type SystemType
         {
-            get { return this.m_systemType; }
-            set { this.m_systemType = value; }
+            get => m_systemType;
+            set => m_systemType = value;
         }
 
         protected bool UseRemoting
         {
-            get { return this.m_useRemoting; }
-            set { this.m_useRemoting = value; }
+            get => m_useRemoting;
+            set => m_useRemoting = value;
         }
 
         private bool m_disposed;

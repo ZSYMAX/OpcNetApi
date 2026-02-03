@@ -44,7 +44,7 @@ namespace Opc
                 Array array = (Array)((Array)source).Clone();
                 for (int i = 0; i < array.Length; i++)
                 {
-                    array.SetValue(Convert.Clone(array.GetValue(i)), i);
+                    array.SetValue(Clone(array.GetValue(i)), i);
                 }
 
                 return array;
@@ -91,7 +91,7 @@ namespace Opc
 
             for (int i = 0; i < array.Length; i++)
             {
-                if (!Convert.Compare(array.GetValue(i), array2.GetValue(i)))
+                if (!Compare(array.GetValue(i), array2.GetValue(i)))
                 {
                     return false;
                 }
@@ -115,7 +115,7 @@ namespace Opc
             {
                 if (newType == null || newType == typeof(object) || newType == source.GetType())
                 {
-                    return Convert.Clone(source);
+                    return Clone(source);
                 }
 
                 System.Type type = source.GetType();
@@ -124,7 +124,7 @@ namespace Opc
                     ArrayList arrayList = new ArrayList(((Array)source).Length);
                     foreach (object source2 in ((Array)source))
                     {
-                        arrayList.Add(Convert.ChangeType(source2, newType.GetElementType()));
+                        arrayList.Add(ChangeType(source2, newType.GetElementType()));
                     }
 
                     return arrayList.ToArray(newType.GetElementType());
@@ -134,13 +134,13 @@ namespace Opc
                 {
                     return new ArrayList(1)
                     {
-                        Convert.ChangeType(source, newType.GetElementType())
+                        ChangeType(source, newType.GetElementType())
                     }.ToArray(newType.GetElementType());
                 }
 
                 if (type.IsArray && !newType.IsArray && ((Array)source).Length == 1)
                 {
-                    return Convert.ChangeType(((Array)source).GetValue(0), newType);
+                    return ChangeType(((Array)source).GetValue(0), newType);
                 }
 
                 if (type.IsArray && newType == typeof(string))
@@ -150,7 +150,7 @@ namespace Opc
                     int num = 0;
                     foreach (object source3 in ((Array)source))
                     {
-                        stringBuilder.AppendFormat("{0}", Convert.ChangeType(source3, typeof(string)));
+                        stringBuilder.AppendFormat("{0}", ChangeType(source3, typeof(string)));
                         num++;
                         if (num < ((Array)source).Length)
                         {
@@ -192,7 +192,7 @@ namespace Opc
                         return System.Convert.ToBoolean(source);
                     }
 
-                    return Convert.ChangeType(source, newType);
+                    return ChangeType(source, newType);
                 }
             }
         }
@@ -288,7 +288,7 @@ namespace Opc
             IL_273:
             while (j < target.Length && i < pattern.Length)
             {
-                char c = Convert.ConvertCase(pattern[i++], caseSensitive);
+                char c = ConvertCase(pattern[i++], caseSensitive);
                 if (i > pattern.Length)
                 {
                     return j >= target.Length;
@@ -304,13 +304,13 @@ namespace Opc
                         {
                             while (j < target.Length)
                             {
-                                if (Convert.Match(target.Substring(j++), pattern.Substring(i), caseSensitive))
+                                if (Match(target.Substring(j++), pattern.Substring(i), caseSensitive))
                                 {
                                     return true;
                                 }
                             }
 
-                            return Convert.Match(target, pattern.Substring(i), caseSensitive);
+                            return Match(target, pattern.Substring(i), caseSensitive);
                         }
                     }
                     else
@@ -436,7 +436,7 @@ namespace Opc
                     continue;
                 }
 
-                c3 = Convert.ConvertCase(target[j++], caseSensitive);
+                c3 = ConvertCase(target[j++], caseSensitive);
                 if (c3 != c)
                 {
                     return false;

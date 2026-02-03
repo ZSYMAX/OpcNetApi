@@ -7,14 +7,11 @@ namespace Opc.Dx
     [Serializable]
     public class DXConnectionCollection : ICloneable, IList, ICollection, IEnumerable, ISerializable
     {
-        public DXConnection this[int index]
-        {
-            get { return (DXConnection)this.m_connections[index]; }
-        }
+        public DXConnection this[int index] => (DXConnection)m_connections[index];
 
         public DXConnection[] ToArray()
         {
-            return (DXConnection[])this.m_connections.ToArray(typeof(DXConnection));
+            return (DXConnection[])m_connections.ToArray(typeof(DXConnection));
         }
 
         internal DXConnectionCollection()
@@ -28,7 +25,7 @@ namespace Opc.Dx
                 foreach (object obj in connections)
                 {
                     DXConnection value = (DXConnection)obj;
-                    this.m_connections.Add(value);
+                    m_connections.Add(value);
                 }
             }
         }
@@ -40,7 +37,7 @@ namespace Opc.Dx
             {
                 foreach (DXConnection value in array)
                 {
-                    this.m_connections.Add(value);
+                    m_connections.Add(value);
                 }
             }
         }
@@ -48,12 +45,12 @@ namespace Opc.Dx
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             DXConnection[] array = null;
-            if (this.m_connections.Count > 0)
+            if (m_connections.Count > 0)
             {
-                array = new DXConnection[this.m_connections.Count];
+                array = new DXConnection[m_connections.Count];
                 for (int i = 0; i < array.Length; i++)
                 {
-                    array[i] = (DXConnection)this.m_connections[i];
+                    array[i] = (DXConnection)m_connections[i];
                 }
             }
 
@@ -62,9 +59,9 @@ namespace Opc.Dx
 
         public virtual object Clone()
         {
-            DXConnectionCollection dxconnectionCollection = (DXConnectionCollection)base.MemberwiseClone();
+            DXConnectionCollection dxconnectionCollection = (DXConnectionCollection)MemberwiseClone();
             dxconnectionCollection.m_connections = new ArrayList();
-            foreach (object obj in this.m_connections)
+            foreach (object obj in m_connections)
             {
                 DXConnection dxconnection = (DXConnection)obj;
                 dxconnectionCollection.m_connections.Add(dxconnection.Clone());
@@ -73,66 +70,57 @@ namespace Opc.Dx
             return dxconnectionCollection;
         }
 
-        public bool IsSynchronized
-        {
-            get { return false; }
-        }
+        public bool IsSynchronized => false;
 
         public int Count
         {
             get
             {
-                if (this.m_connections == null)
+                if (m_connections == null)
                 {
                     return 0;
                 }
 
-                return this.m_connections.Count;
+                return m_connections.Count;
             }
         }
 
         public void CopyTo(Array array, int index)
         {
-            if (this.m_connections != null)
+            if (m_connections != null)
             {
-                this.m_connections.CopyTo(array, index);
+                m_connections.CopyTo(array, index);
             }
         }
 
         public void CopyTo(DXConnection[] array, int index)
         {
-            this.CopyTo(array, index);
+            CopyTo(array, index);
         }
 
-        public object SyncRoot
-        {
-            get { return this; }
-        }
+        public object SyncRoot => this;
 
         public IEnumerator GetEnumerator()
         {
-            return this.m_connections.GetEnumerator();
+            return m_connections.GetEnumerator();
         }
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         object IList.this[int index]
         {
-            get { return this.m_connections[index]; }
-            set { this.Insert(index, value); }
+            get => m_connections[index];
+            set => Insert(index, value);
         }
 
         public void RemoveAt(int index)
         {
-            if (index < 0 || index >= this.m_connections.Count)
+            if (index < 0 || index >= m_connections.Count)
             {
                 throw new ArgumentOutOfRangeException("index");
             }
 
-            this.Remove(this.m_connections[index]);
+            Remove(m_connections[index]);
         }
 
         public void Insert(int index, object value)
@@ -142,7 +130,7 @@ namespace Opc.Dx
                 throw new ArgumentException("May only add DXConnection objects into the collection.");
             }
 
-            this.m_connections.Insert(index, (DXConnection)value);
+            m_connections.Insert(index, (DXConnection)value);
         }
 
         public void Remove(object value)
@@ -152,12 +140,12 @@ namespace Opc.Dx
                 throw new ArgumentException("May only delete Opc.Dx.ItemIdentifier obejcts from the collection.");
             }
 
-            foreach (object obj in this.m_connections)
+            foreach (object obj in m_connections)
             {
                 ItemIdentifier itemIdentifier = (ItemIdentifier)obj;
                 if (itemIdentifier.Equals(value))
                 {
-                    this.m_connections.Remove(itemIdentifier);
+                    m_connections.Remove(itemIdentifier);
                     break;
                 }
             }
@@ -165,7 +153,7 @@ namespace Opc.Dx
 
         public bool Contains(object value)
         {
-            foreach (object obj in this.m_connections)
+            foreach (object obj in m_connections)
             {
                 ItemIdentifier itemIdentifier = (ItemIdentifier)obj;
                 if (itemIdentifier.Equals(value))
@@ -179,48 +167,45 @@ namespace Opc.Dx
 
         public void Clear()
         {
-            this.m_connections.Clear();
+            m_connections.Clear();
         }
 
         public int IndexOf(object value)
         {
-            return this.m_connections.IndexOf(value);
+            return m_connections.IndexOf(value);
         }
 
         public int Add(object value)
         {
-            this.Insert(this.m_connections.Count, value);
-            return this.m_connections.Count - 1;
+            Insert(m_connections.Count, value);
+            return m_connections.Count - 1;
         }
 
-        public bool IsFixedSize
-        {
-            get { return false; }
-        }
+        public bool IsFixedSize => false;
 
         public void Insert(int index, DXConnection value)
         {
-            this.Insert(index, value);
+            Insert(index, value);
         }
 
         public void Remove(DXConnection value)
         {
-            this.Remove(value);
+            Remove(value);
         }
 
         public bool Contains(DXConnection value)
         {
-            return this.Contains(value);
+            return Contains(value);
         }
 
         public int IndexOf(DXConnection value)
         {
-            return this.IndexOf(value);
+            return IndexOf(value);
         }
 
         public int Add(DXConnection value)
         {
-            return this.Add(value);
+            return Add(value);
         }
 
         private ArrayList m_connections = new ArrayList();

@@ -22,17 +22,17 @@ namespace OpcCom.Da.Wrapper
 
         protected void RegisterInterface(Guid iid)
         {
-            this.m_connectionPoints[iid] = new ConnectionPoint(iid, this);
+            m_connectionPoints[iid] = new ConnectionPoint(iid, this);
         }
 
         protected void UnregisterInterface(Guid iid)
         {
-            this.m_connectionPoints.Remove(iid);
+            m_connectionPoints.Remove(iid);
         }
 
         protected object GetCallback(Guid iid)
         {
-            ConnectionPoint connectionPoint = (ConnectionPoint)this.m_connectionPoints[iid];
+            ConnectionPoint connectionPoint = (ConnectionPoint)m_connectionPoints[iid];
             if (connectionPoint != null)
             {
                 return connectionPoint.Callback;
@@ -43,7 +43,7 @@ namespace OpcCom.Da.Wrapper
 
         protected bool IsConnected(Guid iid)
         {
-            ConnectionPoint connectionPoint = (ConnectionPoint)this.m_connectionPoints[iid];
+            ConnectionPoint connectionPoint = (ConnectionPoint)m_connectionPoints[iid];
             return connectionPoint != null && connectionPoint.IsConnected;
         }
 
@@ -53,7 +53,7 @@ namespace OpcCom.Da.Wrapper
             {
                 try
                 {
-                    ppenum = new EnumConnectionPoints(this.m_connectionPoints.Values);
+                    ppenum = new EnumConnectionPoints(m_connectionPoints.Values);
                 }
                 catch (Exception e)
                 {
@@ -69,7 +69,7 @@ namespace OpcCom.Da.Wrapper
                 try
                 {
                     ppCP = null;
-                    ConnectionPoint connectionPoint = (ConnectionPoint)this.m_connectionPoints[riid];
+                    ConnectionPoint connectionPoint = (ConnectionPoint)m_connectionPoints[riid];
                     if (connectionPoint == null)
                     {
                         throw new ExternalException("CONNECT_E_NOCONNECTION", -2147220992);

@@ -9,15 +9,15 @@ namespace OpcCom.Ae
 {
     public class Interop
     {
-        internal static OpcRcw.Ae.FILETIME Convert(System.Runtime.InteropServices.ComTypes.FILETIME input)
+        internal static FILETIME Convert(System.Runtime.InteropServices.ComTypes.FILETIME input)
         {
-            OpcRcw.Ae.FILETIME result = default(OpcRcw.Ae.FILETIME);
+            FILETIME result = default(FILETIME);
             result.dwLowDateTime = input.dwLowDateTime;
             result.dwHighDateTime = input.dwHighDateTime;
             return result;
         }
 
-        internal static System.Runtime.InteropServices.ComTypes.FILETIME Convert(OpcRcw.Ae.FILETIME input)
+        internal static System.Runtime.InteropServices.ComTypes.FILETIME Convert(FILETIME input)
         {
             System.Runtime.InteropServices.ComTypes.FILETIME result = default(System.Runtime.InteropServices.ComTypes.FILETIME);
             result.dwLowDateTime = input.dwLowDateTime;

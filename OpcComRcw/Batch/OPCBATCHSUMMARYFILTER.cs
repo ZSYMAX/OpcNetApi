@@ -34,12 +34,12 @@ namespace OpcRcw.Batch
         [MarshalAs(UnmanagedType.LPWStr)]
         public string szExecutionMode;
 
-        public System.Runtime.InteropServices.ComTypes.FILETIME ftMinStartTime;
+        public FILETIME ftMinStartTime;
 
-        public System.Runtime.InteropServices.ComTypes.FILETIME ftMaxStartTime;
+        public FILETIME ftMaxStartTime;
 
-        public System.Runtime.InteropServices.ComTypes.FILETIME ftMinEndTime;
+        public FILETIME ftMinEndTime;
 
-        public System.Runtime.InteropServices.ComTypes.FILETIME ftMaxEndTime;
+        public FILETIME ftMaxEndTime;
     }
 }

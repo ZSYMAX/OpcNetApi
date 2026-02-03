@@ -14,87 +14,81 @@ namespace Opc.Ae
         protected Server(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             int num = (int)info.GetValue("CT", typeof(int));
-            this.m_subscriptions = new Server.SubscriptionCollection();
+            m_subscriptions = new SubscriptionCollection();
             for (int i = 0; i < num; i++)
             {
                 Subscription subscription = (Subscription)info.GetValue("SU" + i.ToString(), typeof(Subscription));
-                this.m_subscriptions.Add(subscription);
+                m_subscriptions.Add(subscription);
             }
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
-            info.AddValue("CT", this.m_subscriptions.Count);
-            for (int i = 0; i < this.m_subscriptions.Count; i++)
+            info.AddValue("CT", m_subscriptions.Count);
+            for (int i = 0; i < m_subscriptions.Count; i++)
             {
-                info.AddValue("SU" + i.ToString(), this.m_subscriptions[i]);
+                info.AddValue("SU" + i.ToString(), m_subscriptions[i]);
             }
         }
 
-        public int AvailableFilters
-        {
-            get { return this.m_filters; }
-        }
+        public int AvailableFilters => m_filters;
 
-        public Server.SubscriptionCollection Subscriptions
-        {
-            get { return this.m_subscriptions; }
-        }
+        public SubscriptionCollection Subscriptions => m_subscriptions;
 
         public override void Connect(URL url, ConnectData connectData)
         {
             base.Connect(url, connectData);
-            if (this.m_subscriptions.Count == 0)
+            if (m_subscriptions.Count == 0)
             {
                 return;
             }
 
-            Server.SubscriptionCollection subscriptionCollection = new Server.SubscriptionCollection();
-            foreach (object obj in this.m_subscriptions)
+            SubscriptionCollection subscriptionCollection = new SubscriptionCollection();
+            foreach (object obj in m_subscriptions)
             {
                 Subscription template = (Subscription)obj;
                 try
                 {
-                    subscriptionCollection.Add(this.EstablishSubscription(template));
+                    subscriptionCollection.Add(EstablishSubscription(template));
                 }
                 catch
                 {
                 }
             }
 
-            this.m_subscriptions = subscriptionCollection;
+            m_subscriptions = subscriptionCollection;
         }
 
         public override void Disconnect()
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            this.m_disposing = true;
-            foreach (object obj in this.m_subscriptions)
+            m_disposing = true;
+            foreach (object obj in m_subscriptions)
             {
                 Subscription subscription = (Subscription)obj;
                 subscription.Dispose();
             }
 
-            this.m_disposing = false;
+            m_disposing = false;
             base.Disconnect();
         }
 
         public ServerStatus GetStatus()
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            ServerStatus status = ((IServer)this.m_server).GetStatus();
+            ServerStatus status = ((IServer)m_server).GetStatus();
             if (status.StatusInfo == null)
             {
-                status.StatusInfo = base.GetString("serverState." + status.ServerState.ToString());
+                status.StatusInfo = GetString("serverState." + status.ServerState.ToString());
             }
 
             return status;
@@ -102,16 +96,16 @@ namespace Opc.Ae
 
         public ISubscription CreateSubscription(SubscriptionState state)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            ISubscription subscription = ((IServer)this.m_server).CreateSubscription(state);
+            ISubscription subscription = ((IServer)m_server).CreateSubscription(state);
             if (subscription != null)
             {
                 Subscription subscription2 = new Subscription(this, subscription, state);
-                this.m_subscriptions.Add(subscription2);
+                m_subscriptions.Add(subscription2);
                 return subscription2;
             }
 
@@ -120,190 +114,190 @@ namespace Opc.Ae
 
         public int QueryAvailableFilters()
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            this.m_filters = ((IServer)this.m_server).QueryAvailableFilters();
-            return this.m_filters;
+            m_filters = ((IServer)m_server).QueryAvailableFilters();
+            return m_filters;
         }
 
         public Category[] QueryEventCategories(int eventType)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).QueryEventCategories(eventType);
+            return ((IServer)m_server).QueryEventCategories(eventType);
         }
 
         public string[] QueryConditionNames(int eventCategory)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).QueryConditionNames(eventCategory);
+            return ((IServer)m_server).QueryConditionNames(eventCategory);
         }
 
         public string[] QuerySubConditionNames(string conditionName)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).QuerySubConditionNames(conditionName);
+            return ((IServer)m_server).QuerySubConditionNames(conditionName);
         }
 
         public string[] QueryConditionNames(string sourceName)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).QueryConditionNames(sourceName);
+            return ((IServer)m_server).QueryConditionNames(sourceName);
         }
 
         public Attribute[] QueryEventAttributes(int eventCategory)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).QueryEventAttributes(eventCategory);
+            return ((IServer)m_server).QueryEventAttributes(eventCategory);
         }
 
         public ItemUrl[] TranslateToItemIDs(string sourceName, int eventCategory, string conditionName, string subConditionName, int[] attributeIDs)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).TranslateToItemIDs(sourceName, eventCategory, conditionName, subConditionName, attributeIDs);
+            return ((IServer)m_server).TranslateToItemIDs(sourceName, eventCategory, conditionName, subConditionName, attributeIDs);
         }
 
         public Condition GetConditionState(string sourceName, string conditionName, int[] attributeIDs)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).GetConditionState(sourceName, conditionName, attributeIDs);
+            return ((IServer)m_server).GetConditionState(sourceName, conditionName, attributeIDs);
         }
 
         public ResultID[] EnableConditionByArea(string[] areas)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).EnableConditionByArea(areas);
+            return ((IServer)m_server).EnableConditionByArea(areas);
         }
 
         public ResultID[] DisableConditionByArea(string[] areas)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).DisableConditionByArea(areas);
+            return ((IServer)m_server).DisableConditionByArea(areas);
         }
 
         public ResultID[] EnableConditionBySource(string[] sources)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).EnableConditionBySource(sources);
+            return ((IServer)m_server).EnableConditionBySource(sources);
         }
 
         public ResultID[] DisableConditionBySource(string[] sources)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).DisableConditionBySource(sources);
+            return ((IServer)m_server).DisableConditionBySource(sources);
         }
 
         public EnabledStateResult[] GetEnableStateByArea(string[] areas)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).GetEnableStateByArea(areas);
+            return ((IServer)m_server).GetEnableStateByArea(areas);
         }
 
         public EnabledStateResult[] GetEnableStateBySource(string[] sources)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).GetEnableStateBySource(sources);
+            return ((IServer)m_server).GetEnableStateBySource(sources);
         }
 
         public ResultID[] AcknowledgeCondition(string acknowledgerID, string comment, EventAcknowledgement[] conditions)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).AcknowledgeCondition(acknowledgerID, comment, conditions);
+            return ((IServer)m_server).AcknowledgeCondition(acknowledgerID, comment, conditions);
         }
 
         public BrowseElement[] Browse(string areaID, BrowseType browseType, string browseFilter)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).Browse(areaID, browseType, browseFilter);
+            return ((IServer)m_server).Browse(areaID, browseType, browseFilter);
         }
 
         public BrowseElement[] Browse(string areaID, BrowseType browseType, string browseFilter, int maxElements, out IBrowsePosition position)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).Browse(areaID, browseType, browseFilter, maxElements, out position);
+            return ((IServer)m_server).Browse(areaID, browseType, browseFilter, maxElements, out position);
         }
 
         public BrowseElement[] BrowseNext(int maxElements, ref IBrowsePosition position)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).BrowseNext(maxElements, ref position);
+            return ((IServer)m_server).BrowseNext(maxElements, ref position);
         }
 
         internal void SubscriptionDisposed(Subscription subscription)
         {
-            if (!this.m_disposing)
+            if (!m_disposing)
             {
-                this.m_subscriptions.Remove(subscription);
+                m_subscriptions.Remove(subscription);
             }
         }
 
@@ -312,7 +306,7 @@ namespace Opc.Ae
             ISubscription subscription = null;
             try
             {
-                subscription = ((IServer)this.m_server).CreateSubscription(template.State);
+                subscription = ((IServer)m_server).CreateSubscription(template.State);
                 if (subscription == null)
                 {
                     return null;
@@ -344,7 +338,7 @@ namespace Opc.Ae
 
         private bool m_disposing;
 
-        private Server.SubscriptionCollection m_subscriptions = new Server.SubscriptionCollection();
+        private SubscriptionCollection m_subscriptions = new SubscriptionCollection();
 
         private class Names
         {
@@ -355,38 +349,35 @@ namespace Opc.Ae
 
         public class SubscriptionCollection : ReadOnlyCollection
         {
-            public Subscription this[int index]
-            {
-                get { return (Subscription)this.Array.GetValue(index); }
-            }
+            public Subscription this[int index] => (Subscription)Array.GetValue(index);
 
             public new Subscription[] ToArray()
             {
-                return (Subscription[])this.Array;
+                return (Subscription[])Array;
             }
 
             internal void Add(Subscription subscription)
             {
-                Subscription[] array = new Subscription[this.Count + 1];
-                this.Array.CopyTo(array, 0);
-                array[this.Count] = subscription;
-                this.Array = array;
+                Subscription[] array = new Subscription[Count + 1];
+                Array.CopyTo(array, 0);
+                array[Count] = subscription;
+                Array = array;
             }
 
             internal void Remove(Subscription subscription)
             {
-                Subscription[] array = new Subscription[this.Count - 1];
+                Subscription[] array = new Subscription[Count - 1];
                 int num = 0;
-                for (int i = 0; i < this.Array.Length; i++)
+                for (int i = 0; i < Array.Length; i++)
                 {
-                    Subscription subscription2 = (Subscription)this.Array.GetValue(i);
+                    Subscription subscription2 = (Subscription)Array.GetValue(i);
                     if (subscription != subscription2)
                     {
                         array[num++] = subscription2;
                     }
                 }
 
-                this.Array = array;
+                Array = array;
             }
 
             internal SubscriptionCollection() : base(new Subscription[0])

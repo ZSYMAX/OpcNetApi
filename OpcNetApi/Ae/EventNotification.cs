@@ -8,120 +8,117 @@ namespace Opc.Ae
     {
         public object ClientHandle
         {
-            get { return this.m_clientHandle; }
-            set { this.m_clientHandle = value; }
+            get => m_clientHandle;
+            set => m_clientHandle = value;
         }
 
         public string SourceID
         {
-            get { return this.m_sourceID; }
-            set { this.m_sourceID = value; }
+            get => m_sourceID;
+            set => m_sourceID = value;
         }
 
         public DateTime Time
         {
-            get { return this.m_time; }
-            set { this.m_time = value; }
+            get => m_time;
+            set => m_time = value;
         }
 
         public string Message
         {
-            get { return this.m_message; }
-            set { this.m_message = value; }
+            get => m_message;
+            set => m_message = value;
         }
 
         public EventType EventType
         {
-            get { return this.m_eventType; }
-            set { this.m_eventType = value; }
+            get => m_eventType;
+            set => m_eventType = value;
         }
 
         public int EventCategory
         {
-            get { return this.m_eventCategory; }
-            set { this.m_eventCategory = value; }
+            get => m_eventCategory;
+            set => m_eventCategory = value;
         }
 
         public int Severity
         {
-            get { return this.m_severity; }
-            set { this.m_severity = value; }
+            get => m_severity;
+            set => m_severity = value;
         }
 
         public string ConditionName
         {
-            get { return this.m_conditionName; }
-            set { this.m_conditionName = value; }
+            get => m_conditionName;
+            set => m_conditionName = value;
         }
 
         public string SubConditionName
         {
-            get { return this.m_subConditionName; }
-            set { this.m_subConditionName = value; }
+            get => m_subConditionName;
+            set => m_subConditionName = value;
         }
 
-        public EventNotification.AttributeCollection Attributes
-        {
-            get { return this.m_attributes; }
-        }
+        public AttributeCollection Attributes => m_attributes;
 
         public int ChangeMask
         {
-            get { return this.m_changeMask; }
-            set { this.m_changeMask = value; }
+            get => m_changeMask;
+            set => m_changeMask = value;
         }
 
         public int NewState
         {
-            get { return this.m_newState; }
-            set { this.m_newState = value; }
+            get => m_newState;
+            set => m_newState = value;
         }
 
         public Quality Quality
         {
-            get { return this.m_quality; }
-            set { this.m_quality = value; }
+            get => m_quality;
+            set => m_quality = value;
         }
 
         public bool AckRequired
         {
-            get { return this.m_ackRequired; }
-            set { this.m_ackRequired = value; }
+            get => m_ackRequired;
+            set => m_ackRequired = value;
         }
 
         public DateTime ActiveTime
         {
-            get { return this.m_activeTime; }
-            set { this.m_activeTime = value; }
+            get => m_activeTime;
+            set => m_activeTime = value;
         }
 
         public int Cookie
         {
-            get { return this.m_cookie; }
-            set { this.m_cookie = value; }
+            get => m_cookie;
+            set => m_cookie = value;
         }
 
         public string ActorID
         {
-            get { return this.m_actorID; }
-            set { this.m_actorID = value; }
+            get => m_actorID;
+            set => m_actorID = value;
         }
 
         public void SetAttributes(object[] attributes)
         {
             if (attributes == null)
             {
-                this.m_attributes = new EventNotification.AttributeCollection();
+                m_attributes = new AttributeCollection();
                 return;
             }
 
-            this.m_attributes = new EventNotification.AttributeCollection(attributes);
+            m_attributes = new AttributeCollection(attributes);
         }
 
         public virtual object Clone()
         {
-            EventNotification eventNotification = (EventNotification)base.MemberwiseClone();
-            eventNotification.m_attributes = (EventNotification.AttributeCollection)this.m_attributes.Clone();
+            EventNotification eventNotification = (EventNotification)MemberwiseClone();
+            eventNotification.m_attributes = (AttributeCollection)m_attributes.Clone();
             return eventNotification;
         }
 
@@ -143,7 +140,7 @@ namespace Opc.Ae
 
         private string m_subConditionName;
 
-        private EventNotification.AttributeCollection m_attributes = new EventNotification.AttributeCollection();
+        private AttributeCollection m_attributes = new AttributeCollection();
 
         private int m_changeMask;
 

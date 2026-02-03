@@ -7,15 +7,9 @@ namespace OpcCom.Hda
 {
     internal class Request : IRequest, IActualTime
     {
-        public int RequestID
-        {
-            get { return this.m_requestID; }
-        }
+        public int RequestID => m_requestID;
 
-        public int CancelID
-        {
-            get { return this.m_cancelID; }
-        }
+        public int CancelID => m_cancelID;
 
         public event CancelCompleteEventHandler CancelComplete
         {
@@ -23,23 +17,23 @@ namespace OpcCom.Hda
             {
                 lock (this)
                 {
-                    this.m_cancelComplete = (CancelCompleteEventHandler)Delegate.Combine(this.m_cancelComplete, value);
+                    m_cancelComplete = (CancelCompleteEventHandler)Delegate.Combine(m_cancelComplete, value);
                 }
             }
             remove
             {
                 lock (this)
                 {
-                    this.m_cancelComplete = (CancelCompleteEventHandler)Delegate.Remove(this.m_cancelComplete, value);
+                    m_cancelComplete = (CancelCompleteEventHandler)Delegate.Remove(m_cancelComplete, value);
                 }
             }
         }
 
         public Request(object requestHandle, Delegate callback, int requestID)
         {
-            this.m_requestHandle = requestHandle;
-            this.m_callback = callback;
-            this.m_requestID = requestID;
+            m_requestHandle = requestHandle;
+            m_callback = callback;
+            m_requestID = requestID;
         }
 
         public bool Update(int cancelID, ItemIdentifier[] results)
@@ -47,28 +41,28 @@ namespace OpcCom.Hda
             bool result;
             lock (this)
             {
-                this.m_cancelID = cancelID;
-                this.m_items = new Hashtable();
+                m_cancelID = cancelID;
+                m_items = new Hashtable();
                 foreach (ItemIdentifier itemIdentifier in results)
                 {
                     if (!typeof(IResult).IsInstanceOfType(itemIdentifier) || ((IResult)itemIdentifier).ResultID.Succeeded())
                     {
-                        this.m_items[itemIdentifier.ServerHandle] = new ItemIdentifier(itemIdentifier);
+                        m_items[itemIdentifier.ServerHandle] = new ItemIdentifier(itemIdentifier);
                     }
                 }
 
-                if (this.m_items.Count == 0)
+                if (m_items.Count == 0)
                 {
                     result = true;
                 }
                 else
                 {
                     bool flag = false;
-                    if (this.m_results != null)
+                    if (m_results != null)
                     {
-                        foreach (object results2 in this.m_results)
+                        foreach (object results2 in m_results)
                         {
-                            flag = this.InvokeCallback(results2);
+                            flag = InvokeCallback(results2);
                         }
                     }
 
@@ -84,35 +78,35 @@ namespace OpcCom.Hda
             bool result;
             lock (this)
             {
-                if (this.m_items == null)
+                if (m_items == null)
                 {
-                    if (this.m_results == null)
+                    if (m_results == null)
                     {
-                        this.m_results = new ArrayList();
+                        m_results = new ArrayList();
                     }
 
-                    this.m_results.Add(results);
+                    m_results.Add(results);
                     result = false;
                 }
-                else if (typeof(DataUpdateEventHandler).IsInstanceOfType(this.m_callback))
+                else if (typeof(DataUpdateEventHandler).IsInstanceOfType(m_callback))
                 {
-                    result = this.InvokeCallback((DataUpdateEventHandler)this.m_callback, results);
+                    result = InvokeCallback((DataUpdateEventHandler)m_callback, results);
                 }
-                else if (typeof(ReadValuesEventHandler).IsInstanceOfType(this.m_callback))
+                else if (typeof(ReadValuesEventHandler).IsInstanceOfType(m_callback))
                 {
-                    result = this.InvokeCallback((ReadValuesEventHandler)this.m_callback, results);
+                    result = InvokeCallback((ReadValuesEventHandler)m_callback, results);
                 }
-                else if (typeof(ReadAttributesEventHandler).IsInstanceOfType(this.m_callback))
+                else if (typeof(ReadAttributesEventHandler).IsInstanceOfType(m_callback))
                 {
-                    result = this.InvokeCallback((ReadAttributesEventHandler)this.m_callback, results);
+                    result = InvokeCallback((ReadAttributesEventHandler)m_callback, results);
                 }
-                else if (typeof(ReadAnnotationsEventHandler).IsInstanceOfType(this.m_callback))
+                else if (typeof(ReadAnnotationsEventHandler).IsInstanceOfType(m_callback))
                 {
-                    result = this.InvokeCallback((ReadAnnotationsEventHandler)this.m_callback, results);
+                    result = InvokeCallback((ReadAnnotationsEventHandler)m_callback, results);
                 }
-                else if (typeof(UpdateCompleteEventHandler).IsInstanceOfType(this.m_callback))
+                else if (typeof(UpdateCompleteEventHandler).IsInstanceOfType(m_callback))
                 {
-                    result = this.InvokeCallback((UpdateCompleteEventHandler)this.m_callback, results);
+                    result = InvokeCallback((UpdateCompleteEventHandler)m_callback, results);
                 }
                 else
                 {
@@ -127,28 +121,25 @@ namespace OpcCom.Hda
         {
             lock (this)
             {
-                if (this.m_cancelComplete != null)
+                if (m_cancelComplete != null)
                 {
-                    this.m_cancelComplete(this);
+                    m_cancelComplete(this);
                 }
             }
         }
 
-        public object Handle
-        {
-            get { return this.m_requestHandle; }
-        }
+        public object Handle => m_requestHandle;
 
         public DateTime StartTime
         {
-            get { return this.m_startTime; }
-            set { this.m_startTime = value; }
+            get => m_startTime;
+            set => m_startTime = value;
         }
 
         public DateTime EndTime
         {
-            get { return this.m_endTime; }
-            set { this.m_endTime = value; }
+            get => m_endTime;
+            set => m_endTime = value;
         }
 
         private bool InvokeCallback(DataUpdateEventHandler callback, object results)
@@ -159,7 +150,7 @@ namespace OpcCom.Hda
             }
 
             ItemValueCollection[] results2 = (ItemValueCollection[])results;
-            this.UpdateResults(results2);
+            UpdateResults(results2);
             try
             {
                 callback(this, results2);
@@ -179,7 +170,7 @@ namespace OpcCom.Hda
             }
 
             ItemValueCollection[] array = (ItemValueCollection[])results;
-            this.UpdateResults(array);
+            UpdateResults(array);
             try
             {
                 callback(this, array);
@@ -207,7 +198,7 @@ namespace OpcCom.Hda
             }
 
             ItemAttributeCollection itemAttributeCollection = (ItemAttributeCollection)results;
-            this.UpdateResults(new ItemAttributeCollection[]
+            UpdateResults(new ItemAttributeCollection[]
             {
                 itemAttributeCollection
             });
@@ -230,7 +221,7 @@ namespace OpcCom.Hda
             }
 
             AnnotationValueCollection[] results2 = (AnnotationValueCollection[])results;
-            this.UpdateResults(results2);
+            UpdateResults(results2);
             try
             {
                 callback(this, results2);
@@ -250,7 +241,7 @@ namespace OpcCom.Hda
             }
 
             ResultCollection[] results2 = (ResultCollection[])results;
-            this.UpdateResults(results2);
+            UpdateResults(results2);
             try
             {
                 callback(this, results2);
@@ -268,11 +259,11 @@ namespace OpcCom.Hda
             {
                 if (typeof(IActualTime).IsInstanceOfType(itemIdentifier))
                 {
-                    ((IActualTime)itemIdentifier).StartTime = this.StartTime;
-                    ((IActualTime)itemIdentifier).EndTime = this.EndTime;
+                    ((IActualTime)itemIdentifier).StartTime = StartTime;
+                    ((IActualTime)itemIdentifier).EndTime = EndTime;
                 }
 
-                ItemIdentifier itemIdentifier2 = (ItemIdentifier)this.m_items[itemIdentifier.ServerHandle];
+                ItemIdentifier itemIdentifier2 = (ItemIdentifier)m_items[itemIdentifier.ServerHandle];
                 if (itemIdentifier2 != null)
                 {
                     itemIdentifier.ItemName = itemIdentifier2.ItemName;

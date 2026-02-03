@@ -8,32 +8,29 @@ namespace Opc
     {
         public string ItemName
         {
-            get { return this.m_itemName; }
-            set { this.m_itemName = value; }
+            get => m_itemName;
+            set => m_itemName = value;
         }
 
         public string ItemPath
         {
-            get { return this.m_itemPath; }
-            set { this.m_itemPath = value; }
+            get => m_itemPath;
+            set => m_itemPath = value;
         }
 
         public object ClientHandle
         {
-            get { return this.m_clientHandle; }
-            set { this.m_clientHandle = value; }
+            get => m_clientHandle;
+            set => m_clientHandle = value;
         }
 
         public object ServerHandle
         {
-            get { return this.m_serverHandle; }
-            set { this.m_serverHandle = value; }
+            get => m_serverHandle;
+            set => m_serverHandle = value;
         }
 
-        public string Key
-        {
-            get { return new StringBuilder(64).Append((this.ItemName == null) ? "null" : this.ItemName).Append("\r\n").Append((this.ItemPath == null) ? "null" : this.ItemPath).ToString(); }
-        }
+        public string Key => new StringBuilder(64).Append((ItemName == null) ? "null" : ItemName).Append("\r\n").Append((ItemPath == null) ? "null" : ItemPath).ToString();
 
         public ItemIdentifier()
         {
@@ -41,30 +38,30 @@ namespace Opc
 
         public ItemIdentifier(string itemName)
         {
-            this.ItemPath = null;
-            this.ItemName = itemName;
+            ItemPath = null;
+            ItemName = itemName;
         }
 
         public ItemIdentifier(string itemPath, string itemName)
         {
-            this.ItemPath = itemPath;
-            this.ItemName = itemName;
+            ItemPath = itemPath;
+            ItemName = itemName;
         }
 
         public ItemIdentifier(ItemIdentifier itemID)
         {
             if (itemID != null)
             {
-                this.ItemPath = itemID.ItemPath;
-                this.ItemName = itemID.ItemName;
-                this.ClientHandle = itemID.ClientHandle;
-                this.ServerHandle = itemID.ServerHandle;
+                ItemPath = itemID.ItemPath;
+                ItemName = itemID.ItemName;
+                ClientHandle = itemID.ClientHandle;
+                ServerHandle = itemID.ServerHandle;
             }
         }
 
         public virtual object Clone()
         {
-            return base.MemberwiseClone();
+            return MemberwiseClone();
         }
 
         private string m_itemName;

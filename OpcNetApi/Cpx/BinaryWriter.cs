@@ -22,15 +22,15 @@ namespace Opc.Cpx
                 throw new ArgumentNullException("typeName");
             }
 
-            Context context = base.InitializeContext(null, dictionary, typeName);
-            int num = this.WriteType(context, namedValue);
+            Context context = InitializeContext(null, dictionary, typeName);
+            int num = WriteType(context, namedValue);
             if (num == 0)
             {
                 throw new InvalidDataToWriteException("Could not write value into buffer.");
             }
 
             context.Buffer = new byte[num];
-            int num2 = this.WriteType(context, namedValue);
+            int num2 = WriteType(context, namedValue);
             if (num2 != num)
             {
                 throw new InvalidDataToWriteException("Could not write value into buffer.");
@@ -66,17 +66,17 @@ namespace Opc.Cpx
                 }
 
                 int num;
-                if (base.IsArrayField(fieldType))
+                if (IsArrayField(fieldType))
                 {
-                    num = this.WriteArrayField(context, fieldType, i, array, complexValue.Value);
+                    num = WriteArrayField(context, fieldType, i, array, complexValue.Value);
                 }
                 else if (fieldType.GetType() == typeof(TypeReference))
                 {
-                    num = this.WriteField(context, (TypeReference)fieldType, complexValue);
+                    num = WriteField(context, (TypeReference)fieldType, complexValue);
                 }
                 else
                 {
-                    num = this.WriteField(context, fieldType, i, array, complexValue.Value, ref b);
+                    num = WriteField(context, fieldType, i, array, complexValue.Value, ref b);
                 }
 
                 if (num == 0 && b == 0)
@@ -107,27 +107,27 @@ namespace Opc.Cpx
             System.Type type = field.GetType();
             if (type == typeof(Integer) || type.IsSubclassOf(typeof(Integer)))
             {
-                return this.WriteField(context, (Integer)field, fieldValue);
+                return WriteField(context, (Integer)field, fieldValue);
             }
 
             if (type == typeof(FloatingPoint) || type.IsSubclassOf(typeof(FloatingPoint)))
             {
-                return this.WriteField(context, (FloatingPoint)field, fieldValue);
+                return WriteField(context, (FloatingPoint)field, fieldValue);
             }
 
             if (type == typeof(CharString) || type.IsSubclassOf(typeof(CharString)))
             {
-                return this.WriteField(context, (CharString)field, fieldIndex, fieldValues, fieldValue);
+                return WriteField(context, (CharString)field, fieldIndex, fieldValues, fieldValue);
             }
 
             if (type == typeof(BitString) || type.IsSubclassOf(typeof(BitString)))
             {
-                return this.WriteField(context, (BitString)field, fieldValue, ref bitOffset);
+                return WriteField(context, (BitString)field, fieldValue, ref bitOffset);
             }
 
             if (type == typeof(TypeReference) || type.IsSubclassOf(typeof(TypeReference)))
             {
-                return this.WriteField(context, (TypeReference)field, fieldValue);
+                return WriteField(context, (TypeReference)field, fieldValue);
             }
 
             throw new NotImplementedException("Fields of type '" + type.ToString() + "' are not implemented yet.");
@@ -182,7 +182,7 @@ namespace Opc.Cpx
                 throw new InvalidDataToWriteException("Instance of type is not the correct type.");
             }
 
-            return this.WriteType(context, (ComplexValue)fieldValue);
+            return WriteType(context, (ComplexValue)fieldValue);
         }
 
         private int WriteField(Context context, Integer field, object fieldValue)
@@ -312,7 +312,7 @@ namespace Opc.Cpx
                 IL_205:
                 if (context.BigEndian)
                 {
-                    base.SwapBytes(array, 0, num);
+                    SwapBytes(array, 0, num);
                 }
 
                 for (int i = 0; i < array.Length; i++)
@@ -435,7 +435,7 @@ namespace Opc.Cpx
 
             if (field.CharCountRef != null)
             {
-                this.WriteReference(context, field, fieldIndex, fieldValues, field.CharCountRef, num2);
+                WriteReference(context, field, fieldIndex, fieldValues, field.CharCountRef, num2);
             }
 
             if (buffer != null)
@@ -473,7 +473,7 @@ namespace Opc.Cpx
                 {
                     for (int k = 0; k < array.Length; k += num)
                     {
-                        base.SwapBytes(buffer, context.Index + k, num);
+                        SwapBytes(buffer, context.Index + k, num);
                     }
                 }
             }
@@ -559,7 +559,7 @@ namespace Opc.Cpx
                         break;
                     }
 
-                    int num2 = this.WriteField(context, field, fieldIndex, fieldValues, fieldValue2, ref b);
+                    int num2 = WriteField(context, field, fieldIndex, fieldValues, fieldValue2, ref b);
                     if (num2 == 0 && b == 0)
                     {
                         break;
@@ -572,7 +572,7 @@ namespace Opc.Cpx
                 goto IL_D0;
                 //}
                 IL_A2:
-                int num3 = this.WriteField(context, field, fieldIndex, fieldValues, null, ref b);
+                int num3 = WriteField(context, field, fieldIndex, fieldValues, null, ref b);
                 if (num3 == 0 && b == 0)
                 {
                     goto IL_217;
@@ -591,7 +591,7 @@ namespace Opc.Cpx
                 int num4 = 0;
                 foreach (object fieldValue3 in array)
                 {
-                    int num5 = this.WriteField(context, field, fieldIndex, fieldValues, fieldValue3, ref b);
+                    int num5 = WriteField(context, field, fieldIndex, fieldValues, fieldValue3, ref b);
                     if (num5 == 0 && b == 0)
                     {
                         break;
@@ -601,13 +601,13 @@ namespace Opc.Cpx
                     num4++;
                 }
 
-                this.WriteReference(context, field, fieldIndex, fieldValues, field.ElementCountRef, num4);
+                WriteReference(context, field, fieldIndex, fieldValues, field.ElementCountRef, num4);
             }
             else if (field.FieldTerminator != null)
             {
                 foreach (object fieldValue4 in array)
                 {
-                    int num6 = this.WriteField(context, field, fieldIndex, fieldValues, fieldValue4, ref b);
+                    int num6 = WriteField(context, field, fieldIndex, fieldValues, fieldValue4, ref b);
                     if (num6 == 0 && b == 0)
                     {
                         break;
@@ -616,7 +616,7 @@ namespace Opc.Cpx
                     context.Index += num6;
                 }
 
-                byte[] terminator = base.GetTerminator(context, field);
+                byte[] terminator = GetTerminator(context, field);
                 if (context.Buffer != null)
                 {
                     for (int i = 0; i < terminator.Length; i++)

@@ -16,76 +16,76 @@ namespace Opc
                 throw new ArgumentNullException("factory");
             }
 
-            this.m_factory = (IFactory)factory.Clone();
-            this.m_server = null;
-            this.m_url = null;
-            this.m_name = null;
-            this.m_supportedLocales = null;
-            this.m_resourceManager = new ResourceManager("Opc.Resources.Strings", Assembly.GetExecutingAssembly());
+            m_factory = (IFactory)factory.Clone();
+            m_server = null;
+            m_url = null;
+            m_name = null;
+            m_supportedLocales = null;
+            m_resourceManager = new ResourceManager("Opc.Resources.Strings", Assembly.GetExecutingAssembly());
             if (url != null)
             {
-                this.SetUrl(url);
+                SetUrl(url);
             }
         }
 
         ~Server()
         {
-            this.Dispose(false);
+            Dispose(false);
         }
 
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.m_disposed)
+            if (!m_disposed)
             {
                 if (disposing)
                 {
-                    if (this.m_factory != null)
+                    if (m_factory != null)
                     {
-                        this.m_factory.Dispose();
-                        this.m_factory = null;
+                        m_factory.Dispose();
+                        m_factory = null;
                     }
 
-                    if (this.m_server != null)
+                    if (m_server != null)
                     {
                         try
                         {
-                            this.Disconnect();
+                            Disconnect();
                         }
                         catch
                         {
                         }
 
-                        this.m_server = null;
+                        m_server = null;
                     }
                 }
 
-                this.m_disposed = true;
+                m_disposed = true;
             }
         }
 
         protected Server(SerializationInfo info, StreamingContext context)
         {
-            this.m_name = info.GetString("Name");
-            this.m_url = (URL)info.GetValue("Url", typeof(URL));
-            this.m_factory = (IFactory)info.GetValue("Factory", typeof(IFactory));
+            m_name = info.GetString("Name");
+            m_url = (URL)info.GetValue("Url", typeof(URL));
+            m_factory = (IFactory)info.GetValue("Factory", typeof(IFactory));
         }
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("Name", this.m_name);
-            info.AddValue("Url", this.m_url);
-            info.AddValue("Factory", this.m_factory);
+            info.AddValue("Name", m_name);
+            info.AddValue("Url", m_url);
+            info.AddValue("Factory", m_factory);
         }
 
         public virtual object Clone()
         {
-            Server server = (Server)base.MemberwiseClone();
+            Server server = (Server)MemberwiseClone();
             server.m_server = null;
             server.m_supportedLocales = null;
             server.m_locale = null;
@@ -95,55 +95,49 @@ namespace Opc
 
         public virtual string Name
         {
-            get { return this.m_name; }
-            set { this.m_name = value; }
+            get => m_name;
+            set => m_name = value;
         }
 
         public virtual URL Url
         {
             get
             {
-                if (this.m_url == null)
+                if (m_url == null)
                 {
                     return null;
                 }
 
-                return (URL)this.m_url.Clone();
+                return (URL)m_url.Clone();
             }
-            set { this.SetUrl(value); }
+            set => SetUrl(value);
         }
 
-        public virtual string Locale
-        {
-            get { return this.m_locale; }
-        }
+        public virtual string Locale => m_locale;
 
         public virtual string[] SupportedLocales
         {
             get
             {
-                if (this.m_supportedLocales == null)
+                if (m_supportedLocales == null)
                 {
                     return null;
                 }
 
-                return (string[])this.m_supportedLocales.Clone();
+                return (string[])m_supportedLocales.Clone();
             }
         }
 
-        public virtual bool IsConnected
-        {
-            get { return this.m_server != null; }
-        }
+        public virtual bool IsConnected => m_server != null;
 
         public virtual void Connect()
         {
-            this.Connect(this.m_url, null);
+            Connect(m_url, null);
         }
 
         public virtual void Connect(ConnectData connectData)
         {
-            this.Connect(this.m_url, connectData);
+            Connect(m_url, connectData);
         }
 
         public virtual void Connect(URL url, ConnectData connectData)
@@ -153,120 +147,120 @@ namespace Opc
                 throw new ArgumentNullException("url");
             }
 
-            if (this.m_server != null)
+            if (m_server != null)
             {
                 throw new AlreadyConnectedException();
             }
 
-            this.SetUrl(url);
+            SetUrl(url);
             try
             {
-                this.m_server = this.m_factory.CreateInstance(url, connectData);
-                this.m_connectData = connectData;
-                this.GetSupportedLocales();
-                this.SetLocale(this.m_locale);
+                m_server = m_factory.CreateInstance(url, connectData);
+                m_connectData = connectData;
+                GetSupportedLocales();
+                SetLocale(m_locale);
             }
             catch (Exception ex)
             {
-                if (this.m_server != null)
+                if (m_server != null)
                 {
                     try
                     {
-                        this.Disconnect();
+                        Disconnect();
                     }
                     catch
                     {
                     }
                 }
 
-                throw ex;
+                throw;
             }
         }
 
         public virtual void Disconnect()
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            this.m_server.Dispose();
-            this.m_server = null;
+            m_server.Dispose();
+            m_server = null;
         }
 
         public virtual Server Duplicate()
         {
-            Server server = (Server)Activator.CreateInstance(base.GetType(), new object[]
+            Server server = (Server)Activator.CreateInstance(GetType(), new object[]
             {
-                this.m_factory,
-                this.m_url
+                m_factory,
+                m_url
             });
-            server.m_connectData = this.m_connectData;
-            server.m_locale = this.m_locale;
+            server.m_connectData = m_connectData;
+            server.m_locale = m_locale;
             return server;
         }
 
         public virtual event ServerShutdownEventHandler ServerShutdown
         {
-            add { this.m_server.ServerShutdown += value; }
-            remove { this.m_server.ServerShutdown -= value; }
+            add => m_server.ServerShutdown += value;
+            remove => m_server.ServerShutdown -= value;
         }
 
         public virtual string GetLocale()
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            this.m_locale = this.m_server.GetLocale();
-            return this.m_locale;
+            m_locale = m_server.GetLocale();
+            return m_locale;
         }
 
         public virtual string SetLocale(string locale)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
             try
             {
-                this.m_locale = this.m_server.SetLocale(locale);
+                m_locale = m_server.SetLocale(locale);
             }
             catch
             {
-                string text = Server.FindBestLocale(locale, this.m_supportedLocales);
+                string text = FindBestLocale(locale, m_supportedLocales);
                 if (text != locale)
                 {
-                    this.m_server.SetLocale(text);
+                    m_server.SetLocale(text);
                 }
 
-                this.m_locale = text;
+                m_locale = text;
             }
 
-            return this.m_locale;
+            return m_locale;
         }
 
         public virtual string[] GetSupportedLocales()
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            this.m_supportedLocales = this.m_server.GetSupportedLocales();
-            return this.SupportedLocales;
+            m_supportedLocales = m_server.GetSupportedLocales();
+            return SupportedLocales;
         }
 
         public virtual string GetErrorText(string locale, ResultID resultID)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return this.m_server.GetErrorText((locale == null) ? this.m_locale : locale, resultID);
+            return m_server.GetErrorText((locale == null) ? m_locale : locale, resultID);
         }
 
         protected string GetString(string name)
@@ -274,7 +268,7 @@ namespace Opc
             CultureInfo culture = null;
             try
             {
-                culture = new CultureInfo(this.Locale);
+                culture = new CultureInfo(Locale);
             }
             catch
             {
@@ -284,7 +278,7 @@ namespace Opc
             string result;
             try
             {
-                result = this.m_resourceManager.GetString(name, culture);
+                result = m_resourceManager.GetString(name, culture);
             }
             catch
             {
@@ -301,25 +295,25 @@ namespace Opc
                 throw new ArgumentNullException("url");
             }
 
-            if (this.m_server != null)
+            if (m_server != null)
             {
                 throw new AlreadyConnectedException();
             }
 
-            this.m_url = (URL)url.Clone();
+            m_url = (URL)url.Clone();
             string text = "";
-            if (this.m_url.HostName != null)
+            if (m_url.HostName != null)
             {
-                text = this.m_url.HostName.ToLower();
+                text = m_url.HostName.ToLower();
                 if (text == "localhost" || text == "127.0.0.1")
                 {
                     text = "";
                 }
             }
 
-            if (this.m_url.Port != 0)
+            if (m_url.Port != 0)
             {
-                text += string.Format(".{0}", this.m_url.Port);
+                text += string.Format(".{0}", m_url.Port);
             }
 
             if (text != "")
@@ -327,9 +321,9 @@ namespace Opc
                 text += ".";
             }
 
-            if (this.m_url.Scheme != "http")
+            if (m_url.Scheme != "http")
             {
-                string text2 = this.m_url.Path;
+                string text2 = m_url.Path;
                 int num = text2.LastIndexOf('/');
                 if (num != -1)
                 {
@@ -340,7 +334,7 @@ namespace Opc
             }
             else
             {
-                string text3 = this.m_url.Path;
+                string text3 = m_url.Path;
                 int num2 = text3.LastIndexOf('.');
                 if (num2 != -1)
                 {
@@ -355,7 +349,7 @@ namespace Opc
                 text += text3;
             }
 
-            this.m_name = text;
+            m_name = text;
         }
 
         public static string FindBestLocale(string requestedLocale, string[] supportedLocales)

@@ -738,13 +738,13 @@ namespace OpcCom.Ae
                 int num = conditions.Length;
                 string[] array = new string[num];
                 string[] array2 = new string[num];
-                OpcRcw.Ae.FILETIME[] array3 = new OpcRcw.Ae.FILETIME[num];
+                FILETIME[] array3 = new FILETIME[num];
                 int[] array4 = new int[num];
                 for (int i = 0; i < num; i++)
                 {
                     array[i] = conditions[i].SourceName;
                     array2[i] = conditions[i].ConditionName;
-                    ref OpcRcw.Ae.FILETIME reference = ref array3[i];
+                    ref FILETIME reference = ref array3[i];
                     reference = Interop.Convert(OpcCom.Interop.GetFILETIME(conditions[i].ActiveTime));
                     array4[i] = conditions[i].Cookie;
                 }
@@ -775,8 +775,7 @@ namespace OpcCom.Ae
         {
             lock (this)
             {
-                IBrowsePosition position = null;
-                BrowseElement[] result = Browse(areaID, browseType, browseFilter, 0, out position);
+                BrowseElement[] result = Browse(areaID, browseType, browseFilter, 0, out var position);
                 position?.Dispose();
                 return result;
             }

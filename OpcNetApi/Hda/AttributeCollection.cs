@@ -12,18 +12,18 @@ namespace Opc.Hda
 
         public AttributeCollection(ICollection collection)
         {
-            this.Init(collection);
+            Init(collection);
         }
 
         public Attribute this[int index]
         {
-            get { return this.m_attributes[index]; }
-            set { this.m_attributes[index] = value; }
+            get => m_attributes[index];
+            set => m_attributes[index] = value;
         }
 
         public Attribute Find(int id)
         {
-            foreach (Attribute attribute in this.m_attributes)
+            foreach (Attribute attribute in m_attributes)
             {
                 if (attribute.ID == id)
                 {
@@ -36,7 +36,7 @@ namespace Opc.Hda
 
         public void Init(ICollection collection)
         {
-            this.Clear();
+            Clear();
             if (collection != null)
             {
                 ArrayList arrayList = new ArrayList(collection.Count);
@@ -48,13 +48,13 @@ namespace Opc.Hda
                     }
                 }
 
-                this.m_attributes = (Attribute[])arrayList.ToArray(typeof(Attribute));
+                m_attributes = (Attribute[])arrayList.ToArray(typeof(Attribute));
             }
         }
 
         public void Clear()
         {
-            this.m_attributes = new Attribute[0];
+            m_attributes = new Attribute[0];
         }
 
         public virtual object Clone()
@@ -62,45 +62,39 @@ namespace Opc.Hda
             return new AttributeCollection(this);
         }
 
-        public bool IsSynchronized
-        {
-            get { return false; }
-        }
+        public bool IsSynchronized => false;
 
         public int Count
         {
             get
             {
-                if (this.m_attributes == null)
+                if (m_attributes == null)
                 {
                     return 0;
                 }
 
-                return this.m_attributes.Length;
+                return m_attributes.Length;
             }
         }
 
         public void CopyTo(Array array, int index)
         {
-            if (this.m_attributes != null)
+            if (m_attributes != null)
             {
-                this.m_attributes.CopyTo(array, index);
+                m_attributes.CopyTo(array, index);
             }
         }
 
         public void CopyTo(Attribute[] array, int index)
         {
-            this.CopyTo(array, index);
+            CopyTo(array, index);
         }
 
-        public object SyncRoot
-        {
-            get { return this; }
-        }
+        public object SyncRoot => this;
 
         public IEnumerator GetEnumerator()
         {
-            return this.m_attributes.GetEnumerator();
+            return m_attributes.GetEnumerator();
         }
 
         private Attribute[] m_attributes = new Attribute[0];

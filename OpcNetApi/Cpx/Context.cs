@@ -6,14 +6,14 @@ namespace Opc.Cpx
     {
         public Context(byte[] buffer)
         {
-            this.Buffer = buffer;
-            this.Index = 0;
-            this.Dictionary = null;
-            this.Type = null;
-            this.BigEndian = false;
-            this.CharWidth = 2;
-            this.StringEncoding = "UCS-2";
-            this.FloatFormat = "IEEE-754";
+            Buffer = buffer;
+            Index = 0;
+            Dictionary = null;
+            Type = null;
+            BigEndian = false;
+            CharWidth = 2;
+            StringEncoding = "UCS-2";
+            FloatFormat = "IEEE-754";
         }
 
         public const string STRING_ENCODING_ACSII = "ASCII";

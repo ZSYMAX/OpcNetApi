@@ -7,38 +7,38 @@ namespace Opc.Dx
     {
         public string Name
         {
-            get { return this.m_name; }
-            set { this.m_name = value; }
+            get => m_name;
+            set => m_name = value;
         }
 
         public string Description
         {
-            get { return this.m_description; }
-            set { this.m_description = value; }
+            get => m_description;
+            set => m_description = value;
         }
 
         public string ServerType
         {
-            get { return this.m_serverType; }
-            set { this.m_serverType = value; }
+            get => m_serverType;
+            set => m_serverType = value;
         }
 
         public string ServerURL
         {
-            get { return this.m_serverURL; }
-            set { this.m_serverURL = value; }
+            get => m_serverURL;
+            set => m_serverURL = value;
         }
 
         public bool DefaultConnected
         {
-            get { return this.m_defaultConnected; }
-            set { this.m_defaultConnected = value; }
+            get => m_defaultConnected;
+            set => m_defaultConnected = value;
         }
 
         public bool DefaultConnectedSpecified
         {
-            get { return this.m_defaultConnectedSpecified; }
-            set { this.m_defaultConnectedSpecified = value; }
+            get => m_defaultConnectedSpecified;
+            set => m_defaultConnectedSpecified = value;
         }
 
         public SourceServer()
@@ -53,12 +53,12 @@ namespace Opc.Dx
         {
             if (server != null)
             {
-                this.m_name = server.m_name;
-                this.m_description = server.m_description;
-                this.m_serverType = server.m_serverType;
-                this.m_serverURL = server.m_serverURL;
-                this.m_defaultConnected = server.m_defaultConnected;
-                this.m_defaultConnectedSpecified = server.m_defaultConnectedSpecified;
+                m_name = server.m_name;
+                m_description = server.m_description;
+                m_serverType = server.m_serverType;
+                m_serverURL = server.m_serverURL;
+                m_defaultConnected = server.m_defaultConnected;
+                m_defaultConnectedSpecified = server.m_defaultConnectedSpecified;
             }
         }
 

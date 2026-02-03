@@ -19,14 +19,14 @@ namespace OpcCom.Ae
                 {
                     lock (this)
                     {
-                        this.m_EventChanged = (EventChangedEventHandler)Delegate.Combine(this.m_EventChanged, value);
+                        m_EventChanged = (EventChangedEventHandler)Delegate.Combine(m_EventChanged, value);
                     }
                 }
                 remove
                 {
                     lock (this)
                     {
-                        this.m_EventChanged = (EventChangedEventHandler)Delegate.Remove(this.m_EventChanged, value);
+                        m_EventChanged = (EventChangedEventHandler)Delegate.Remove(m_EventChanged, value);
                     }
                 }
             }
@@ -44,7 +44,7 @@ namespace OpcCom.Ae
                 {
                     lock (this)
                     {
-                        if (this.m_EventChanged != null)
+                        if (m_EventChanged != null)
                         {
                             EventNotification[] eventNotifications = Interop.GetEventNotifications(pEvents);
                             for (int i = 0; i < eventNotifications.Length; i++)
@@ -52,7 +52,7 @@ namespace OpcCom.Ae
                                 eventNotifications[i].ClientHandle = m_clientHandle;
                             }
 
-                            this.m_EventChanged(eventNotifications, bRefresh != 0, bLastRefresh != 0);
+                            m_EventChanged(eventNotifications, bRefresh != 0, bLastRefresh != 0);
                         }
                     }
                 }

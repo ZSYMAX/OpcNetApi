@@ -8,55 +8,28 @@ namespace Opc.Cpx
 {
     public class ComplexItem : ItemIdentifier
     {
-        public string Name
-        {
-            get { return this.m_name; }
-        }
+        public string Name => m_name;
 
-        public string TypeSystemID
-        {
-            get { return this.m_typeSystemID; }
-        }
+        public string TypeSystemID => m_typeSystemID;
 
-        public string DictionaryID
-        {
-            get { return this.m_dictionaryID; }
-        }
+        public string DictionaryID => m_dictionaryID;
 
-        public string TypeID
-        {
-            get { return this.m_typeID; }
-        }
+        public string TypeID => m_typeID;
 
-        public ItemIdentifier DictionaryItemID
-        {
-            get { return this.m_dictionaryItemID; }
-        }
+        public ItemIdentifier DictionaryItemID => m_dictionaryItemID;
 
-        public ItemIdentifier TypeItemID
-        {
-            get { return this.m_typeItemID; }
-        }
+        public ItemIdentifier TypeItemID => m_typeItemID;
 
-        public ItemIdentifier UnconvertedItemID
-        {
-            get { return this.m_unconvertedItemID; }
-        }
+        public ItemIdentifier UnconvertedItemID => m_unconvertedItemID;
 
-        public ItemIdentifier UnfilteredItemID
-        {
-            get { return this.m_unfilteredItemID; }
-        }
+        public ItemIdentifier UnfilteredItemID => m_unfilteredItemID;
 
-        public ItemIdentifier DataFilterItem
-        {
-            get { return this.m_filterItem; }
-        }
+        public ItemIdentifier DataFilterItem => m_filterItem;
 
         public string DataFilterValue
         {
-            get { return this.m_filterValue; }
-            set { this.m_filterValue = value; }
+            get => m_filterValue;
+            set => m_filterValue = value;
         }
 
         public ComplexItem()
@@ -65,30 +38,30 @@ namespace Opc.Cpx
 
         public ComplexItem(ItemIdentifier itemID)
         {
-            base.ItemPath = itemID.ItemPath;
-            base.ItemName = itemID.ItemName;
+            ItemPath = itemID.ItemPath;
+            ItemName = itemID.ItemName;
         }
 
         public override string ToString()
         {
-            if (this.m_name != null || this.m_name.Length != 0)
+            if (m_name != null || m_name.Length != 0)
             {
-                return this.m_name;
+                return m_name;
             }
 
-            return base.ItemName;
+            return ItemName;
         }
 
         public ComplexItem GetRootItem()
         {
-            if (this.m_unconvertedItemID != null)
+            if (m_unconvertedItemID != null)
             {
-                return ComplexTypeCache.GetComplexItem(this.m_unconvertedItemID);
+                return ComplexTypeCache.GetComplexItem(m_unconvertedItemID);
             }
 
-            if (this.m_unfilteredItemID != null)
+            if (m_unfilteredItemID != null)
             {
-                return ComplexTypeCache.GetComplexItem(this.m_unfilteredItemID);
+                return ComplexTypeCache.GetComplexItem(m_unfilteredItemID);
             }
 
             return this;
@@ -96,27 +69,27 @@ namespace Opc.Cpx
 
         public void Update(Da.Server server)
         {
-            this.Clear();
+            Clear();
             ItemPropertyCollection[] properties = server.GetProperties(new ItemIdentifier[]
             {
                 this
-            }, ComplexItem.CPX_PROPERTIES, true);
+            }, CPX_PROPERTIES, true);
             if (properties == null || properties.Length != 1)
             {
                 throw new ApplicationException("Unexpected results returned from server.");
             }
 
-            if (!this.Init((ItemProperty[])properties[0].ToArray(typeof(ItemProperty))))
+            if (!Init((ItemProperty[])properties[0].ToArray(typeof(ItemProperty))))
             {
                 throw new ApplicationException("Not a valid complex item.");
             }
 
-            this.GetDataFilterItem(server);
+            GetDataFilterItem(server);
         }
 
         public ComplexItem[] GetTypeConversions(Da.Server server)
         {
-            if (this.m_unconvertedItemID != null || this.m_unfilteredItemID != null)
+            if (m_unconvertedItemID != null || m_unfilteredItemID != null)
             {
                 return null;
             }
@@ -148,7 +121,7 @@ namespace Opc.Cpx
                     browseFilters.ElementNameFilter = null;
                     browseFilters.BrowseFilter = browseFilter.item;
                     browseFilters.ReturnAllProperties = false;
-                    browseFilters.PropertyIDs = ComplexItem.CPX_PROPERTIES;
+                    browseFilters.PropertyIDs = CPX_PROPERTIES;
                     browseFilters.ReturnPropertyValues = true;
                     array = server.Browse(itemID, browseFilters, out browsePosition);
                     if (array == null || array.Length == 0)
@@ -189,12 +162,12 @@ namespace Opc.Cpx
 
         public ComplexItem[] GetDataFilters(Da.Server server)
         {
-            if (this.m_unfilteredItemID != null)
+            if (m_unfilteredItemID != null)
             {
                 return null;
             }
 
-            if (this.m_filterItem == null)
+            if (m_filterItem == null)
             {
                 return null;
             }
@@ -207,9 +180,9 @@ namespace Opc.Cpx
                 browseFilters.ElementNameFilter = null;
                 browseFilters.BrowseFilter = browseFilter.item;
                 browseFilters.ReturnAllProperties = false;
-                browseFilters.PropertyIDs = ComplexItem.CPX_PROPERTIES;
+                browseFilters.PropertyIDs = CPX_PROPERTIES;
                 browseFilters.ReturnPropertyValues = true;
-                BrowseElement[] array = server.Browse(this.m_filterItem, browseFilters, out browsePosition);
+                BrowseElement[] array = server.Browse(m_filterItem, browseFilters, out browsePosition);
                 if (array == null || array.Length == 0)
                 {
                     result = new ComplexItem[0];
@@ -243,12 +216,12 @@ namespace Opc.Cpx
 
         public ComplexItem CreateDataFilter(Da.Server server, string filterName, string filterValue)
         {
-            if (this.m_unfilteredItemID != null)
+            if (m_unfilteredItemID != null)
             {
                 return null;
             }
 
-            if (this.m_filterItem == null)
+            if (m_filterItem == null)
             {
                 return null;
             }
@@ -257,7 +230,7 @@ namespace Opc.Cpx
             ComplexItem result;
             try
             {
-                ItemValue itemValue = new ItemValue(this.m_filterItem);
+                ItemValue itemValue = new ItemValue(m_filterItem);
                 StringWriter stringWriter = new StringWriter();
                 XmlTextWriter xmlTextWriter = new XmlTextWriter(stringWriter);
                 xmlTextWriter.WriteStartElement("DataFilters");
@@ -288,9 +261,9 @@ namespace Opc.Cpx
                 browseFilters.ElementNameFilter = filterName;
                 browseFilters.BrowseFilter = browseFilter.item;
                 browseFilters.ReturnAllProperties = false;
-                browseFilters.PropertyIDs = ComplexItem.CPX_PROPERTIES;
+                browseFilters.PropertyIDs = CPX_PROPERTIES;
                 browseFilters.ReturnPropertyValues = true;
-                BrowseElement[] array2 = server.Browse(this.m_filterItem, browseFilters, out browsePosition);
+                BrowseElement[] array2 = server.Browse(m_filterItem, browseFilters, out browsePosition);
                 if (array2 == null || array2.Length == 0)
                 {
                     throw new ApplicationException("Could not browse to new data filter.");
@@ -318,7 +291,7 @@ namespace Opc.Cpx
 
         public void UpdateDataFilter(Da.Server server, string filterValue)
         {
-            if (this.m_unfilteredItemID == null)
+            if (m_unfilteredItemID == null)
             {
                 throw new ApplicationException("Cannot update the data filter for this item.");
             }
@@ -344,14 +317,14 @@ namespace Opc.Cpx
                 throw new ApplicationException("Could not update data filter.");
             }
 
-            this.m_filterValue = filterValue;
+            m_filterValue = filterValue;
         }
 
         public string GetTypeDictionary(Da.Server server)
         {
             ItemPropertyCollection[] properties = server.GetProperties(new ItemIdentifier[]
             {
-                this.m_dictionaryItemID
+                m_dictionaryItemID
             }, new PropertyID[]
             {
                 Property.DICTIONARY
@@ -374,7 +347,7 @@ namespace Opc.Cpx
         {
             ItemPropertyCollection[] properties = server.GetProperties(new ItemIdentifier[]
             {
-                this.m_typeItemID
+                m_typeItemID
             }, new PropertyID[]
             {
                 Property.TYPE_DESCRIPTION
@@ -395,8 +368,8 @@ namespace Opc.Cpx
 
         public void GetDataFilterItem(Da.Server server)
         {
-            this.m_filterItem = null;
-            if (this.m_unfilteredItemID != null)
+            m_filterItem = null;
+            if (m_unfilteredItemID != null)
             {
                 return;
             }
@@ -412,7 +385,7 @@ namespace Opc.Cpx
                 browseFilters.PropertyIDs = null;
                 browseFilters.ReturnPropertyValues = false;
                 BrowseElement[] array;
-                if (this.m_unconvertedItemID == null)
+                if (m_unconvertedItemID == null)
                 {
                     browseFilters.ElementNameFilter = "CPX";
                     array = server.Browse(itemID, browseFilters, out browsePosition);
@@ -434,7 +407,7 @@ namespace Opc.Cpx
                 array = server.Browse(itemID, browseFilters, out browsePosition);
                 if (array != null && array.Length != 0)
                 {
-                    this.m_filterItem = new ItemIdentifier(array[0].ItemPath, array[0].ItemName);
+                    m_filterItem = new ItemIdentifier(array[0].ItemPath, array[0].ItemName);
                 }
             }
             finally
@@ -449,28 +422,28 @@ namespace Opc.Cpx
 
         private void Clear()
         {
-            this.m_typeSystemID = null;
-            this.m_dictionaryID = null;
-            this.m_typeID = null;
-            this.m_dictionaryItemID = null;
-            this.m_typeItemID = null;
-            this.m_unconvertedItemID = null;
-            this.m_unfilteredItemID = null;
-            this.m_filterItem = null;
-            this.m_filterValue = null;
+            m_typeSystemID = null;
+            m_dictionaryID = null;
+            m_typeID = null;
+            m_dictionaryItemID = null;
+            m_typeItemID = null;
+            m_unconvertedItemID = null;
+            m_unfilteredItemID = null;
+            m_filterItem = null;
+            m_filterValue = null;
         }
 
         private bool Init(BrowseElement element)
         {
-            base.ItemPath = element.ItemPath;
-            base.ItemName = element.ItemName;
-            this.m_name = element.Name;
-            return this.Init(element.Properties);
+            ItemPath = element.ItemPath;
+            ItemName = element.ItemName;
+            m_name = element.Name;
+            return Init(element.Properties);
         }
 
         private bool Init(ItemProperty[] properties)
         {
-            this.Clear();
+            Clear();
             if (properties == null || properties.Length < 3)
             {
                 return false;
@@ -482,34 +455,34 @@ namespace Opc.Cpx
                 {
                     if (itemProperty.ID == Property.TYPE_SYSTEM_ID)
                     {
-                        this.m_typeSystemID = (string)itemProperty.Value;
+                        m_typeSystemID = (string)itemProperty.Value;
                     }
                     else if (itemProperty.ID == Property.DICTIONARY_ID)
                     {
-                        this.m_dictionaryID = (string)itemProperty.Value;
-                        this.m_dictionaryItemID = new ItemIdentifier(itemProperty.ItemPath, itemProperty.ItemName);
+                        m_dictionaryID = (string)itemProperty.Value;
+                        m_dictionaryItemID = new ItemIdentifier(itemProperty.ItemPath, itemProperty.ItemName);
                     }
                     else if (itemProperty.ID == Property.TYPE_ID)
                     {
-                        this.m_typeID = (string)itemProperty.Value;
-                        this.m_typeItemID = new ItemIdentifier(itemProperty.ItemPath, itemProperty.ItemName);
+                        m_typeID = (string)itemProperty.Value;
+                        m_typeItemID = new ItemIdentifier(itemProperty.ItemPath, itemProperty.ItemName);
                     }
                     else if (itemProperty.ID == Property.UNCONVERTED_ITEM_ID)
                     {
-                        this.m_unconvertedItemID = new ItemIdentifier(base.ItemPath, (string)itemProperty.Value);
+                        m_unconvertedItemID = new ItemIdentifier(ItemPath, (string)itemProperty.Value);
                     }
                     else if (itemProperty.ID == Property.UNFILTERED_ITEM_ID)
                     {
-                        this.m_unfilteredItemID = new ItemIdentifier(base.ItemPath, (string)itemProperty.Value);
+                        m_unfilteredItemID = new ItemIdentifier(ItemPath, (string)itemProperty.Value);
                     }
                     else if (itemProperty.ID == Property.DATA_FILTER_VALUE)
                     {
-                        this.m_filterValue = (string)itemProperty.Value;
+                        m_filterValue = (string)itemProperty.Value;
                     }
                 }
             }
 
-            return this.m_typeSystemID != null && this.m_dictionaryID != null && this.m_typeID != null;
+            return m_typeSystemID != null && m_dictionaryID != null && m_typeID != null;
         }
 
         public const string CPX_BRANCH = "CPX";

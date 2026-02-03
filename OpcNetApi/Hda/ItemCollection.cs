@@ -8,15 +8,15 @@ namespace Opc.Hda
     {
         public Item this[int index]
         {
-            get { return (Item)this.m_items[index]; }
-            set { this.m_items[index] = value; }
+            get => (Item)m_items[index];
+            set => m_items[index] = value;
         }
 
         public Item this[ItemIdentifier itemID]
         {
             get
             {
-                foreach (object obj in this.m_items)
+                foreach (object obj in m_items)
                 {
                     Item item = (Item)obj;
                     if (itemID.Key == item.Key)
@@ -40,16 +40,16 @@ namespace Opc.Hda
                 foreach (object obj in items)
                 {
                     Item value = (Item)obj;
-                    this.Add(value);
+                    Add(value);
                 }
             }
         }
 
         public virtual object Clone()
         {
-            ItemCollection itemCollection = (ItemCollection)base.MemberwiseClone();
+            ItemCollection itemCollection = (ItemCollection)MemberwiseClone();
             itemCollection.m_items = new ArrayList();
-            foreach (object obj in this.m_items)
+            foreach (object obj in m_items)
             {
                 Item item = (Item)obj;
                 itemCollection.m_items.Add(item.Clone());
@@ -58,55 +58,46 @@ namespace Opc.Hda
             return itemCollection;
         }
 
-        public bool IsSynchronized
-        {
-            get { return false; }
-        }
+        public bool IsSynchronized => false;
 
         public int Count
         {
             get
             {
-                if (this.m_items == null)
+                if (m_items == null)
                 {
                     return 0;
                 }
 
-                return this.m_items.Count;
+                return m_items.Count;
             }
         }
 
         public void CopyTo(Array array, int index)
         {
-            if (this.m_items != null)
+            if (m_items != null)
             {
-                this.m_items.CopyTo(array, index);
+                m_items.CopyTo(array, index);
             }
         }
 
         public void CopyTo(Item[] array, int index)
         {
-            this.CopyTo(array, index);
+            CopyTo(array, index);
         }
 
-        public object SyncRoot
-        {
-            get { return this; }
-        }
+        public object SyncRoot => this;
 
         public IEnumerator GetEnumerator()
         {
-            return this.m_items.GetEnumerator();
+            return m_items.GetEnumerator();
         }
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         object IList.this[int index]
         {
-            get { return this.m_items[index]; }
+            get => m_items[index];
             set
             {
                 if (!typeof(Item).IsInstanceOfType(value))
@@ -114,13 +105,13 @@ namespace Opc.Hda
                     throw new ArgumentException("May only add Item objects into the collection.");
                 }
 
-                this.m_items[index] = value;
+                m_items[index] = value;
             }
         }
 
         public void RemoveAt(int index)
         {
-            this.m_items.RemoveAt(index);
+            m_items.RemoveAt(index);
         }
 
         public void Insert(int index, object value)
@@ -130,27 +121,27 @@ namespace Opc.Hda
                 throw new ArgumentException("May only add Item objects into the collection.");
             }
 
-            this.m_items.Insert(index, value);
+            m_items.Insert(index, value);
         }
 
         public void Remove(object value)
         {
-            this.m_items.Remove(value);
+            m_items.Remove(value);
         }
 
         public bool Contains(object value)
         {
-            return this.m_items.Contains(value);
+            return m_items.Contains(value);
         }
 
         public void Clear()
         {
-            this.m_items.Clear();
+            m_items.Clear();
         }
 
         public int IndexOf(object value)
         {
-            return this.m_items.IndexOf(value);
+            return m_items.IndexOf(value);
         }
 
         public int Add(object value)
@@ -160,37 +151,34 @@ namespace Opc.Hda
                 throw new ArgumentException("May only add Item objects into the collection.");
             }
 
-            return this.m_items.Add(value);
+            return m_items.Add(value);
         }
 
-        public bool IsFixedSize
-        {
-            get { return false; }
-        }
+        public bool IsFixedSize => false;
 
         public void Insert(int index, Item value)
         {
-            this.Insert(index, value);
+            Insert(index, value);
         }
 
         public void Remove(Item value)
         {
-            this.Remove(value);
+            Remove(value);
         }
 
         public bool Contains(Item value)
         {
-            return this.Contains(value);
+            return Contains(value);
         }
 
         public int IndexOf(Item value)
         {
-            return this.IndexOf(value);
+            return IndexOf(value);
         }
 
         public int Add(Item value)
         {
-            return this.Add(value);
+            return Add(value);
         }
 
         private ArrayList m_items = new ArrayList();

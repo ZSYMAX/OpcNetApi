@@ -12,13 +12,13 @@ namespace Opc.Da
 
         protected Server(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            this.m_filters = (int)info.GetValue("Filters", typeof(int));
+            m_filters = (int)info.GetValue("Filters", typeof(int));
             Subscription[] array = (Subscription[])info.GetValue("Subscription", typeof(Subscription[]));
             if (array != null)
             {
                 foreach (Subscription value in array)
                 {
-                    this.m_subscriptions.Add(value);
+                    m_subscriptions.Add(value);
                 }
             }
         }
@@ -26,14 +26,14 @@ namespace Opc.Da
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
-            info.AddValue("Filters", this.m_filters);
+            info.AddValue("Filters", m_filters);
             Subscription[] array = null;
-            if (this.m_subscriptions.Count > 0)
+            if (m_subscriptions.Count > 0)
             {
-                array = new Subscription[this.m_subscriptions.Count];
+                array = new Subscription[m_subscriptions.Count];
                 for (int i = 0; i < array.Length; i++)
                 {
-                    array[i] = this.m_subscriptions[i];
+                    array[i] = m_subscriptions[i];
                 }
             }
 
@@ -58,56 +58,50 @@ namespace Opc.Da
             return server;
         }
 
-        public SubscriptionCollection Subscriptions
-        {
-            get { return this.m_subscriptions; }
-        }
+        public SubscriptionCollection Subscriptions => m_subscriptions;
 
-        public int Filters
-        {
-            get { return this.m_filters; }
-        }
+        public int Filters => m_filters;
 
         public override void Connect(URL url, ConnectData connectData)
         {
             base.Connect(url, connectData);
-            if (this.m_subscriptions == null)
+            if (m_subscriptions == null)
             {
                 return;
             }
 
             SubscriptionCollection subscriptionCollection = new SubscriptionCollection();
-            foreach (object obj in this.m_subscriptions)
+            foreach (object obj in m_subscriptions)
             {
                 Subscription template = (Subscription)obj;
                 try
                 {
-                    subscriptionCollection.Add(this.EstablishSubscription(template));
+                    subscriptionCollection.Add(EstablishSubscription(template));
                 }
                 catch
                 {
                 }
             }
 
-            this.m_subscriptions = subscriptionCollection;
+            m_subscriptions = subscriptionCollection;
         }
 
         public override void Disconnect()
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            if (this.m_subscriptions != null)
+            if (m_subscriptions != null)
             {
-                foreach (object obj in this.m_subscriptions)
+                foreach (object obj in m_subscriptions)
                 {
                     Subscription subscription = (Subscription)obj;
                     subscription.Dispose();
                 }
 
-                this.m_subscriptions = null;
+                m_subscriptions = null;
             }
 
             base.Disconnect();
@@ -115,37 +109,37 @@ namespace Opc.Da
 
         public int GetResultFilters()
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            this.m_filters = ((IServer)this.m_server).GetResultFilters();
-            return this.m_filters;
+            m_filters = ((IServer)m_server).GetResultFilters();
+            return m_filters;
         }
 
         public void SetResultFilters(int filters)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            ((IServer)this.m_server).SetResultFilters(filters);
-            this.m_filters = filters;
+            ((IServer)m_server).SetResultFilters(filters);
+            m_filters = filters;
         }
 
         public ServerStatus GetStatus()
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            ServerStatus status = ((IServer)this.m_server).GetStatus();
+            ServerStatus status = ((IServer)m_server).GetStatus();
             if (status.StatusInfo == null)
             {
-                status.StatusInfo = base.GetString("serverState." + status.ServerState.ToString());
+                status.StatusInfo = GetString("serverState." + status.ServerState.ToString());
             }
 
             return status;
@@ -153,22 +147,22 @@ namespace Opc.Da
 
         public ItemValueResult[] Read(Item[] items)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).Read(items);
+            return ((IServer)m_server).Read(items);
         }
 
         public IdentifiedResult[] Write(ItemValue[] items)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).Write(items);
+            return ((IServer)m_server).Write(items);
         }
 
         public virtual ISubscription CreateSubscription(SubscriptionState state)
@@ -178,26 +172,26 @@ namespace Opc.Da
                 throw new ArgumentNullException("state");
             }
 
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            ISubscription subscription = ((IServer)this.m_server).CreateSubscription(state);
-            subscription.SetResultFilters(this.m_filters);
+            ISubscription subscription = ((IServer)m_server).CreateSubscription(state);
+            subscription.SetResultFilters(m_filters);
             SubscriptionCollection subscriptionCollection = new SubscriptionCollection();
-            if (this.m_subscriptions != null)
+            if (m_subscriptions != null)
             {
-                foreach (object obj in this.m_subscriptions)
+                foreach (object obj in m_subscriptions)
                 {
                     Subscription value = (Subscription)obj;
                     subscriptionCollection.Add(value);
                 }
             }
 
-            subscriptionCollection.Add(this.CreateSubscription(subscription));
-            this.m_subscriptions = subscriptionCollection;
-            return this.m_subscriptions[this.m_subscriptions.Count - 1];
+            subscriptionCollection.Add(CreateSubscription(subscription));
+            m_subscriptions = subscriptionCollection;
+            return m_subscriptions[m_subscriptions.Count - 1];
         }
 
         protected virtual Subscription CreateSubscription(ISubscription subscription)
@@ -212,7 +206,7 @@ namespace Opc.Da
                 throw new ArgumentNullException("subscription");
             }
 
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
@@ -222,13 +216,13 @@ namespace Opc.Da
                 throw new ArgumentException("Incorrect object type.", "subscription");
             }
 
-            if (!this.Equals(((Subscription)subscription).Server))
+            if (!Equals(((Subscription)subscription).Server))
             {
                 throw new ArgumentException("Unknown subscription.", "subscription");
             }
 
             SubscriptionCollection subscriptionCollection = new SubscriptionCollection();
-            foreach (object obj in this.m_subscriptions)
+            foreach (object obj in m_subscriptions)
             {
                 Subscription subscription2 = (Subscription)obj;
                 if (!subscription.Equals(subscription2))
@@ -237,48 +231,48 @@ namespace Opc.Da
                 }
             }
 
-            if (subscriptionCollection.Count == this.m_subscriptions.Count)
+            if (subscriptionCollection.Count == m_subscriptions.Count)
             {
                 throw new ArgumentException("Subscription not found.", "subscription");
             }
 
-            this.m_subscriptions = subscriptionCollection;
-            ((IServer)this.m_server).CancelSubscription(((Subscription)subscription).m_subscription);
+            m_subscriptions = subscriptionCollection;
+            ((IServer)m_server).CancelSubscription(((Subscription)subscription).m_subscription);
         }
 
         public BrowseElement[] Browse(ItemIdentifier itemID, BrowseFilters filters, out BrowsePosition position)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).Browse(itemID, filters, out position);
+            return ((IServer)m_server).Browse(itemID, filters, out position);
         }
 
         public BrowseElement[] BrowseNext(ref BrowsePosition position)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).BrowseNext(ref position);
+            return ((IServer)m_server).BrowseNext(ref position);
         }
 
         public ItemPropertyCollection[] GetProperties(ItemIdentifier[] itemIDs, PropertyID[] propertyIDs, bool returnValues)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).GetProperties(itemIDs, propertyIDs, returnValues);
+            return ((IServer)m_server).GetProperties(itemIDs, propertyIDs, returnValues);
         }
 
         private Subscription EstablishSubscription(Subscription template)
         {
-            Subscription subscription = new Subscription(this, ((IServer)this.m_server).CreateSubscription(template.State));
+            Subscription subscription = new Subscription(this, ((IServer)m_server).CreateSubscription(template.State));
             subscription.SetResultFilters(template.Filters);
             try
             {

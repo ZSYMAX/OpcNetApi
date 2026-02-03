@@ -7,36 +7,36 @@ namespace Opc.Ae
     {
         public string Name
         {
-            get { return this.m_name; }
-            set { this.m_name = value; }
+            get => m_name;
+            set => m_name = value;
         }
 
         public string Definition
         {
-            get { return this.m_definition; }
-            set { this.m_definition = value; }
+            get => m_definition;
+            set => m_definition = value;
         }
 
         public int Severity
         {
-            get { return this.m_severity; }
-            set { this.m_severity = value; }
+            get => m_severity;
+            set => m_severity = value;
         }
 
         public string Description
         {
-            get { return this.m_description; }
-            set { this.m_description = value; }
+            get => m_description;
+            set => m_description = value;
         }
 
         public override string ToString()
         {
-            return this.Name;
+            return Name;
         }
 
         public virtual object Clone()
         {
-            return base.MemberwiseClone();
+            return MemberwiseClone();
         }
 
         private string m_name;

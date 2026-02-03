@@ -12,18 +12,18 @@ namespace Opc
 
         public ItemIdentifierCollection(ICollection collection)
         {
-            this.Init(collection);
+            Init(collection);
         }
 
         public ItemIdentifier this[int index]
         {
-            get { return this.m_itemIDs[index]; }
-            set { this.m_itemIDs[index] = value; }
+            get => m_itemIDs[index];
+            set => m_itemIDs[index] = value;
         }
 
         public void Init(ICollection collection)
         {
-            this.Clear();
+            Clear();
             if (collection != null)
             {
                 ArrayList arrayList = new ArrayList(collection.Count);
@@ -35,13 +35,13 @@ namespace Opc
                     }
                 }
 
-                this.m_itemIDs = (ItemIdentifier[])arrayList.ToArray(typeof(ItemIdentifier));
+                m_itemIDs = (ItemIdentifier[])arrayList.ToArray(typeof(ItemIdentifier));
             }
         }
 
         public void Clear()
         {
-            this.m_itemIDs = new ItemIdentifier[0];
+            m_itemIDs = new ItemIdentifier[0];
         }
 
         public virtual object Clone()
@@ -49,45 +49,39 @@ namespace Opc
             return new ItemIdentifierCollection(this);
         }
 
-        public bool IsSynchronized
-        {
-            get { return false; }
-        }
+        public bool IsSynchronized => false;
 
         public int Count
         {
             get
             {
-                if (this.m_itemIDs == null)
+                if (m_itemIDs == null)
                 {
                     return 0;
                 }
 
-                return this.m_itemIDs.Length;
+                return m_itemIDs.Length;
             }
         }
 
         public void CopyTo(Array array, int index)
         {
-            if (this.m_itemIDs != null)
+            if (m_itemIDs != null)
             {
-                this.m_itemIDs.CopyTo(array, index);
+                m_itemIDs.CopyTo(array, index);
             }
         }
 
         public void CopyTo(ItemIdentifier[] array, int index)
         {
-            this.CopyTo(array, index);
+            CopyTo(array, index);
         }
 
-        public object SyncRoot
-        {
-            get { return this; }
-        }
+        public object SyncRoot => this;
 
         public IEnumerator GetEnumerator()
         {
-            return this.m_itemIDs.GetEnumerator();
+            return m_itemIDs.GetEnumerator();
         }
 
         private ItemIdentifier[] m_itemIDs = new ItemIdentifier[0];

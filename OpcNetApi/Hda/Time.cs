@@ -12,45 +12,42 @@ namespace Opc.Hda
 
         public Time(DateTime time)
         {
-            this.AbsoluteTime = time;
+            AbsoluteTime = time;
         }
 
         public Time(string time)
         {
-            Time time2 = Time.Parse(time);
-            this.m_absoluteTime = DateTime.MinValue;
-            this.m_baseTime = time2.m_baseTime;
-            this.m_offsets = time2.m_offsets;
+            Time time2 = Parse(time);
+            m_absoluteTime = DateTime.MinValue;
+            m_baseTime = time2.m_baseTime;
+            m_offsets = time2.m_offsets;
         }
 
         public bool IsRelative
         {
-            get { return this.m_absoluteTime == DateTime.MinValue; }
-            set { this.m_absoluteTime = DateTime.MinValue; }
+            get => m_absoluteTime == DateTime.MinValue;
+            set => m_absoluteTime = DateTime.MinValue;
         }
 
         public DateTime AbsoluteTime
         {
-            get { return this.m_absoluteTime; }
-            set { this.m_absoluteTime = value; }
+            get => m_absoluteTime;
+            set => m_absoluteTime = value;
         }
 
         public RelativeTime BaseTime
         {
-            get { return this.m_baseTime; }
-            set { this.m_baseTime = value; }
+            get => m_baseTime;
+            set => m_baseTime = value;
         }
 
-        public TimeOffsetCollection Offsets
-        {
-            get { return this.m_offsets; }
-        }
+        public TimeOffsetCollection Offsets => m_offsets;
 
         public DateTime ResolveTime()
         {
-            if (!this.IsRelative)
+            if (!IsRelative)
             {
-                return this.m_absoluteTime;
+                return m_absoluteTime;
             }
 
             DateTime result = DateTime.UtcNow;
@@ -61,7 +58,7 @@ namespace Opc.Hda
             int minute = result.Minute;
             int second = result.Second;
             int millisecond = result.Millisecond;
-            switch (this.BaseTime)
+            switch (BaseTime)
             {
                 case RelativeTime.Second:
                     millisecond = 0;
@@ -100,12 +97,12 @@ namespace Opc.Hda
             }
 
             result = new DateTime(year, month, day, hour, minute, second, millisecond);
-            if (this.BaseTime == RelativeTime.Week && result.DayOfWeek != DayOfWeek.Sunday)
+            if (BaseTime == RelativeTime.Week && result.DayOfWeek != DayOfWeek.Sunday)
             {
                 result = result.AddDays((double)(-(double)result.DayOfWeek));
             }
 
-            foreach (object obj in this.Offsets)
+            foreach (object obj in Offsets)
             {
                 TimeOffset timeOffset = (TimeOffset)obj;
                 switch (timeOffset.Type)
@@ -139,14 +136,14 @@ namespace Opc.Hda
 
         public override string ToString()
         {
-            if (!this.IsRelative)
+            if (!IsRelative)
             {
-                return Convert.ToString(this.m_absoluteTime);
+                return Convert.ToString(m_absoluteTime);
             }
 
             StringBuilder stringBuilder = new StringBuilder(256);
-            stringBuilder.Append(Time.BaseTypeToString(this.BaseTime));
-            stringBuilder.Append(this.Offsets.ToString());
+            stringBuilder.Append(BaseTypeToString(BaseTime));
+            stringBuilder.Append(Offsets.ToString());
             return stringBuilder.ToString();
         }
 
@@ -158,7 +155,7 @@ namespace Opc.Hda
             foreach (object obj in Enum.GetValues(typeof(RelativeTime)))
             {
                 RelativeTime baseTime = (RelativeTime)obj;
-                string text = Time.BaseTypeToString(baseTime);
+                string text = BaseTypeToString(baseTime);
                 if (buffer.StartsWith(text))
                 {
                     buffer = buffer.Substring(text.Length).Trim();

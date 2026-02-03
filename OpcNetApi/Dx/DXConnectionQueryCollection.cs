@@ -5,16 +5,13 @@ namespace Opc.Dx
 {
     public class DXConnectionQueryCollection : ICloneable, IList, ICollection, IEnumerable
     {
-        public DXConnectionQuery this[int index]
-        {
-            get { return (DXConnectionQuery)this.m_queries[index]; }
-        }
+        public DXConnectionQuery this[int index] => (DXConnectionQuery)m_queries[index];
 
         public DXConnectionQuery this[string name]
         {
             get
             {
-                foreach (object obj in this.m_queries)
+                foreach (object obj in m_queries)
                 {
                     DXConnectionQuery dxconnectionQuery = (DXConnectionQuery)obj;
                     if (dxconnectionQuery.Name == name)
@@ -33,22 +30,22 @@ namespace Opc.Dx
 
         internal void Initialize(ICollection queries)
         {
-            this.m_queries.Clear();
+            m_queries.Clear();
             if (queries != null)
             {
                 foreach (object obj in queries)
                 {
                     DXConnectionQuery value = (DXConnectionQuery)obj;
-                    this.m_queries.Add(value);
+                    m_queries.Add(value);
                 }
             }
         }
 
         public virtual object Clone()
         {
-            DXConnectionQueryCollection dxconnectionQueryCollection = (DXConnectionQueryCollection)base.MemberwiseClone();
+            DXConnectionQueryCollection dxconnectionQueryCollection = (DXConnectionQueryCollection)MemberwiseClone();
             dxconnectionQueryCollection.m_queries = new ArrayList();
-            foreach (object obj in this.m_queries)
+            foreach (object obj in m_queries)
             {
                 DXConnectionQuery dxconnectionQuery = (DXConnectionQuery)obj;
                 dxconnectionQueryCollection.m_queries.Add(dxconnectionQuery.Clone());
@@ -57,66 +54,57 @@ namespace Opc.Dx
             return dxconnectionQueryCollection;
         }
 
-        public bool IsSynchronized
-        {
-            get { return false; }
-        }
+        public bool IsSynchronized => false;
 
         public int Count
         {
             get
             {
-                if (this.m_queries == null)
+                if (m_queries == null)
                 {
                     return 0;
                 }
 
-                return this.m_queries.Count;
+                return m_queries.Count;
             }
         }
 
         public void CopyTo(Array array, int index)
         {
-            if (this.m_queries != null)
+            if (m_queries != null)
             {
-                this.m_queries.CopyTo(array, index);
+                m_queries.CopyTo(array, index);
             }
         }
 
         public void CopyTo(DXConnectionQuery[] array, int index)
         {
-            this.CopyTo(array, index);
+            CopyTo(array, index);
         }
 
-        public object SyncRoot
-        {
-            get { return this; }
-        }
+        public object SyncRoot => this;
 
         public IEnumerator GetEnumerator()
         {
-            return this.m_queries.GetEnumerator();
+            return m_queries.GetEnumerator();
         }
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         object IList.this[int index]
         {
-            get { return this.m_queries[index]; }
-            set { this.Insert(index, value); }
+            get => m_queries[index];
+            set => Insert(index, value);
         }
 
         public void RemoveAt(int index)
         {
-            if (index < 0 || index >= this.m_queries.Count)
+            if (index < 0 || index >= m_queries.Count)
             {
                 throw new ArgumentOutOfRangeException("index");
             }
 
-            this.Remove(this.m_queries[index]);
+            Remove(m_queries[index]);
         }
 
         public void Insert(int index, object value)
@@ -126,7 +114,7 @@ namespace Opc.Dx
                 throw new ArgumentException("May only add DXConnectionQuery objects into the collection.");
             }
 
-            this.m_queries.Insert(index, value);
+            m_queries.Insert(index, value);
         }
 
         public void Remove(object value)
@@ -136,12 +124,12 @@ namespace Opc.Dx
                 throw new ArgumentException("May only delete DXConnectionQuery obejcts from the collection.");
             }
 
-            this.m_queries.Remove(value);
+            m_queries.Remove(value);
         }
 
         public bool Contains(object value)
         {
-            foreach (object obj in this.m_queries)
+            foreach (object obj in m_queries)
             {
                 ItemIdentifier itemIdentifier = (ItemIdentifier)obj;
                 if (itemIdentifier.Equals(value))
@@ -155,48 +143,45 @@ namespace Opc.Dx
 
         public void Clear()
         {
-            this.m_queries.Clear();
+            m_queries.Clear();
         }
 
         public int IndexOf(object value)
         {
-            return this.m_queries.IndexOf(value);
+            return m_queries.IndexOf(value);
         }
 
         public int Add(object value)
         {
-            this.Insert(this.m_queries.Count, value);
-            return this.m_queries.Count - 1;
+            Insert(m_queries.Count, value);
+            return m_queries.Count - 1;
         }
 
-        public bool IsFixedSize
-        {
-            get { return false; }
-        }
+        public bool IsFixedSize => false;
 
         public void Insert(int index, DXConnectionQuery value)
         {
-            this.Insert(index, value);
+            Insert(index, value);
         }
 
         public void Remove(DXConnectionQuery value)
         {
-            this.Remove(value);
+            Remove(value);
         }
 
         public bool Contains(DXConnectionQuery value)
         {
-            return this.Contains(value);
+            return Contains(value);
         }
 
         public int IndexOf(DXConnectionQuery value)
         {
-            return this.IndexOf(value);
+            return IndexOf(value);
         }
 
         public int Add(DXConnectionQuery value)
         {
-            return this.Add(value);
+            return Add(value);
         }
 
         private ArrayList m_queries = new ArrayList();

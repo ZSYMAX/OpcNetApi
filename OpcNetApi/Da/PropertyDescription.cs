@@ -9,32 +9,32 @@ namespace Opc.Da
     {
         public PropertyID ID
         {
-            get { return this.m_id; }
-            set { this.m_id = value; }
+            get => m_id;
+            set => m_id = value;
         }
 
         public System.Type Type
         {
-            get { return this.m_type; }
-            set { this.m_type = value; }
+            get => m_type;
+            set => m_type = value;
         }
 
         public string Name
         {
-            get { return this.m_name; }
-            set { this.m_name = value; }
+            get => m_name;
+            set => m_name = value;
         }
 
         public PropertyDescription(PropertyID id, System.Type type, string name)
         {
-            this.ID = id;
-            this.Type = type;
-            this.Name = name;
+            ID = id;
+            Type = type;
+            Name = name;
         }
 
         public override string ToString()
         {
-            return this.Name;
+            return Name;
         }
 
         public static PropertyDescription Find(PropertyID id)

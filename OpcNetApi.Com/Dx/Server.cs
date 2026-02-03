@@ -26,9 +26,7 @@ namespace OpcCom.Dx
 
                 try
                 {
-                    int pdwCount = 0;
-                    IntPtr ppServers = IntPtr.Zero;
-                    ((IOPCConfiguration)m_server).GetServers(out pdwCount, out ppServers);
+                    ((IOPCConfiguration)m_server).GetServers(out var pdwCount, out var ppServers);
                     return Interop.GetSourceServers(ref ppServers, pdwCount, deallocate: true);
                 }
                 catch (Exception e)
@@ -143,10 +141,7 @@ namespace OpcCom.Dx
                         array = new OpcRcw.Dx.DXConnection[0];
                     }
 
-                    int pdwCount = 0;
-                    IntPtr ppErrors = IntPtr.Zero;
-                    IntPtr ppConnections = IntPtr.Zero;
-                    ((IOPCConfiguration)m_server).QueryDXConnections((browsePath != null) ? browsePath : "", array.Length, array, recursive ? 1 : 0, out ppErrors, out pdwCount, out ppConnections);
+                    ((IOPCConfiguration)m_server).QueryDXConnections((browsePath != null) ? browsePath : "", array.Length, array, recursive ? 1 : 0, out var ppErrors, out var pdwCount, out var ppConnections);
                     errors = Interop.GetResultIDs(ref ppErrors, array.Length, deallocate: true);
                     return Interop.GetDXConnections(ref ppConnections, pdwCount, deallocate: true);
                 }
@@ -229,8 +224,7 @@ namespace OpcCom.Dx
                     }
 
                     OpcRcw.Dx.DXConnection pDXConnectionDefinition = Interop.GetDXConnection(connectionDefinition);
-                    IntPtr ppErrors = IntPtr.Zero;
-                    ((IOPCConfiguration)m_server).UpdateDXConnections((browsePath != null) ? browsePath : "", array.Length, array, recursive ? 1 : 0, ref pDXConnectionDefinition, out ppErrors, out DXGeneralResponse pResponse);
+                    ((IOPCConfiguration)m_server).UpdateDXConnections((browsePath != null) ? browsePath : "", array.Length, array, recursive ? 1 : 0, ref pDXConnectionDefinition, out var ppErrors, out DXGeneralResponse pResponse);
                     errors = Interop.GetResultIDs(ref ppErrors, array.Length, deallocate: true);
                     return Interop.GetGeneralResponse(pResponse, deallocate: true);
                 }
@@ -258,8 +252,7 @@ namespace OpcCom.Dx
                         array = new OpcRcw.Dx.DXConnection[0];
                     }
 
-                    IntPtr ppErrors = IntPtr.Zero;
-                    ((IOPCConfiguration)m_server).DeleteDXConnections((browsePath != null) ? browsePath : "", array.Length, array, recursive ? 1 : 0, out ppErrors, out DXGeneralResponse pResponse);
+                    ((IOPCConfiguration)m_server).DeleteDXConnections((browsePath != null) ? browsePath : "", array.Length, array, recursive ? 1 : 0, out var ppErrors, out DXGeneralResponse pResponse);
                     errors = Interop.GetResultIDs(ref ppErrors, array.Length, deallocate: true);
                     return Interop.GetGeneralResponse(pResponse, deallocate: true);
                 }
@@ -287,8 +280,7 @@ namespace OpcCom.Dx
                         array = new OpcRcw.Dx.DXConnection[0];
                     }
 
-                    IntPtr ppErrors = IntPtr.Zero;
-                    ((IOPCConfiguration)m_server).CopyDXConnectionDefaultAttributes(configToStatus ? 1 : 0, (browsePath != null) ? browsePath : "", array.Length, array, recursive ? 1 : 0, out ppErrors, out DXGeneralResponse pResponse);
+                    ((IOPCConfiguration)m_server).CopyDXConnectionDefaultAttributes(configToStatus ? 1 : 0, (browsePath != null) ? browsePath : "", array.Length, array, recursive ? 1 : 0, out var ppErrors, out DXGeneralResponse pResponse);
                     errors = Interop.GetResultIDs(ref ppErrors, array.Length, deallocate: true);
                     return Interop.GetGeneralResponse(pResponse, deallocate: true);
                 }
@@ -310,8 +302,7 @@ namespace OpcCom.Dx
 
                 try
                 {
-                    string pszConfigurationVersion = null;
-                    ((IOPCConfiguration)m_server).ResetConfiguration(configurationVersion, out pszConfigurationVersion);
+                    ((IOPCConfiguration)m_server).ResetConfiguration(configurationVersion, out var pszConfigurationVersion);
                     return pszConfigurationVersion;
                 }
                 catch (Exception e)

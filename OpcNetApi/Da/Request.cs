@@ -5,25 +5,19 @@ namespace Opc.Da
     [Serializable]
     public class Request : IRequest
     {
-        public ISubscription Subscription
-        {
-            get { return this.m_subscription; }
-        }
+        public ISubscription Subscription => m_subscription;
 
-        public object Handle
-        {
-            get { return this.m_handle; }
-        }
+        public object Handle => m_handle;
 
         public void Cancel(CancelCompleteEventHandler callback)
         {
-            this.m_subscription.Cancel(this, callback);
+            m_subscription.Cancel(this, callback);
         }
 
         public Request(ISubscription subscription, object handle)
         {
-            this.m_subscription = subscription;
-            this.m_handle = handle;
+            m_subscription = subscription;
+            m_handle = handle;
         }
 
         private ISubscription m_subscription;

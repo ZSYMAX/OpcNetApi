@@ -7,7 +7,7 @@ namespace Opc.Ae
     {
         public AttributeCollection this[int categoryID]
         {
-            get { return (AttributeCollection)base[categoryID]; }
+            get => (AttributeCollection)base[categoryID];
             set
             {
                 if (value != null)
@@ -39,7 +39,7 @@ namespace Opc.Ae
         {
             for (int i = 0; i < categoryIDs.Length; i++)
             {
-                this.Add(categoryIDs[i], null);
+                Add(categoryIDs[i], null);
             }
         }
     }

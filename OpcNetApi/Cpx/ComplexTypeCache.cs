@@ -13,7 +13,7 @@ namespace Opc.Cpx
                 Da.Server server;
                 lock (typeof(ComplexTypeCache))
                 {
-                    server = ComplexTypeCache.m_server;
+                    server = m_server;
                 }
 
                 return server;
@@ -22,10 +22,10 @@ namespace Opc.Cpx
             {
                 lock (typeof(ComplexTypeCache))
                 {
-                    ComplexTypeCache.m_server = value;
-                    ComplexTypeCache.m_items.Clear();
-                    ComplexTypeCache.m_dictionaries.Clear();
-                    ComplexTypeCache.m_descriptions.Clear();
+                    m_server = value;
+                    m_items.Clear();
+                    m_dictionaries.Clear();
+                    m_descriptions.Clear();
                 }
             }
         }
@@ -43,14 +43,14 @@ namespace Opc.Cpx
                 ComplexItem complexItem = new ComplexItem(itemID);
                 try
                 {
-                    complexItem.Update(ComplexTypeCache.m_server);
+                    complexItem.Update(m_server);
                 }
                 catch
                 {
                     complexItem = null;
                 }
 
-                ComplexTypeCache.m_items[itemID.Key] = complexItem;
+                m_items[itemID.Key] = complexItem;
                 result = complexItem;
             }
 
@@ -67,7 +67,7 @@ namespace Opc.Cpx
             ComplexItem complexItem;
             lock (typeof(ComplexTypeCache))
             {
-                complexItem = ComplexTypeCache.GetComplexItem(new ItemIdentifier(element.ItemPath, element.ItemName));
+                complexItem = GetComplexItem(new ItemIdentifier(element.ItemPath, element.ItemName));
             }
 
             return complexItem;
@@ -83,17 +83,17 @@ namespace Opc.Cpx
             string result;
             lock (typeof(ComplexTypeCache))
             {
-                string text = (string)ComplexTypeCache.m_dictionaries[itemID.Key];
+                string text = (string)m_dictionaries[itemID.Key];
                 if (text != null)
                 {
                     result = text;
                 }
                 else
                 {
-                    ComplexItem complexItem = ComplexTypeCache.GetComplexItem(itemID);
+                    ComplexItem complexItem = GetComplexItem(itemID);
                     if (complexItem != null)
                     {
-                        text = complexItem.GetTypeDictionary(ComplexTypeCache.m_server);
+                        text = complexItem.GetTypeDictionary(m_server);
                     }
 
                     result = text;
@@ -114,10 +114,10 @@ namespace Opc.Cpx
             lock (typeof(ComplexTypeCache))
             {
                 string text = null;
-                ComplexItem complexItem = ComplexTypeCache.GetComplexItem(itemID);
+                ComplexItem complexItem = GetComplexItem(itemID);
                 if (complexItem != null)
                 {
-                    text = (string)ComplexTypeCache.m_descriptions[complexItem.TypeItemID.Key];
+                    text = (string)m_descriptions[complexItem.TypeItemID.Key];
                     if (text != null)
                     {
                         return text;

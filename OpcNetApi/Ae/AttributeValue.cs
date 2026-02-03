@@ -7,32 +7,32 @@ namespace Opc.Ae
     {
         public int ID
         {
-            get { return this.m_id; }
-            set { this.m_id = value; }
+            get => m_id;
+            set => m_id = value;
         }
 
         public object Value
         {
-            get { return this.m_value; }
-            set { this.m_value = value; }
+            get => m_value;
+            set => m_value = value;
         }
 
         public ResultID ResultID
         {
-            get { return this.m_resultID; }
-            set { this.m_resultID = value; }
+            get => m_resultID;
+            set => m_resultID = value;
         }
 
         public string DiagnosticInfo
         {
-            get { return this.m_diagnosticInfo; }
-            set { this.m_diagnosticInfo = value; }
+            get => m_diagnosticInfo;
+            set => m_diagnosticInfo = value;
         }
 
         public virtual object Clone()
         {
-            AttributeValue attributeValue = (AttributeValue)base.MemberwiseClone();
-            attributeValue.Value = Convert.Clone(this.Value);
+            AttributeValue attributeValue = (AttributeValue)MemberwiseClone();
+            attributeValue.Value = Convert.Clone(Value);
             return attributeValue;
         }
 

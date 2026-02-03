@@ -12,18 +12,18 @@ namespace Opc.Hda
 
         public BrowseFilterCollection(ICollection collection)
         {
-            this.Init(collection);
+            Init(collection);
         }
 
         public BrowseFilter this[int index]
         {
-            get { return this.m_filters[index]; }
-            set { this.m_filters[index] = value; }
+            get => m_filters[index];
+            set => m_filters[index] = value;
         }
 
         public BrowseFilter Find(int id)
         {
-            foreach (BrowseFilter browseFilter in this.m_filters)
+            foreach (BrowseFilter browseFilter in m_filters)
             {
                 if (browseFilter.AttributeID == id)
                 {
@@ -36,7 +36,7 @@ namespace Opc.Hda
 
         public void Init(ICollection collection)
         {
-            this.Clear();
+            Clear();
             if (collection != null)
             {
                 ArrayList arrayList = new ArrayList(collection.Count);
@@ -48,13 +48,13 @@ namespace Opc.Hda
                     }
                 }
 
-                this.m_filters = (BrowseFilter[])arrayList.ToArray(typeof(BrowseFilter));
+                m_filters = (BrowseFilter[])arrayList.ToArray(typeof(BrowseFilter));
             }
         }
 
         public void Clear()
         {
-            this.m_filters = new BrowseFilter[0];
+            m_filters = new BrowseFilter[0];
         }
 
         public override object Clone()
@@ -62,45 +62,39 @@ namespace Opc.Hda
             return new BrowseFilterCollection(this);
         }
 
-        public bool IsSynchronized
-        {
-            get { return false; }
-        }
+        public bool IsSynchronized => false;
 
         public int Count
         {
             get
             {
-                if (this.m_filters == null)
+                if (m_filters == null)
                 {
                     return 0;
                 }
 
-                return this.m_filters.Length;
+                return m_filters.Length;
             }
         }
 
         public void CopyTo(Array array, int index)
         {
-            if (this.m_filters != null)
+            if (m_filters != null)
             {
-                this.m_filters.CopyTo(array, index);
+                m_filters.CopyTo(array, index);
             }
         }
 
         public void CopyTo(BrowseFilter[] array, int index)
         {
-            this.CopyTo(array, index);
+            CopyTo(array, index);
         }
 
-        public object SyncRoot
-        {
-            get { return this; }
-        }
+        public object SyncRoot => this;
 
         public IEnumerator GetEnumerator()
         {
-            return this.m_filters.GetEnumerator();
+            return m_filters.GetEnumerator();
         }
 
         private BrowseFilter[] m_filters = new BrowseFilter[0];

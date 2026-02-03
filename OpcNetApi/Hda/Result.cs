@@ -11,31 +11,31 @@ namespace Opc.Hda
 
         public Result(ResultID resultID)
         {
-            this.ResultID = resultID;
-            this.DiagnosticInfo = null;
+            ResultID = resultID;
+            DiagnosticInfo = null;
         }
 
         public Result(IResult result)
         {
-            this.ResultID = result.ResultID;
-            this.DiagnosticInfo = result.DiagnosticInfo;
+            ResultID = result.ResultID;
+            DiagnosticInfo = result.DiagnosticInfo;
         }
 
         public ResultID ResultID
         {
-            get { return this.m_resultID; }
-            set { this.m_resultID = value; }
+            get => m_resultID;
+            set => m_resultID = value;
         }
 
         public string DiagnosticInfo
         {
-            get { return this.m_diagnosticInfo; }
-            set { this.m_diagnosticInfo = value; }
+            get => m_diagnosticInfo;
+            set => m_diagnosticInfo = value;
         }
 
         public object Clone()
         {
-            return base.MemberwiseClone();
+            return MemberwiseClone();
         }
 
         private ResultID m_resultID = ResultID.S_OK;

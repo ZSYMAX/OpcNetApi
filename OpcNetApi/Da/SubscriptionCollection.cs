@@ -10,8 +10,8 @@ namespace Opc.Da
 
         public Subscription this[int index]
         {
-            get { return (Subscription)m_subscriptions[index]; }
-            set { m_subscriptions[index] = value; }
+            get => (Subscription)m_subscriptions[index];
+            set => m_subscriptions[index] = value;
         }
 
         public bool IsSynchronized => false;
@@ -35,7 +35,7 @@ namespace Opc.Da
 
         object IList.this[int index]
         {
-            get { return m_subscriptions[index]; }
+            get => m_subscriptions[index];
             set
             {
                 if (!typeof(Subscription).IsInstanceOfType(value))

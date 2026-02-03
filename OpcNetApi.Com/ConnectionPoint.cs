@@ -7,45 +7,42 @@ namespace OpcCom
     {
         public ConnectionPoint(object server, Guid iid)
         {
-            ((IConnectionPointContainer)server).FindConnectionPoint(ref iid, out this.m_server);
+            ((IConnectionPointContainer)server).FindConnectionPoint(ref iid, out m_server);
         }
 
         public void Dispose()
         {
-            if (this.m_server != null)
+            if (m_server != null)
             {
-                while (this.Unadvise() > 0)
+                while (Unadvise() > 0)
                 {
                 }
 
-                Interop.ReleaseServer(this.m_server);
-                this.m_server = null;
+                Interop.ReleaseServer(m_server);
+                m_server = null;
             }
         }
 
-        public int Cookie
-        {
-            get { return this.m_cookie; }
-        }
+        public int Cookie => m_cookie;
 
         public int Advise(object callback)
         {
-            if (this.m_refs++ == 0)
+            if (m_refs++ == 0)
             {
-                this.m_server.Advise(callback, out this.m_cookie);
+                m_server.Advise(callback, out m_cookie);
             }
 
-            return this.m_refs;
+            return m_refs;
         }
 
         public int Unadvise()
         {
-            if (--this.m_refs == 0)
+            if (--m_refs == 0)
             {
-                this.m_server.Unadvise(this.m_cookie);
+                m_server.Unadvise(m_cookie);
             }
 
-            return this.m_refs;
+            return m_refs;
         }
 
         private IConnectionPoint m_server;

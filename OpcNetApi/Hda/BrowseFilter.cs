@@ -7,26 +7,26 @@ namespace Opc.Hda
     {
         public int AttributeID
         {
-            get { return this.m_attributeID; }
-            set { this.m_attributeID = value; }
+            get => m_attributeID;
+            set => m_attributeID = value;
         }
 
         public Operator Operator
         {
-            get { return this.m_operator; }
-            set { this.m_operator = value; }
+            get => m_operator;
+            set => m_operator = value;
         }
 
         public object FilterValue
         {
-            get { return this.m_filterValue; }
-            set { this.m_filterValue = value; }
+            get => m_filterValue;
+            set => m_filterValue = value;
         }
 
         public virtual object Clone()
         {
-            BrowseFilter browseFilter = (BrowseFilter)base.MemberwiseClone();
-            browseFilter.FilterValue = Convert.Clone(this.FilterValue);
+            BrowseFilter browseFilter = (BrowseFilter)MemberwiseClone();
+            browseFilter.FilterValue = Convert.Clone(FilterValue);
             return browseFilter;
         }
 

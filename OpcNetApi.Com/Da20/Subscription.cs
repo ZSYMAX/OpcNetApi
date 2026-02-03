@@ -66,8 +66,7 @@ namespace OpcCom.Da20
 
                 try
                 {
-                    int pbEnable = 0;
-                    ((IOPCAsyncIO2)m_group).GetEnable(out pbEnable);
+                    ((IOPCAsyncIO2)m_group).GetEnable(out var pbEnable);
                     return pbEnable != 0;
                 }
                 catch (Exception e)
@@ -222,8 +221,7 @@ namespace OpcCom.Da20
                     array[i] = (int)itemIDs[i].ServerHandle;
                 }
 
-                IntPtr ppErrors = IntPtr.Zero;
-                ((IOPCAsyncIO2)m_group).Read(itemIDs.Length, array, requestID, out cancelID, out ppErrors);
+                ((IOPCAsyncIO2)m_group).Read(itemIDs.Length, array, requestID, out cancelID, out var ppErrors);
                 int[] int32s = Interop.GetInt32s(ref ppErrors, itemIDs.Length, deallocate: true);
                 IdentifiedResult[] array2 = new IdentifiedResult[itemIDs.Length];
                 for (int j = 0; j < itemIDs.Length; j++)
@@ -281,8 +279,7 @@ namespace OpcCom.Da20
                     array2[j] = (int)((IdentifiedResult)arrayList[j]).ServerHandle;
                 }
 
-                IntPtr ppErrors = IntPtr.Zero;
-                ((IOPCAsyncIO2)m_group).Write(arrayList.Count, array2, (object[])arrayList2.ToArray(typeof(object)), requestID, out cancelID, out ppErrors);
+                ((IOPCAsyncIO2)m_group).Write(arrayList.Count, array2, (object[])arrayList2.ToArray(typeof(object)), requestID, out cancelID, out var ppErrors);
                 int[] int32s = Interop.GetInt32s(ref ppErrors, arrayList.Count, deallocate: true);
                 for (int k = 0; k < arrayList.Count; k++)
                 {

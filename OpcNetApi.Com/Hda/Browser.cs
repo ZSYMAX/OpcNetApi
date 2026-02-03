@@ -84,8 +84,7 @@ namespace OpcCom.Hda
 
         public BrowseElement[] Browse(ItemIdentifier itemID)
         {
-            IBrowsePosition position = null;
-            BrowseElement[] result = Browse(itemID, 0, out position);
+            BrowseElement[] result = Browse(itemID, 0, out var position);
             position?.Dispose();
             return result;
         }
@@ -198,8 +197,7 @@ namespace OpcCom.Hda
             try
             {
                 OPCHDA_BROWSETYPE dwBrowseType = isBranch ? OPCHDA_BROWSETYPE.OPCHDA_BRANCH : OPCHDA_BROWSETYPE.OPCHDA_LEAF;
-                IEnumString ppIEnumString = null;
-                m_browser.GetEnum(dwBrowseType, out ppIEnumString);
+                m_browser.GetEnum(dwBrowseType, out var ppIEnumString);
                 return new EnumString(ppIEnumString);
             }
             catch (Exception e)

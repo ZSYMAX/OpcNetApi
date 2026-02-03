@@ -382,10 +382,8 @@ namespace OpcCom
 
         public static string[] EnumComputers()
         {
-            int entriesread = 0;
             int totalentries = 0;
-            IntPtr bufptr;
-            int num = NetServerEnum(IntPtr.Zero, 100u, out bufptr, -1, out entriesread, out totalentries, 3u, IntPtr.Zero, IntPtr.Zero);
+            int num = NetServerEnum(IntPtr.Zero, 100u, out var bufptr, -1, out var entriesread, out totalentries, 3u, IntPtr.Zero, IntPtr.Zero);
             if (num != 0)
             {
                 throw new ApplicationException("NetApi Error = " + string.Format("0x{0,0:X}", num));
@@ -498,7 +496,6 @@ namespace OpcCom
         {
             ServerInfo serverInfo = new ServerInfo();
             COSERVERINFO pServerInfo = serverInfo.Allocate(hostName, credential);
-            object ppvObject = null;
             IClassFactory2 classFactory = null;
             try
             {
@@ -508,8 +505,7 @@ namespace OpcCom
                     dwClsContext = 20u;
                 }
 
-                object ppv = null;
-                CoGetClassObject(clsid, dwClsContext, ref pServerInfo, typeof(IClassFactory2).GUID, out ppv);
+                CoGetClassObject(clsid, dwClsContext, ref pServerInfo, typeof(IClassFactory2).GUID, out var ppv);
                 classFactory = (IClassFactory2)ppv;
                 IClientSecurity clientSecurity = (IClientSecurity)classFactory;
                 uint pAuthnSvc = 0u;
@@ -523,12 +519,12 @@ namespace OpcCom
                 pAuthnSvc = uint.MaxValue;
                 pAuthnLevel = 2u;
                 clientSecurity.SetBlanket(classFactory, pAuthnSvc, pAuthzSvc, pServerPrincName, pAuthnLevel, pImpLevel, pAuthInfo, pCapabilities);
-                classFactory.CreateInstanceLic(null, null, IID_IUnknown, licenseKey, out ppvObject);
+                classFactory.CreateInstanceLic(null, null, IID_IUnknown, licenseKey, out var ppvObject);
                 return ppvObject;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
             finally
             {

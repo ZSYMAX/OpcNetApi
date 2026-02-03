@@ -89,7 +89,7 @@ namespace OpcCom.Da
                 }
             }
 
-            ((WriteCompleteEventHandler)Callback)(base.Handle, results);
+            ((WriteCompleteEventHandler)Callback)(Handle, results);
             return true;
         }
 
@@ -103,7 +103,7 @@ namespace OpcCom.Da
         {
             if (typeof(CancelCompleteEventHandler).IsInstanceOfType(Callback))
             {
-                ((CancelCompleteEventHandler)Callback)(base.Handle);
+                ((CancelCompleteEventHandler)Callback)(Handle);
             }
         }
 
@@ -117,7 +117,7 @@ namespace OpcCom.Da
 
             if (typeof(CancelCompleteEventHandler).IsInstanceOfType(Callback))
             {
-                ((CancelCompleteEventHandler)Callback)(base.Handle);
+                ((CancelCompleteEventHandler)Callback)(Handle);
                 return;
             }
 
@@ -147,7 +147,7 @@ namespace OpcCom.Da
 
             if (typeof(ReadCompleteEventHandler).IsInstanceOfType(Callback))
             {
-                ((ReadCompleteEventHandler)Callback)(base.Handle, results);
+                ((ReadCompleteEventHandler)Callback)(Handle, results);
             }
         }
 
@@ -161,7 +161,7 @@ namespace OpcCom.Da
 
             if ((object)Callback != null && (object)Callback.GetType() == typeof(CancelCompleteEventHandler))
             {
-                ((CancelCompleteEventHandler)Callback)(base.Handle);
+                ((CancelCompleteEventHandler)Callback)(Handle);
                 return;
             }
 
@@ -199,7 +199,7 @@ namespace OpcCom.Da
 
             if ((object)Callback != null && (object)Callback.GetType() == typeof(WriteCompleteEventHandler))
             {
-                ((WriteCompleteEventHandler)Callback)(base.Handle, array);
+                ((WriteCompleteEventHandler)Callback)(Handle, array);
             }
         }
     }

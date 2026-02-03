@@ -7,8 +7,8 @@ namespace Opc.Hda
     {
         public int AggregateID
         {
-            get { return this.m_aggregateID; }
-            set { this.m_aggregateID = value; }
+            get => m_aggregateID;
+            set => m_aggregateID = value;
         }
 
         public Item()
@@ -23,7 +23,7 @@ namespace Opc.Hda
         {
             if (item != null)
             {
-                this.AggregateID = item.AggregateID;
+                AggregateID = item.AggregateID;
             }
         }
 

@@ -11,24 +11,15 @@ namespace Opc.Dx
         {
         }
 
-        public string Version
-        {
-            get { return this.m_version; }
-        }
+        public string Version => m_version;
 
-        public SourceServerCollection SourceServers
-        {
-            get { return this.m_sourceServers; }
-        }
+        public SourceServerCollection SourceServers => m_sourceServers;
 
-        public DXConnectionQueryCollection Queries
-        {
-            get { return this.m_connectionQueries; }
-        }
+        public DXConnectionQueryCollection Queries => m_connectionQueries;
 
         public SourceServer AddSourceServer(SourceServer server)
         {
-            GeneralResponse generalResponse = this.AddSourceServers(new SourceServer[]
+            GeneralResponse generalResponse = AddSourceServers(new SourceServer[]
             {
                 server
             });
@@ -52,7 +43,7 @@ namespace Opc.Dx
 
         public SourceServer ModifySourceServer(SourceServer server)
         {
-            GeneralResponse generalResponse = this.ModifySourceServers(new SourceServer[]
+            GeneralResponse generalResponse = ModifySourceServers(new SourceServer[]
             {
                 server
             });
@@ -76,7 +67,7 @@ namespace Opc.Dx
 
         public void DeleteSourceServer(SourceServer server)
         {
-            GeneralResponse generalResponse = this.DeleteSourceServers(new ItemIdentifier[]
+            GeneralResponse generalResponse = DeleteSourceServers(new ItemIdentifier[]
             {
                 server
             });
@@ -93,7 +84,7 @@ namespace Opc.Dx
 
         public DXConnection AddDXConnection(DXConnection connection)
         {
-            GeneralResponse generalResponse = this.AddDXConnections(new DXConnection[]
+            GeneralResponse generalResponse = AddDXConnections(new DXConnection[]
             {
                 connection
             });
@@ -117,7 +108,7 @@ namespace Opc.Dx
 
         public DXConnection ModifyDXConnection(DXConnection connection)
         {
-            GeneralResponse generalResponse = this.ModifyDXConnections(new DXConnection[]
+            GeneralResponse generalResponse = ModifyDXConnections(new DXConnection[]
             {
                 connection
             });
@@ -141,11 +132,10 @@ namespace Opc.Dx
 
         public void DeleteDXConnections(DXConnection connection)
         {
-            ResultID[] array = null;
-            GeneralResponse generalResponse = this.DeleteDXConnections(null, new DXConnection[]
+            GeneralResponse generalResponse = DeleteDXConnections(null, new DXConnection[]
             {
                 connection
-            }, true, out array);
+            }, true, out var array);
             if (array != null && array.Length > 0 && array[0].Failed())
             {
                 throw new ResultIDException(array[0]);
@@ -169,7 +159,7 @@ namespace Opc.Dx
             {
                 foreach (DXConnectionQuery value in array)
                 {
-                    this.m_connectionQueries.Add(value);
+                    m_connectionQueries.Add(value);
                 }
             }
         }
@@ -178,12 +168,12 @@ namespace Opc.Dx
         {
             base.GetObjectData(info, context);
             DXConnectionQuery[] array = null;
-            if (this.m_connectionQueries.Count > 0)
+            if (m_connectionQueries.Count > 0)
             {
-                array = new DXConnectionQuery[this.m_connectionQueries.Count];
+                array = new DXConnectionQuery[m_connectionQueries.Count];
                 for (int i = 0; i < array.Length; i++)
                 {
-                    array[i] = this.m_connectionQueries[i];
+                    array[i] = m_connectionQueries[i];
                 }
             }
 
@@ -192,28 +182,28 @@ namespace Opc.Dx
 
         public SourceServer[] GetSourceServers()
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            SourceServer[] sourceServers = ((IServer)this.m_server).GetSourceServers();
-            this.m_sourceServers.Initialize(sourceServers);
+            SourceServer[] sourceServers = ((IServer)m_server).GetSourceServers();
+            m_sourceServers.Initialize(sourceServers);
             return sourceServers;
         }
 
         public GeneralResponse AddSourceServers(SourceServer[] servers)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            GeneralResponse generalResponse = ((IServer)this.m_server).AddSourceServers(servers);
+            GeneralResponse generalResponse = ((IServer)m_server).AddSourceServers(servers);
             if (generalResponse != null)
             {
-                this.GetSourceServers();
-                this.m_version = generalResponse.Version;
+                GetSourceServers();
+                m_version = generalResponse.Version;
             }
 
             return generalResponse;
@@ -221,16 +211,16 @@ namespace Opc.Dx
 
         public GeneralResponse ModifySourceServers(SourceServer[] servers)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            GeneralResponse generalResponse = ((IServer)this.m_server).ModifySourceServers(servers);
+            GeneralResponse generalResponse = ((IServer)m_server).ModifySourceServers(servers);
             if (generalResponse != null)
             {
-                this.GetSourceServers();
-                this.m_version = generalResponse.Version;
+                GetSourceServers();
+                m_version = generalResponse.Version;
             }
 
             return generalResponse;
@@ -238,16 +228,16 @@ namespace Opc.Dx
 
         public GeneralResponse DeleteSourceServers(ItemIdentifier[] servers)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            GeneralResponse generalResponse = ((IServer)this.m_server).DeleteSourceServers(servers);
+            GeneralResponse generalResponse = ((IServer)m_server).DeleteSourceServers(servers);
             if (generalResponse != null)
             {
-                this.GetSourceServers();
-                this.m_version = generalResponse.Version;
+                GetSourceServers();
+                m_version = generalResponse.Version;
             }
 
             return generalResponse;
@@ -255,20 +245,20 @@ namespace Opc.Dx
 
         public GeneralResponse CopyDefaultSourceServerAttributes(bool configToStatus, ItemIdentifier[] servers)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            GeneralResponse generalResponse = ((IServer)this.m_server).CopyDefaultSourceServerAttributes(configToStatus, servers);
+            GeneralResponse generalResponse = ((IServer)m_server).CopyDefaultSourceServerAttributes(configToStatus, servers);
             if (generalResponse != null)
             {
                 if (!configToStatus)
                 {
-                    this.GetSourceServers();
+                    GetSourceServers();
                 }
 
-                this.m_version = generalResponse.Version;
+                m_version = generalResponse.Version;
             }
 
             return generalResponse;
@@ -276,25 +266,25 @@ namespace Opc.Dx
 
         public DXConnection[] QueryDXConnections(string browsePath, DXConnection[] connectionMasks, bool recursive, out ResultID[] errors)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            return ((IServer)this.m_server).QueryDXConnections(browsePath, connectionMasks, recursive, out errors);
+            return ((IServer)m_server).QueryDXConnections(browsePath, connectionMasks, recursive, out errors);
         }
 
         public GeneralResponse AddDXConnections(DXConnection[] connections)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            GeneralResponse generalResponse = ((IServer)this.m_server).AddDXConnections(connections);
+            GeneralResponse generalResponse = ((IServer)m_server).AddDXConnections(connections);
             if (generalResponse != null)
             {
-                this.m_version = generalResponse.Version;
+                m_version = generalResponse.Version;
             }
 
             return generalResponse;
@@ -302,15 +292,15 @@ namespace Opc.Dx
 
         public GeneralResponse ModifyDXConnections(DXConnection[] connections)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            GeneralResponse generalResponse = ((IServer)this.m_server).ModifyDXConnections(connections);
+            GeneralResponse generalResponse = ((IServer)m_server).ModifyDXConnections(connections);
             if (generalResponse != null)
             {
-                this.m_version = generalResponse.Version;
+                m_version = generalResponse.Version;
             }
 
             return generalResponse;
@@ -318,15 +308,15 @@ namespace Opc.Dx
 
         public GeneralResponse UpdateDXConnections(string browsePath, DXConnection[] connectionMasks, bool recursive, DXConnection connectionDefinition, out ResultID[] errors)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            GeneralResponse generalResponse = ((IServer)this.m_server).UpdateDXConnections(browsePath, connectionMasks, recursive, connectionDefinition, out errors);
+            GeneralResponse generalResponse = ((IServer)m_server).UpdateDXConnections(browsePath, connectionMasks, recursive, connectionDefinition, out errors);
             if (generalResponse != null)
             {
-                this.m_version = generalResponse.Version;
+                m_version = generalResponse.Version;
             }
 
             return generalResponse;
@@ -334,15 +324,15 @@ namespace Opc.Dx
 
         public GeneralResponse DeleteDXConnections(string browsePath, DXConnection[] connectionMasks, bool recursive, out ResultID[] errors)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            GeneralResponse generalResponse = ((IServer)this.m_server).DeleteDXConnections(browsePath, connectionMasks, recursive, out errors);
+            GeneralResponse generalResponse = ((IServer)m_server).DeleteDXConnections(browsePath, connectionMasks, recursive, out errors);
             if (generalResponse != null)
             {
-                this.m_version = generalResponse.Version;
+                m_version = generalResponse.Version;
             }
 
             return generalResponse;
@@ -350,15 +340,15 @@ namespace Opc.Dx
 
         public GeneralResponse CopyDXConnectionDefaultAttributes(bool configToStatus, string browsePath, DXConnection[] connectionMasks, bool recursive, out ResultID[] errors)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            GeneralResponse generalResponse = ((IServer)this.m_server).CopyDXConnectionDefaultAttributes(configToStatus, browsePath, connectionMasks, recursive, out errors);
+            GeneralResponse generalResponse = ((IServer)m_server).CopyDXConnectionDefaultAttributes(configToStatus, browsePath, connectionMasks, recursive, out errors);
             if (generalResponse != null)
             {
-                this.m_version = generalResponse.Version;
+                m_version = generalResponse.Version;
             }
 
             return generalResponse;
@@ -366,13 +356,13 @@ namespace Opc.Dx
 
         public string ResetConfiguration(string configurationVersion)
         {
-            if (this.m_server == null)
+            if (m_server == null)
             {
                 throw new NotConnectedException();
             }
 
-            this.m_version = ((IServer)this.m_server).ResetConfiguration((configurationVersion == null) ? this.m_version : configurationVersion);
-            return this.m_version;
+            m_version = ((IServer)m_server).ResetConfiguration((configurationVersion == null) ? m_version : configurationVersion);
+            return m_version;
         }
 
         private string m_version;

@@ -67,7 +67,7 @@ namespace OpcRcw
             {
                 if (localeId == 2048)
                 {
-                    dwLanguageId = Utils.GetSystemDefaultLangID();
+                    dwLanguageId = GetSystemDefaultLangID();
                 }
                 else
                 {
@@ -76,11 +76,11 @@ namespace OpcRcw
             }
             else
             {
-                dwLanguageId = Utils.GetUserDefaultLangID();
+                dwLanguageId = GetUserDefaultLangID();
             }
 
             IntPtr intPtr = Marshal.AllocCoTaskMem(1024);
-            int num = Utils.FormatMessageW(4096, IntPtr.Zero, error, dwLanguageId, intPtr, 1023, IntPtr.Zero);
+            int num = FormatMessageW(4096, IntPtr.Zero, error, dwLanguageId, intPtr, 1023, IntPtr.Zero);
             if (num > 0)
             {
                 string text = Marshal.PtrToStringUni(intPtr);
@@ -171,13 +171,13 @@ namespace OpcRcw
 
         public static List<Guid> EnumClassesInCategories(params Guid[] categories)
         {
-            Utils.ICatInformation catInformation = (Utils.ICatInformation)Utils.CreateLocalServer(Utils.CLSID_StdComponentCategoriesMgr);
+            ICatInformation catInformation = (ICatInformation)CreateLocalServer(CLSID_StdComponentCategoriesMgr);
             object obj = null;
             List<Guid> result;
             try
             {
                 catInformation.EnumClassesOfCategories(1, categories, 0, null, out obj);
-                Utils.IEnumGUID enumGUID = (Utils.IEnumGUID)obj;
+                IEnumGUID enumGUID = (IEnumGUID)obj;
                 List<Guid> list = new List<Guid>();
                 Guid[] array = new Guid[10];
                 for (;;)
@@ -214,8 +214,8 @@ namespace OpcRcw
             }
             finally
             {
-                Utils.ReleaseServer(obj);
-                Utils.ReleaseServer(catInformation);
+                ReleaseServer(obj);
+                ReleaseServer(catInformation);
             }
 
             return result;
@@ -252,19 +252,19 @@ namespace OpcRcw
 
         public static object CreateLocalServer(Guid clsid)
         {
-            Utils.COSERVERINFO coserverinfo = default(Utils.COSERVERINFO);
+            COSERVERINFO coserverinfo = default(COSERVERINFO);
             coserverinfo.pwszName = null;
             coserverinfo.pAuthInfo = IntPtr.Zero;
             coserverinfo.dwReserved1 = 0U;
             coserverinfo.dwReserved2 = 0U;
-            GCHandle gchandle = GCHandle.Alloc(Utils.IID_IUnknown, GCHandleType.Pinned);
-            Utils.MULTI_QI[] array = new Utils.MULTI_QI[1];
+            GCHandle gchandle = GCHandle.Alloc(IID_IUnknown, GCHandleType.Pinned);
+            MULTI_QI[] array = new MULTI_QI[1];
             array[0].iid = gchandle.AddrOfPinnedObject();
             array[0].pItf = null;
             array[0].hr = 0U;
             try
             {
-                Utils.CoCreateInstanceEx(ref clsid, null, 5U, ref coserverinfo, 1U, array);
+                CoCreateInstanceEx(ref clsid, null, 5U, ref coserverinfo, 1U, array);
             }
             finally
             {
@@ -281,10 +281,10 @@ namespace OpcRcw
 
         public static object CreateInstance(Guid clsid, string hostName, string username, string password, string domain)
         {
-            Utils.ServerInfo serverInfo = new Utils.ServerInfo();
-            Utils.COSERVERINFO coserverinfo = serverInfo.Allocate(hostName, username, password, domain);
-            GCHandle gchandle = GCHandle.Alloc(Utils.IID_IUnknown, GCHandleType.Pinned);
-            Utils.MULTI_QI[] array = new Utils.MULTI_QI[1];
+            ServerInfo serverInfo = new ServerInfo();
+            COSERVERINFO coserverinfo = serverInfo.Allocate(hostName, username, password, domain);
+            GCHandle gchandle = GCHandle.Alloc(IID_IUnknown, GCHandleType.Pinned);
+            MULTI_QI[] array = new MULTI_QI[1];
             array[0].iid = gchandle.AddrOfPinnedObject();
             array[0].pItf = null;
             array[0].hr = 0U;
@@ -296,7 +296,7 @@ namespace OpcRcw
                     dwClsCtx = 20U;
                 }
 
-                Utils.CoCreateInstanceEx(ref clsid, null, dwClsCtx, ref coserverinfo, 1U, array);
+                CoCreateInstanceEx(ref clsid, null, dwClsCtx, ref coserverinfo, 1U, array);
             }
             finally
             {
@@ -310,11 +310,11 @@ namespace OpcRcw
 
             if (array[0].hr != 0U)
             {
-                throw Utils.CreateComException(-2147467259, "Could not create COM server '{0}' on host '{1}'. Reason: {2}.", new object[]
+                throw CreateComException(-2147467259, "Could not create COM server '{0}' on host '{1}'. Reason: {2}.", new object[]
                 {
                     clsid,
                     hostName,
-                    Utils.GetSystemMessage((int)array[0].hr, 2048)
+                    GetSystemMessage((int)array[0].hr, 2048)
                 });
             }
 
@@ -331,39 +331,39 @@ namespace OpcRcw
 
         public static void RegisterClassInCategory(Guid clsid, Guid catid)
         {
-            Utils.RegisterClassInCategory(clsid, catid, null);
+            RegisterClassInCategory(clsid, catid, null);
         }
 
         public static void RegisterClassInCategory(Guid clsid, Guid catid, string description)
         {
-            Utils.ICatRegister catRegister = (Utils.ICatRegister)Utils.CreateLocalServer(Utils.CLSID_StdComponentCategoriesMgr);
+            ICatRegister catRegister = (ICatRegister)CreateLocalServer(CLSID_StdComponentCategoriesMgr);
             try
             {
                 string text = null;
                 try
                 {
-                    ((Utils.ICatInformation)catRegister).GetCategoryDesc(catid, 0, out text);
+                    ((ICatInformation)catRegister).GetCategoryDesc(catid, 0, out text);
                 }
                 catch (Exception innerException)
                 {
                     text = description;
                     if (string.IsNullOrEmpty(text))
                     {
-                        if (catid == Utils.CATID_OPCDAServer20)
+                        if (catid == CATID_OPCDAServer20)
                         {
                             text = "OPC Data Access Servers Version 2.0";
                         }
-                        else if (catid == Utils.CATID_OPCDAServer30)
+                        else if (catid == CATID_OPCDAServer30)
                         {
                             text = "OPC Data Access Servers Version 3.0";
                         }
-                        else if (catid == Utils.CATID_OPCAEServer10)
+                        else if (catid == CATID_OPCAEServer10)
                         {
                             text = "OPC Alarm & Event Server Version 1.0";
                         }
                         else
                         {
-                            if (!(catid == Utils.CATID_OPCHDAServer10))
+                            if (!(catid == CATID_OPCHDAServer10))
                             {
                                 throw new ApplicationException("No description for category available", innerException);
                             }
@@ -372,11 +372,11 @@ namespace OpcRcw
                         }
                     }
 
-                    Utils.CATEGORYINFO categoryinfo;
+                    CATEGORYINFO categoryinfo;
                     categoryinfo.catid = catid;
                     categoryinfo.lcid = 0;
                     categoryinfo.szDescription = text;
-                    catRegister.RegisterCategories(1, new Utils.CATEGORYINFO[]
+                    catRegister.RegisterCategories(1, new CATEGORYINFO[]
                     {
                         categoryinfo
                     });
@@ -389,7 +389,7 @@ namespace OpcRcw
             }
             finally
             {
-                Utils.ReleaseServer(catRegister);
+                ReleaseServer(catRegister);
             }
         }
 
@@ -405,7 +405,7 @@ namespace OpcRcw
                     {
                         try
                         {
-                            Utils.UnregisterClassInCategory(clsid, new Guid(text.Substring(1, text.Length - 2)));
+                            UnregisterClassInCategory(clsid, new Guid(text.Substring(1, text.Length - 2)));
                         }
                         catch (Exception)
                         {
@@ -447,7 +447,7 @@ namespace OpcRcw
 
         public static void UnregisterClassInCategory(Guid clsid, Guid catid)
         {
-            Utils.ICatRegister catRegister = (Utils.ICatRegister)Utils.CreateLocalServer(Utils.CLSID_StdComponentCategoriesMgr);
+            ICatRegister catRegister = (ICatRegister)CreateLocalServer(CLSID_StdComponentCategoriesMgr);
             try
             {
                 catRegister.UnRegisterClassImplCategories(clsid, 1, new Guid[]
@@ -457,18 +457,18 @@ namespace OpcRcw
             }
             finally
             {
-                Utils.ReleaseServer(catRegister);
+                ReleaseServer(catRegister);
             }
         }
 
         public static Exception CreateComException(Exception e)
         {
-            return Utils.CreateComException(e, 0, null, new object[0]);
+            return CreateComException(e, 0, null, new object[0]);
         }
 
         public static Exception CreateComException(int code, string message, params object[] args)
         {
-            return Utils.CreateComException(null, code, message, args);
+            return CreateComException(null, code, message, args);
         }
 
         public static Exception CreateComException(Exception e, int code, string message, params object[] args)
@@ -498,14 +498,14 @@ namespace OpcRcw
             }
             else
             {
-                message = Utils.GetSystemMessage(code, CultureInfo.CurrentUICulture.LCID);
+                message = GetSystemMessage(code, CultureInfo.CurrentUICulture.LCID);
             }
 
             return new COMException(message, code);
         }
 
         [DllImport("ole32.dll")]
-        private static extern void CoCreateInstanceEx(ref Guid clsid, [MarshalAs(UnmanagedType.IUnknown)] object punkOuter, uint dwClsCtx, [In] ref Utils.COSERVERINFO pServerInfo, uint dwCount, [In] [Out] Utils.MULTI_QI[] pResults);
+        private static extern void CoCreateInstanceEx(ref Guid clsid, [MarshalAs(UnmanagedType.IUnknown)] object punkOuter, uint dwClsCtx, [In] ref COSERVERINFO pServerInfo, uint dwCount, [In] [Out] MULTI_QI[] pResults);
 
         [DllImport("Kernel32.dll")]
         private static extern int FormatMessageW(int dwFlags, IntPtr lpSource, int dwMessageId, int dwLanguageId, IntPtr lpBuffer, int nSize, IntPtr Arguments);
@@ -526,7 +526,7 @@ namespace OpcRcw
         public static extern void VariantClear(IntPtr pVariant);
 
         [DllImport("ole32.dll")]
-        private static extern int CoInitializeSecurity(IntPtr pSecDesc, int cAuthSvc, Utils.SOLE_AUTHENTICATION_SERVICE[] asAuthSvc, IntPtr pReserved1, uint dwAuthnLevel, uint dwImpLevel, IntPtr pAuthList, uint dwCapabilities,
+        private static extern int CoInitializeSecurity(IntPtr pSecDesc, int cAuthSvc, SOLE_AUTHENTICATION_SERVICE[] asAuthSvc, IntPtr pReserved1, uint dwAuthnLevel, uint dwImpLevel, IntPtr pAuthList, uint dwCapabilities,
             IntPtr pReserved3);
 
         [DllImport("ole32.dll")]
@@ -537,7 +537,7 @@ namespace OpcRcw
         private static extern int CoSetProxyBlanket([MarshalAs(UnmanagedType.IUnknown)] object pProxy, uint pAuthnSvc, uint pAuthzSvc, IntPtr pServerPrincName, uint pAuthnLevel, uint pImpLevel, IntPtr pAuthInfo, uint pCapabilities);
 
         [DllImport("ole32.dll")]
-        private static extern void CoGetClassObject([MarshalAs(UnmanagedType.LPStruct)] Guid clsid, uint dwClsContext, [In] ref Utils.COSERVERINFO pServerInfo, [MarshalAs(UnmanagedType.LPStruct)] Guid riid,
+        private static extern void CoGetClassObject([MarshalAs(UnmanagedType.LPStruct)] Guid clsid, uint dwClsContext, [In] ref COSERVERINFO pServerInfo, [MarshalAs(UnmanagedType.LPStruct)] Guid riid,
             [MarshalAs(UnmanagedType.IUnknown)] out object ppv);
 
         [DllImport("advapi32.dll", SetLastError = true)]
@@ -695,9 +695,9 @@ namespace OpcRcw
 
         private class ServerInfo
         {
-            public Utils.COSERVERINFO Allocate(string hostName, string username, string password, string domain)
+            public COSERVERINFO Allocate(string hostName, string username, string password, string domain)
             {
-                Utils.COSERVERINFO result = default(Utils.COSERVERINFO);
+                COSERVERINFO result = default(COSERVERINFO);
                 result.pwszName = hostName;
                 result.pAuthInfo = IntPtr.Zero;
                 result.dwReserved1 = 0U;
@@ -707,59 +707,59 @@ namespace OpcRcw
                     return result;
                 }
 
-                this.m_hUserName = GCHandle.Alloc(username, GCHandleType.Pinned);
-                this.m_hPassword = GCHandle.Alloc(password, GCHandleType.Pinned);
-                this.m_hDomain = GCHandle.Alloc(domain, GCHandleType.Pinned);
-                this.m_hIdentity = default(GCHandle);
-                this.m_hIdentity = GCHandle.Alloc(new Utils.COAUTHIDENTITY
+                m_hUserName = GCHandle.Alloc(username, GCHandleType.Pinned);
+                m_hPassword = GCHandle.Alloc(password, GCHandleType.Pinned);
+                m_hDomain = GCHandle.Alloc(domain, GCHandleType.Pinned);
+                m_hIdentity = default(GCHandle);
+                m_hIdentity = GCHandle.Alloc(new COAUTHIDENTITY
                 {
-                    User = this.m_hUserName.AddrOfPinnedObject(),
+                    User = m_hUserName.AddrOfPinnedObject(),
                     UserLength = (uint)((username != null) ? username.Length : 0),
-                    Password = this.m_hPassword.AddrOfPinnedObject(),
+                    Password = m_hPassword.AddrOfPinnedObject(),
                     PasswordLength = (uint)((password != null) ? password.Length : 0),
-                    Domain = this.m_hDomain.AddrOfPinnedObject(),
+                    Domain = m_hDomain.AddrOfPinnedObject(),
                     DomainLength = (uint)((domain != null) ? domain.Length : 0),
                     Flags = 2U
                 }, GCHandleType.Pinned);
-                this.m_hAuthInfo = GCHandle.Alloc(new Utils.COAUTHINFO
+                m_hAuthInfo = GCHandle.Alloc(new COAUTHINFO
                 {
                     dwAuthnSvc = 10U,
                     dwAuthzSvc = 0U,
                     pwszServerPrincName = IntPtr.Zero,
                     dwAuthnLevel = 2U,
                     dwImpersonationLevel = 3U,
-                    pAuthIdentityData = this.m_hIdentity.AddrOfPinnedObject(),
+                    pAuthIdentityData = m_hIdentity.AddrOfPinnedObject(),
                     dwCapabilities = 0U
                 }, GCHandleType.Pinned);
-                result.pAuthInfo = this.m_hAuthInfo.AddrOfPinnedObject();
+                result.pAuthInfo = m_hAuthInfo.AddrOfPinnedObject();
                 return result;
             }
 
             public void Deallocate()
             {
-                if (this.m_hUserName.IsAllocated)
+                if (m_hUserName.IsAllocated)
                 {
-                    this.m_hUserName.Free();
+                    m_hUserName.Free();
                 }
 
-                if (this.m_hPassword.IsAllocated)
+                if (m_hPassword.IsAllocated)
                 {
-                    this.m_hPassword.Free();
+                    m_hPassword.Free();
                 }
 
-                if (this.m_hDomain.IsAllocated)
+                if (m_hDomain.IsAllocated)
                 {
-                    this.m_hDomain.Free();
+                    m_hDomain.Free();
                 }
 
-                if (this.m_hIdentity.IsAllocated)
+                if (m_hIdentity.IsAllocated)
                 {
-                    this.m_hIdentity.Free();
+                    m_hIdentity.Free();
                 }
 
-                if (this.m_hAuthInfo.IsAllocated)
+                if (m_hAuthInfo.IsAllocated)
                 {
-                    this.m_hAuthInfo.Free();
+                    m_hAuthInfo.Free();
                 }
             }
 
@@ -796,7 +796,7 @@ namespace OpcRcw
 
             void Reset();
 
-            void Clone(out Utils.IEnumGUID ppenum);
+            void Clone(out IEnumGUID ppenum);
         }
 
         [Guid("0002E013-0000-0000-C000-000000000046")]
@@ -835,7 +835,7 @@ namespace OpcRcw
         [ComImport]
         private interface ICatRegister
         {
-            void RegisterCategories(int cCategories, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStruct, SizeParamIndex = 0)] Utils.CATEGORYINFO[] rgCategoryInfo);
+            void RegisterCategories(int cCategories, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStruct, SizeParamIndex = 0)] CATEGORYINFO[] rgCategoryInfo);
 
             void UnRegisterCategories(int cCategories, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStruct, SizeParamIndex = 0)] Guid[] rgcatid);
 
@@ -954,7 +954,7 @@ namespace OpcRcw
 
             void LockServer([MarshalAs(UnmanagedType.Bool)] bool fLock);
 
-            void GetLicInfo([In] [Out] ref Utils.LICINFO pLicInfo);
+            void GetLicInfo([In] [Out] ref LICINFO pLicInfo);
 
             void RequestLicKey(int dwReserved, [MarshalAs(UnmanagedType.BStr)] string pbstrKey);
 

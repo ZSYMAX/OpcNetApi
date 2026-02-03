@@ -7,26 +7,23 @@ namespace Opc.Dx
     {
         public string Name
         {
-            get { return this.m_name; }
-            set { this.m_name = value; }
+            get => m_name;
+            set => m_name = value;
         }
 
         public string BrowsePath
         {
-            get { return this.m_browsePath; }
-            set { this.m_browsePath = value; }
+            get => m_browsePath;
+            set => m_browsePath = value;
         }
 
         public bool Recursive
         {
-            get { return this.m_recursive; }
-            set { this.m_recursive = value; }
+            get => m_recursive;
+            set => m_recursive = value;
         }
 
-        public DXConnectionCollection Masks
-        {
-            get { return this.m_masks; }
-        }
+        public DXConnectionCollection Masks => m_masks;
 
         public DXConnection[] Query(Server server, out ResultID[] errors)
         {
@@ -35,7 +32,7 @@ namespace Opc.Dx
                 throw new ArgumentNullException("server");
             }
 
-            return server.QueryDXConnections(this.BrowsePath, this.Masks.ToArray(), this.Recursive, out errors);
+            return server.QueryDXConnections(BrowsePath, Masks.ToArray(), Recursive, out errors);
         }
 
         public GeneralResponse Update(Server server, DXConnection connectionDefinition, out ResultID[] errors)
@@ -45,7 +42,7 @@ namespace Opc.Dx
                 throw new ArgumentNullException("server");
             }
 
-            return server.UpdateDXConnections(this.BrowsePath, this.Masks.ToArray(), this.Recursive, connectionDefinition, out errors);
+            return server.UpdateDXConnections(BrowsePath, Masks.ToArray(), Recursive, connectionDefinition, out errors);
         }
 
         public GeneralResponse Delete(Server server, out ResultID[] errors)
@@ -55,7 +52,7 @@ namespace Opc.Dx
                 throw new ArgumentNullException("server");
             }
 
-            return server.DeleteDXConnections(this.BrowsePath, this.Masks.ToArray(), this.Recursive, out errors);
+            return server.DeleteDXConnections(BrowsePath, Masks.ToArray(), Recursive, out errors);
         }
 
         public GeneralResponse CopyDefaultAttributes(Server server, bool configToStatus, out ResultID[] errors)
@@ -65,7 +62,7 @@ namespace Opc.Dx
                 throw new ArgumentNullException("server");
             }
 
-            return server.CopyDXConnectionDefaultAttributes(configToStatus, this.BrowsePath, this.Masks.ToArray(), this.Recursive, out errors);
+            return server.CopyDXConnectionDefaultAttributes(configToStatus, BrowsePath, Masks.ToArray(), Recursive, out errors);
         }
 
         public DXConnectionQuery()
@@ -76,10 +73,10 @@ namespace Opc.Dx
         {
             if (query != null)
             {
-                this.Name = query.Name;
-                this.BrowsePath = query.BrowsePath;
-                this.Recursive = query.Recursive;
-                this.m_masks = new DXConnectionCollection(query.Masks);
+                Name = query.Name;
+                BrowsePath = query.BrowsePath;
+                Recursive = query.Recursive;
+                m_masks = new DXConnectionCollection(query.Masks);
             }
         }
 

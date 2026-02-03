@@ -9,47 +9,47 @@ namespace Opc
     {
         public string Scheme
         {
-            get { return this.m_scheme; }
-            set { this.m_scheme = value; }
+            get => m_scheme;
+            set => m_scheme = value;
         }
 
         public string HostName
         {
-            get { return this.m_hostName; }
-            set { this.m_hostName = value; }
+            get => m_hostName;
+            set => m_hostName = value;
         }
 
         public int Port
         {
-            get { return this.m_port; }
-            set { this.m_port = value; }
+            get => m_port;
+            set => m_port = value;
         }
 
         public string Path
         {
-            get { return this.m_path; }
-            set { this.m_path = value; }
+            get => m_path;
+            set => m_path = value;
         }
 
         public URL()
         {
-            this.Scheme = "http";
-            this.HostName = "localhost";
-            this.Port = 0;
-            this.Path = null;
+            Scheme = "http";
+            HostName = "localhost";
+            Port = 0;
+            Path = null;
         }
 
         public URL(string url)
         {
-            this.Scheme = "http";
-            this.HostName = "localhost";
-            this.Port = 0;
-            this.Path = null;
+            Scheme = "http";
+            HostName = "localhost";
+            Port = 0;
+            Path = null;
             string text = url;
             int num = text.IndexOf("://");
             if (num >= 0)
             {
-                this.Scheme = text.Substring(0, num);
+                Scheme = text.Substring(0, num);
                 text = text.Substring(num + 3);
             }
 
@@ -59,7 +59,7 @@ namespace Opc
             });
             if (num < 0)
             {
-                this.Path = text;
+                Path = text;
                 return;
             }
 
@@ -78,7 +78,7 @@ namespace Opc
             {
                 if (text2.Contains("]"))
                 {
-                    this.HostName = text2.Substring(0, text2.IndexOf("]") + 1);
+                    HostName = text2.Substring(0, text2.IndexOf("]") + 1);
                     if (text2.Substring(text2.IndexOf(']')).Contains(":"))
                     {
                         string text3 = text2.Substring(text2.LastIndexOf(':') + 1);
@@ -86,33 +86,33 @@ namespace Opc
                         {
                             try
                             {
-                                this.Port = (int)System.Convert.ToUInt16(text3);
+                                Port = (int)System.Convert.ToUInt16(text3);
                                 goto IL_12E;
                             }
                             catch
                             {
-                                this.Port = 0;
+                                Port = 0;
                                 goto IL_12E;
                             }
                         }
 
-                        this.Port = 0;
+                        Port = 0;
                     }
                     else
                     {
-                        this.Port = 0;
+                        Port = 0;
                     }
 
                     IL_12E:
-                    this.Path = text.Substring(num + 1);
+                    Path = text.Substring(num + 1);
                 }
                 else
                 {
-                    this.HostName = "[" + text2 + "]";
-                    this.Port = 0;
+                    HostName = "[" + text2 + "]";
+                    Port = 0;
                 }
 
-                this.Path = text.Substring(num + 1);
+                Path = text.Substring(num + 1);
                 return;
             }
 
@@ -123,11 +123,11 @@ namespace Opc
             });
             if (num < 0)
             {
-                this.Path = text;
+                Path = text;
                 return;
             }
 
-            this.HostName = text.Substring(0, num);
+            HostName = text.Substring(0, num);
             if (text[num] == ':')
             {
                 text = text.Substring(num + 1);
@@ -146,40 +146,40 @@ namespace Opc
 
                 try
                 {
-                    this.Port = (int)System.Convert.ToUInt16(value);
+                    Port = (int)System.Convert.ToUInt16(value);
                     goto IL_20D;
                 }
                 catch
                 {
-                    this.Port = 0;
+                    Port = 0;
                     goto IL_20D;
                 }
             }
 
             text = text.Substring(num + 1);
             IL_20D:
-            this.Path = text;
+            Path = text;
         }
 
         public override string ToString()
         {
-            string text = (this.HostName == null || this.HostName == "") ? "localhost" : this.HostName;
-            if (this.Port > 0)
+            string text = (HostName == null || HostName == "") ? "localhost" : HostName;
+            if (Port > 0)
             {
                 return string.Format("{0}://{1}:{2}/{3}", new object[]
                 {
-                    this.Scheme,
+                    Scheme,
                     text,
-                    this.Port,
-                    this.Path
+                    Port,
+                    Path
                 });
             }
 
             return string.Format("{0}://{1}/{2}", new object[]
             {
-                this.Scheme,
+                Scheme,
                 text,
-                this.Path
+                Path
             });
         }
 
@@ -196,17 +196,17 @@ namespace Opc
                 url = new URL((string)target);
             }
 
-            return url != null && !(url.Path != this.Path) && !(url.Scheme != this.Scheme) && !(url.HostName != this.HostName) && url.Port == this.Port;
+            return url != null && !(url.Path != Path) && !(url.Scheme != Scheme) && !(url.HostName != HostName) && url.Port == Port;
         }
 
         public override int GetHashCode()
         {
-            return this.ToString().GetHashCode();
+            return ToString().GetHashCode();
         }
 
         public virtual object Clone()
         {
-            return base.MemberwiseClone();
+            return MemberwiseClone();
         }
 
         private string m_scheme;

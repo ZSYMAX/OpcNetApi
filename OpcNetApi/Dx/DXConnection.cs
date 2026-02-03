@@ -7,157 +7,154 @@ namespace Opc.Dx
     {
         public string Name
         {
-            get { return this.m_name; }
-            set { this.m_name = value; }
+            get => m_name;
+            set => m_name = value;
         }
 
-        public BrowsePathCollection BrowsePaths
-        {
-            get { return this.m_browsePaths; }
-        }
+        public BrowsePathCollection BrowsePaths => m_browsePaths;
 
         public string Description
         {
-            get { return this.m_description; }
-            set { this.m_description = value; }
+            get => m_description;
+            set => m_description = value;
         }
 
         public string Keyword
         {
-            get { return this.m_keyword; }
-            set { this.m_keyword = value; }
+            get => m_keyword;
+            set => m_keyword = value;
         }
 
         public bool DefaultSourceItemConnected
         {
-            get { return this.m_defaultSourceItemConnected; }
-            set { this.m_defaultSourceItemConnected = value; }
+            get => m_defaultSourceItemConnected;
+            set => m_defaultSourceItemConnected = value;
         }
 
         public bool DefaultSourceItemConnectedSpecified
         {
-            get { return this.m_defaultSourceItemConnectedSpecified; }
-            set { this.m_defaultSourceItemConnectedSpecified = value; }
+            get => m_defaultSourceItemConnectedSpecified;
+            set => m_defaultSourceItemConnectedSpecified = value;
         }
 
         public bool DefaultTargetItemConnected
         {
-            get { return this.m_defaultTargetItemConnected; }
-            set { this.m_defaultTargetItemConnected = value; }
+            get => m_defaultTargetItemConnected;
+            set => m_defaultTargetItemConnected = value;
         }
 
         public bool DefaultTargetItemConnectedSpecified
         {
-            get { return this.m_defaultTargetItemConnectedSpecified; }
-            set { this.m_defaultTargetItemConnectedSpecified = value; }
+            get => m_defaultTargetItemConnectedSpecified;
+            set => m_defaultTargetItemConnectedSpecified = value;
         }
 
         public bool DefaultOverridden
         {
-            get { return this.m_defaultOverridden; }
-            set { this.m_defaultOverridden = value; }
+            get => m_defaultOverridden;
+            set => m_defaultOverridden = value;
         }
 
         public bool DefaultOverriddenSpecified
         {
-            get { return this.m_defaultOverriddenSpecified; }
-            set { this.m_defaultOverriddenSpecified = value; }
+            get => m_defaultOverriddenSpecified;
+            set => m_defaultOverriddenSpecified = value;
         }
 
         public object DefaultOverrideValue
         {
-            get { return this.m_defaultOverrideValue; }
-            set { this.m_defaultOverrideValue = value; }
+            get => m_defaultOverrideValue;
+            set => m_defaultOverrideValue = value;
         }
 
         public bool EnableSubstituteValue
         {
-            get { return this.m_enableSubstituteValue; }
-            set { this.m_enableSubstituteValue = value; }
+            get => m_enableSubstituteValue;
+            set => m_enableSubstituteValue = value;
         }
 
         public bool EnableSubstituteValueSpecified
         {
-            get { return this.m_enableSubstituteValueSpecified; }
-            set { this.m_enableSubstituteValueSpecified = value; }
+            get => m_enableSubstituteValueSpecified;
+            set => m_enableSubstituteValueSpecified = value;
         }
 
         public object SubstituteValue
         {
-            get { return this.m_substituteValue; }
-            set { this.m_substituteValue = value; }
+            get => m_substituteValue;
+            set => m_substituteValue = value;
         }
 
         public string TargetItemName
         {
-            get { return this.m_targetItemName; }
-            set { this.m_targetItemName = value; }
+            get => m_targetItemName;
+            set => m_targetItemName = value;
         }
 
         public string TargetItemPath
         {
-            get { return this.m_targetItemPath; }
-            set { this.m_targetItemPath = value; }
+            get => m_targetItemPath;
+            set => m_targetItemPath = value;
         }
 
         public string SourceServerName
         {
-            get { return this.m_sourceServerName; }
-            set { this.m_sourceServerName = value; }
+            get => m_sourceServerName;
+            set => m_sourceServerName = value;
         }
 
         public string SourceItemName
         {
-            get { return this.m_sourceItemName; }
-            set { this.m_sourceItemName = value; }
+            get => m_sourceItemName;
+            set => m_sourceItemName = value;
         }
 
         public string SourceItemPath
         {
-            get { return this.m_sourceItemPath; }
-            set { this.m_sourceItemPath = value; }
+            get => m_sourceItemPath;
+            set => m_sourceItemPath = value;
         }
 
         public int SourceItemQueueSize
         {
-            get { return this.m_sourceItemQueueSize; }
-            set { this.m_sourceItemQueueSize = value; }
+            get => m_sourceItemQueueSize;
+            set => m_sourceItemQueueSize = value;
         }
 
         public bool SourceItemQueueSizeSpecified
         {
-            get { return this.m_sourceItemQueueSizeSpecified; }
-            set { this.m_sourceItemQueueSizeSpecified = value; }
+            get => m_sourceItemQueueSizeSpecified;
+            set => m_sourceItemQueueSizeSpecified = value;
         }
 
         public int UpdateRate
         {
-            get { return this.m_updateRate; }
-            set { this.m_updateRate = value; }
+            get => m_updateRate;
+            set => m_updateRate = value;
         }
 
         public bool UpdateRateSpecified
         {
-            get { return this.m_updateRateSpecified; }
-            set { this.m_updateRateSpecified = value; }
+            get => m_updateRateSpecified;
+            set => m_updateRateSpecified = value;
         }
 
         public float Deadband
         {
-            get { return this.m_deadband; }
-            set { this.m_deadband = value; }
+            get => m_deadband;
+            set => m_deadband = value;
         }
 
         public bool DeadbandSpecified
         {
-            get { return this.m_deadbandSpecified; }
-            set { this.m_deadbandSpecified = value; }
+            get => m_deadbandSpecified;
+            set => m_deadbandSpecified = value;
         }
 
         public string VendorData
         {
-            get { return this.m_vendorData; }
-            set { this.m_vendorData = value; }
+            get => m_vendorData;
+            set => m_vendorData = value;
         }
 
         public DXConnection()
@@ -172,32 +169,32 @@ namespace Opc.Dx
         {
             if (connection != null)
             {
-                this.BrowsePaths.AddRange(connection.BrowsePaths);
-                this.Name = connection.Name;
-                this.Description = connection.Description;
-                this.Keyword = connection.Keyword;
-                this.DefaultSourceItemConnected = connection.DefaultSourceItemConnected;
-                this.DefaultSourceItemConnectedSpecified = connection.DefaultSourceItemConnectedSpecified;
-                this.DefaultTargetItemConnected = connection.DefaultTargetItemConnected;
-                this.DefaultTargetItemConnectedSpecified = connection.DefaultTargetItemConnectedSpecified;
-                this.DefaultOverridden = connection.DefaultOverridden;
-                this.DefaultOverriddenSpecified = connection.DefaultOverriddenSpecified;
-                this.DefaultOverrideValue = connection.DefaultOverrideValue;
-                this.EnableSubstituteValue = connection.EnableSubstituteValue;
-                this.EnableSubstituteValueSpecified = connection.EnableSubstituteValueSpecified;
-                this.SubstituteValue = connection.SubstituteValue;
-                this.TargetItemName = connection.TargetItemName;
-                this.TargetItemPath = connection.TargetItemPath;
-                this.SourceServerName = connection.SourceServerName;
-                this.SourceItemName = connection.SourceItemName;
-                this.SourceItemPath = connection.SourceItemPath;
-                this.SourceItemQueueSize = connection.SourceItemQueueSize;
-                this.SourceItemQueueSizeSpecified = connection.SourceItemQueueSizeSpecified;
-                this.UpdateRate = connection.UpdateRate;
-                this.UpdateRateSpecified = connection.UpdateRateSpecified;
-                this.Deadband = connection.Deadband;
-                this.DeadbandSpecified = connection.DeadbandSpecified;
-                this.VendorData = connection.VendorData;
+                BrowsePaths.AddRange(connection.BrowsePaths);
+                Name = connection.Name;
+                Description = connection.Description;
+                Keyword = connection.Keyword;
+                DefaultSourceItemConnected = connection.DefaultSourceItemConnected;
+                DefaultSourceItemConnectedSpecified = connection.DefaultSourceItemConnectedSpecified;
+                DefaultTargetItemConnected = connection.DefaultTargetItemConnected;
+                DefaultTargetItemConnectedSpecified = connection.DefaultTargetItemConnectedSpecified;
+                DefaultOverridden = connection.DefaultOverridden;
+                DefaultOverriddenSpecified = connection.DefaultOverriddenSpecified;
+                DefaultOverrideValue = connection.DefaultOverrideValue;
+                EnableSubstituteValue = connection.EnableSubstituteValue;
+                EnableSubstituteValueSpecified = connection.EnableSubstituteValueSpecified;
+                SubstituteValue = connection.SubstituteValue;
+                TargetItemName = connection.TargetItemName;
+                TargetItemPath = connection.TargetItemPath;
+                SourceServerName = connection.SourceServerName;
+                SourceItemName = connection.SourceItemName;
+                SourceItemPath = connection.SourceItemPath;
+                SourceItemQueueSize = connection.SourceItemQueueSize;
+                SourceItemQueueSizeSpecified = connection.SourceItemQueueSizeSpecified;
+                UpdateRate = connection.UpdateRate;
+                UpdateRateSpecified = connection.UpdateRateSpecified;
+                Deadband = connection.Deadband;
+                DeadbandSpecified = connection.DeadbandSpecified;
+                VendorData = connection.VendorData;
             }
         }
 

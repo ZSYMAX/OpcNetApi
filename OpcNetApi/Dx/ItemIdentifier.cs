@@ -7,8 +7,8 @@ namespace Opc.Dx
     {
         public string Version
         {
-            get { return this.m_version; }
-            set { this.m_version = value; }
+            get => m_version;
+            set => m_version = value;
         }
 
         public ItemIdentifier()
@@ -31,7 +31,7 @@ namespace Opc.Dx
         {
             if (item != null)
             {
-                this.m_version = item.m_version;
+                m_version = item.m_version;
             }
         }
 
@@ -40,7 +40,7 @@ namespace Opc.Dx
             if (typeof(ItemIdentifier).IsInstanceOfType(target))
             {
                 ItemIdentifier itemIdentifier = (ItemIdentifier)target;
-                return itemIdentifier.ItemName == base.ItemName && itemIdentifier.ItemPath == base.ItemPath && itemIdentifier.Version == this.Version;
+                return itemIdentifier.ItemName == ItemName && itemIdentifier.ItemPath == ItemPath && itemIdentifier.Version == Version;
             }
 
             return false;

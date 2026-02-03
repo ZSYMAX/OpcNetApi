@@ -8,20 +8,20 @@ namespace Opc.Da
     {
         public string ItemName
         {
-            get { return this.m_itemName; }
-            set { this.m_itemName = value; }
+            get => m_itemName;
+            set => m_itemName = value;
         }
 
         public string ItemPath
         {
-            get { return this.m_itemPath; }
-            set { this.m_itemPath = value; }
+            get => m_itemPath;
+            set => m_itemPath = value;
         }
 
         public ItemProperty this[int index]
         {
-            get { return (ItemProperty)base[index]; }
-            set { base[index] = value; }
+            get => (ItemProperty)base[index];
+            set => base[index] = value;
         }
 
         public ItemPropertyCollection()
@@ -32,8 +32,8 @@ namespace Opc.Da
         {
             if (itemID != null)
             {
-                this.m_itemName = itemID.ItemName;
-                this.m_itemPath = itemID.ItemPath;
+                m_itemName = itemID.ItemName;
+                m_itemPath = itemID.ItemPath;
             }
         }
 
@@ -41,53 +41,53 @@ namespace Opc.Da
         {
             if (itemID != null)
             {
-                this.m_itemName = itemID.ItemName;
-                this.m_itemPath = itemID.ItemPath;
+                m_itemName = itemID.ItemName;
+                m_itemPath = itemID.ItemPath;
             }
 
-            this.ResultID = resultID;
+            ResultID = resultID;
         }
 
         public ResultID ResultID
         {
-            get { return this.m_resultID; }
-            set { this.m_resultID = value; }
+            get => m_resultID;
+            set => m_resultID = value;
         }
 
         public string DiagnosticInfo
         {
-            get { return this.m_diagnosticInfo; }
-            set { this.m_diagnosticInfo = value; }
+            get => m_diagnosticInfo;
+            set => m_diagnosticInfo = value;
         }
 
         public void CopyTo(ItemProperty[] array, int index)
         {
-            this.CopyTo(array, index);
+            CopyTo(array, index);
         }
 
         public void Insert(int index, ItemProperty value)
         {
-            this.Insert(index, value);
+            Insert(index, value);
         }
 
         public void Remove(ItemProperty value)
         {
-            this.Remove(value);
+            Remove(value);
         }
 
         public bool Contains(ItemProperty value)
         {
-            return this.Contains(value);
+            return Contains(value);
         }
 
         public int IndexOf(ItemProperty value)
         {
-            return this.IndexOf(value);
+            return IndexOf(value);
         }
 
         public int Add(ItemProperty value)
         {
-            return this.Add(value);
+            return Add(value);
         }
 
         private string m_itemName;

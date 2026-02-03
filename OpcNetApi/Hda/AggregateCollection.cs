@@ -12,18 +12,18 @@ namespace Opc.Hda
 
         public AggregateCollection(ICollection collection)
         {
-            this.Init(collection);
+            Init(collection);
         }
 
         public Aggregate this[int index]
         {
-            get { return this.m_aggregates[index]; }
-            set { this.m_aggregates[index] = value; }
+            get => m_aggregates[index];
+            set => m_aggregates[index] = value;
         }
 
         public Aggregate Find(int id)
         {
-            foreach (Aggregate aggregate in this.m_aggregates)
+            foreach (Aggregate aggregate in m_aggregates)
             {
                 if (aggregate.ID == id)
                 {
@@ -36,7 +36,7 @@ namespace Opc.Hda
 
         public void Init(ICollection collection)
         {
-            this.Clear();
+            Clear();
             if (collection != null)
             {
                 ArrayList arrayList = new ArrayList(collection.Count);
@@ -48,13 +48,13 @@ namespace Opc.Hda
                     }
                 }
 
-                this.m_aggregates = (Aggregate[])arrayList.ToArray(typeof(Aggregate));
+                m_aggregates = (Aggregate[])arrayList.ToArray(typeof(Aggregate));
             }
         }
 
         public void Clear()
         {
-            this.m_aggregates = new Aggregate[0];
+            m_aggregates = new Aggregate[0];
         }
 
         public virtual object Clone()
@@ -62,45 +62,39 @@ namespace Opc.Hda
             return new AggregateCollection(this);
         }
 
-        public bool IsSynchronized
-        {
-            get { return false; }
-        }
+        public bool IsSynchronized => false;
 
         public int Count
         {
             get
             {
-                if (this.m_aggregates == null)
+                if (m_aggregates == null)
                 {
                     return 0;
                 }
 
-                return this.m_aggregates.Length;
+                return m_aggregates.Length;
             }
         }
 
         public void CopyTo(Array array, int index)
         {
-            if (this.m_aggregates != null)
+            if (m_aggregates != null)
             {
-                this.m_aggregates.CopyTo(array, index);
+                m_aggregates.CopyTo(array, index);
             }
         }
 
         public void CopyTo(Aggregate[] array, int index)
         {
-            this.CopyTo(array, index);
+            CopyTo(array, index);
         }
 
-        public object SyncRoot
-        {
-            get { return this; }
-        }
+        public object SyncRoot => this;
 
         public IEnumerator GetEnumerator()
         {
-            return this.m_aggregates.GetEnumerator();
+            return m_aggregates.GetEnumerator();
         }
 
         private Aggregate[] m_aggregates = new Aggregate[0];

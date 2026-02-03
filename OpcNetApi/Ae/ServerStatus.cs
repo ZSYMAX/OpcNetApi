@@ -7,49 +7,49 @@ namespace Opc.Ae
     {
         public string VendorInfo
         {
-            get { return this.m_vendorInfo; }
-            set { this.m_vendorInfo = value; }
+            get => m_vendorInfo;
+            set => m_vendorInfo = value;
         }
 
         public string ProductVersion
         {
-            get { return this.m_productVersion; }
-            set { this.m_productVersion = value; }
+            get => m_productVersion;
+            set => m_productVersion = value;
         }
 
         public ServerState ServerState
         {
-            get { return this.m_serverState; }
-            set { this.m_serverState = value; }
+            get => m_serverState;
+            set => m_serverState = value;
         }
 
         public string StatusInfo
         {
-            get { return this.m_statusInfo; }
-            set { this.m_statusInfo = value; }
+            get => m_statusInfo;
+            set => m_statusInfo = value;
         }
 
         public DateTime StartTime
         {
-            get { return this.m_startTime; }
-            set { this.m_startTime = value; }
+            get => m_startTime;
+            set => m_startTime = value;
         }
 
         public DateTime CurrentTime
         {
-            get { return this.m_currentTime; }
-            set { this.m_currentTime = value; }
+            get => m_currentTime;
+            set => m_currentTime = value;
         }
 
         public DateTime LastUpdateTime
         {
-            get { return this.m_lastUpdateTime; }
-            set { this.m_lastUpdateTime = value; }
+            get => m_lastUpdateTime;
+            set => m_lastUpdateTime = value;
         }
 
         public virtual object Clone()
         {
-            return base.MemberwiseClone();
+            return MemberwiseClone();
         }
 
         private string m_vendorInfo;

@@ -7,50 +7,50 @@ namespace Opc.Da
     {
         public int MaxElementsReturned
         {
-            get { return this.m_maxElementsReturned; }
-            set { this.m_maxElementsReturned = value; }
+            get => m_maxElementsReturned;
+            set => m_maxElementsReturned = value;
         }
 
         public browseFilter BrowseFilter
         {
-            get { return this.m_browseFilter; }
-            set { this.m_browseFilter = value; }
+            get => m_browseFilter;
+            set => m_browseFilter = value;
         }
 
         public string ElementNameFilter
         {
-            get { return this.m_elementNameFilter; }
-            set { this.m_elementNameFilter = value; }
+            get => m_elementNameFilter;
+            set => m_elementNameFilter = value;
         }
 
         public string VendorFilter
         {
-            get { return this.m_vendorFilter; }
-            set { this.m_vendorFilter = value; }
+            get => m_vendorFilter;
+            set => m_vendorFilter = value;
         }
 
         public bool ReturnAllProperties
         {
-            get { return this.m_returnAllProperties; }
-            set { this.m_returnAllProperties = value; }
+            get => m_returnAllProperties;
+            set => m_returnAllProperties = value;
         }
 
         public PropertyID[] PropertyIDs
         {
-            get { return this.m_propertyIDs; }
-            set { this.m_propertyIDs = value; }
+            get => m_propertyIDs;
+            set => m_propertyIDs = value;
         }
 
         public bool ReturnPropertyValues
         {
-            get { return this.m_returnPropertyValues; }
-            set { this.m_returnPropertyValues = value; }
+            get => m_returnPropertyValues;
+            set => m_returnPropertyValues = value;
         }
 
         public virtual object Clone()
         {
-            BrowseFilters browseFilters = (BrowseFilters)base.MemberwiseClone();
-            browseFilters.PropertyIDs = (PropertyID[])((this.PropertyIDs != null) ? this.PropertyIDs.Clone() : null);
+            BrowseFilters browseFilters = (BrowseFilters)MemberwiseClone();
+            browseFilters.PropertyIDs = (PropertyID[])((PropertyIDs != null) ? PropertyIDs.Clone() : null);
             return browseFilters;
         }
 

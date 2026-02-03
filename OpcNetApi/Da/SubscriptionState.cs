@@ -7,55 +7,55 @@ namespace Opc.Da
     {
         public string Name
         {
-            get { return this.m_name; }
-            set { this.m_name = value; }
+            get => m_name;
+            set => m_name = value;
         }
 
         public object ClientHandle
         {
-            get { return this.m_clientHandle; }
-            set { this.m_clientHandle = value; }
+            get => m_clientHandle;
+            set => m_clientHandle = value;
         }
 
         public object ServerHandle
         {
-            get { return this.m_serverHandle; }
-            set { this.m_serverHandle = value; }
+            get => m_serverHandle;
+            set => m_serverHandle = value;
         }
 
         public string Locale
         {
-            get { return this.m_locale; }
-            set { this.m_locale = value; }
+            get => m_locale;
+            set => m_locale = value;
         }
 
         public bool Active
         {
-            get { return this.m_active; }
-            set { this.m_active = value; }
+            get => m_active;
+            set => m_active = value;
         }
 
         public int UpdateRate
         {
-            get { return this.m_updateRate; }
-            set { this.m_updateRate = value; }
+            get => m_updateRate;
+            set => m_updateRate = value;
         }
 
         public int KeepAlive
         {
-            get { return this.m_keepAlive; }
-            set { this.m_keepAlive = value; }
+            get => m_keepAlive;
+            set => m_keepAlive = value;
         }
 
         public float Deadband
         {
-            get { return this.m_deadband; }
-            set { this.m_deadband = value; }
+            get => m_deadband;
+            set => m_deadband = value;
         }
 
         public virtual object Clone()
         {
-            return base.MemberwiseClone();
+            return MemberwiseClone();
         }
 
         private string m_name;

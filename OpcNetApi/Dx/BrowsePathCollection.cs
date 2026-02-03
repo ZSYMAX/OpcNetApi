@@ -8,13 +8,13 @@ namespace Opc.Dx
     {
         public string this[int index]
         {
-            get { return this[index]; }
-            set { this[index] = value; }
+            get => this[index];
+            set => this[index] = value;
         }
 
         public new string[] ToArray()
         {
-            return (string[])this.ToArray(typeof(string));
+            return (string[])ToArray(typeof(string));
         }
 
         public int Add(string browsePath)
@@ -43,7 +43,7 @@ namespace Opc.Dx
                 foreach (object obj in browsePaths)
                 {
                     string browsePath = (string)obj;
-                    this.Add(browsePath);
+                    Add(browsePath);
                 }
             }
         }

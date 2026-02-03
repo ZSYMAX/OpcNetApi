@@ -8,14 +8,14 @@ namespace Opc.Hda
     {
         public int AttributeID
         {
-            get { return this.m_attributeID; }
-            set { this.m_attributeID = value; }
+            get => m_attributeID;
+            set => m_attributeID = value;
         }
 
         public AttributeValue this[int index]
         {
-            get { return (AttributeValue)this.m_values[index]; }
-            set { this.m_values[index] = value; }
+            get => (AttributeValue)m_values[index];
+            set => m_values[index] = value;
         }
 
         public AttributeValueCollection()
@@ -24,36 +24,36 @@ namespace Opc.Hda
 
         public AttributeValueCollection(Attribute attribute)
         {
-            this.m_attributeID = attribute.ID;
+            m_attributeID = attribute.ID;
         }
 
         public AttributeValueCollection(AttributeValueCollection collection)
         {
-            this.m_values = new ArrayList(collection.m_values.Count);
+            m_values = new ArrayList(collection.m_values.Count);
             foreach (object obj in collection.m_values)
             {
                 AttributeValue attributeValue = (AttributeValue)obj;
-                this.m_values.Add(attributeValue.Clone());
+                m_values.Add(attributeValue.Clone());
             }
         }
 
         public ResultID ResultID
         {
-            get { return this.m_resultID; }
-            set { this.m_resultID = value; }
+            get => m_resultID;
+            set => m_resultID = value;
         }
 
         public string DiagnosticInfo
         {
-            get { return this.m_diagnosticInfo; }
-            set { this.m_diagnosticInfo = value; }
+            get => m_diagnosticInfo;
+            set => m_diagnosticInfo = value;
         }
 
         public virtual object Clone()
         {
-            AttributeValueCollection attributeValueCollection = (AttributeValueCollection)base.MemberwiseClone();
-            attributeValueCollection.m_values = new ArrayList(this.m_values.Count);
-            foreach (object obj in this.m_values)
+            AttributeValueCollection attributeValueCollection = (AttributeValueCollection)MemberwiseClone();
+            attributeValueCollection.m_values = new ArrayList(m_values.Count);
+            foreach (object obj in m_values)
             {
                 AttributeValue attributeValue = (AttributeValue)obj;
                 attributeValueCollection.m_values.Add(attributeValue.Clone());
@@ -62,55 +62,46 @@ namespace Opc.Hda
             return attributeValueCollection;
         }
 
-        public bool IsSynchronized
-        {
-            get { return false; }
-        }
+        public bool IsSynchronized => false;
 
         public int Count
         {
             get
             {
-                if (this.m_values == null)
+                if (m_values == null)
                 {
                     return 0;
                 }
 
-                return this.m_values.Count;
+                return m_values.Count;
             }
         }
 
         public void CopyTo(Array array, int index)
         {
-            if (this.m_values != null)
+            if (m_values != null)
             {
-                this.m_values.CopyTo(array, index);
+                m_values.CopyTo(array, index);
             }
         }
 
         public void CopyTo(AttributeValue[] array, int index)
         {
-            this.CopyTo(array, index);
+            CopyTo(array, index);
         }
 
-        public object SyncRoot
-        {
-            get { return this; }
-        }
+        public object SyncRoot => this;
 
         public IEnumerator GetEnumerator()
         {
-            return this.m_values.GetEnumerator();
+            return m_values.GetEnumerator();
         }
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         object IList.this[int index]
         {
-            get { return this.m_values[index]; }
+            get => m_values[index];
             set
             {
                 if (!typeof(AttributeValue).IsInstanceOfType(value))
@@ -118,13 +109,13 @@ namespace Opc.Hda
                     throw new ArgumentException("May only add AttributeValue objects into the collection.");
                 }
 
-                this.m_values[index] = value;
+                m_values[index] = value;
             }
         }
 
         public void RemoveAt(int index)
         {
-            this.m_values.RemoveAt(index);
+            m_values.RemoveAt(index);
         }
 
         public void Insert(int index, object value)
@@ -134,27 +125,27 @@ namespace Opc.Hda
                 throw new ArgumentException("May only add AttributeValue objects into the collection.");
             }
 
-            this.m_values.Insert(index, value);
+            m_values.Insert(index, value);
         }
 
         public void Remove(object value)
         {
-            this.m_values.Remove(value);
+            m_values.Remove(value);
         }
 
         public bool Contains(object value)
         {
-            return this.m_values.Contains(value);
+            return m_values.Contains(value);
         }
 
         public void Clear()
         {
-            this.m_values.Clear();
+            m_values.Clear();
         }
 
         public int IndexOf(object value)
         {
-            return this.m_values.IndexOf(value);
+            return m_values.IndexOf(value);
         }
 
         public int Add(object value)
@@ -164,37 +155,34 @@ namespace Opc.Hda
                 throw new ArgumentException("May only add AttributeValue objects into the collection.");
             }
 
-            return this.m_values.Add(value);
+            return m_values.Add(value);
         }
 
-        public bool IsFixedSize
-        {
-            get { return false; }
-        }
+        public bool IsFixedSize => false;
 
         public void Insert(int index, AttributeValue value)
         {
-            this.Insert(index, value);
+            Insert(index, value);
         }
 
         public void Remove(AttributeValue value)
         {
-            this.Remove(value);
+            Remove(value);
         }
 
         public bool Contains(AttributeValue value)
         {
-            return this.Contains(value);
+            return Contains(value);
         }
 
         public int IndexOf(AttributeValue value)
         {
-            return this.IndexOf(value);
+            return IndexOf(value);
         }
 
         public int Add(AttributeValue value)
         {
-            return this.Add(value);
+            return Add(value);
         }
 
         private int m_attributeID;

@@ -7,8 +7,8 @@ namespace Opc.Ae
     {
         public URL Url
         {
-            get { return this.m_url; }
-            set { this.m_url = value; }
+            get => m_url;
+            set => m_url = value;
         }
 
         public ItemUrl()
@@ -21,14 +21,14 @@ namespace Opc.Ae
 
         public ItemUrl(ItemIdentifier item, URL url) : base(item)
         {
-            this.Url = url;
+            Url = url;
         }
 
         public ItemUrl(ItemUrl item) : base(item)
         {
             if (item != null)
             {
-                this.Url = item.Url;
+                Url = item.Url;
             }
         }
 

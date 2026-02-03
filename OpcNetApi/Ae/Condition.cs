@@ -8,74 +8,68 @@ namespace Opc.Ae
     {
         public int State
         {
-            get { return this.m_state; }
-            set { this.m_state = value; }
+            get => m_state;
+            set => m_state = value;
         }
 
         public SubCondition ActiveSubCondition
         {
-            get { return this.m_activeSubcondition; }
-            set { this.m_activeSubcondition = value; }
+            get => m_activeSubcondition;
+            set => m_activeSubcondition = value;
         }
 
         public Quality Quality
         {
-            get { return this.m_quality; }
-            set { this.m_quality = value; }
+            get => m_quality;
+            set => m_quality = value;
         }
 
         public DateTime LastAckTime
         {
-            get { return this.m_lastAckTime; }
-            set { this.m_lastAckTime = value; }
+            get => m_lastAckTime;
+            set => m_lastAckTime = value;
         }
 
         public DateTime SubCondLastActive
         {
-            get { return this.m_subCondLastActive; }
-            set { this.m_subCondLastActive = value; }
+            get => m_subCondLastActive;
+            set => m_subCondLastActive = value;
         }
 
         public DateTime CondLastActive
         {
-            get { return this.m_condLastActive; }
-            set { this.m_condLastActive = value; }
+            get => m_condLastActive;
+            set => m_condLastActive = value;
         }
 
         public DateTime CondLastInactive
         {
-            get { return this.m_condLastInactive; }
-            set { this.m_condLastInactive = value; }
+            get => m_condLastInactive;
+            set => m_condLastInactive = value;
         }
 
         public string AcknowledgerID
         {
-            get { return this.m_acknowledgerID; }
-            set { this.m_acknowledgerID = value; }
+            get => m_acknowledgerID;
+            set => m_acknowledgerID = value;
         }
 
         public string Comment
         {
-            get { return this.m_comment; }
-            set { this.m_comment = value; }
+            get => m_comment;
+            set => m_comment = value;
         }
 
-        public Condition.SubConditionCollection SubConditions
-        {
-            get { return this.m_subconditions; }
-        }
+        public SubConditionCollection SubConditions => m_subconditions;
 
-        public Condition.AttributeValueCollection Attributes
-        {
-            get { return this.m_attributes; }
-        }
+        public AttributeValueCollection Attributes => m_attributes;
 
         public virtual object Clone()
         {
-            Condition condition = (Condition)base.MemberwiseClone();
-            condition.m_activeSubcondition = (SubCondition)this.m_activeSubcondition.Clone();
-            condition.m_subconditions = (Condition.SubConditionCollection)this.m_subconditions.Clone();
-            condition.m_attributes = (Condition.AttributeValueCollection)this.m_attributes.Clone();
+            Condition condition = (Condition)MemberwiseClone();
+            condition.m_activeSubcondition = (SubCondition)m_activeSubcondition.Clone();
+            condition.m_subconditions = (SubConditionCollection)m_subconditions.Clone();
+            condition.m_attributes = (AttributeValueCollection)m_attributes.Clone();
             return condition;
         }
 
@@ -97,20 +91,17 @@ namespace Opc.Ae
 
         private string m_comment;
 
-        private Condition.SubConditionCollection m_subconditions = new Condition.SubConditionCollection();
+        private SubConditionCollection m_subconditions = new SubConditionCollection();
 
-        private Condition.AttributeValueCollection m_attributes = new Condition.AttributeValueCollection();
+        private AttributeValueCollection m_attributes = new AttributeValueCollection();
 
         public class AttributeValueCollection : WriteableCollection
         {
-            public AttributeValue this[int index]
-            {
-                get { return (AttributeValue)this.Array[index]; }
-            }
+            public AttributeValue this[int index] => (AttributeValue)Array[index];
 
             public new AttributeValue[] ToArray()
             {
-                return (AttributeValue[])this.Array.ToArray();
+                return (AttributeValue[])Array.ToArray();
             }
 
             internal AttributeValueCollection() : base(null, typeof(AttributeValue))
@@ -120,14 +111,11 @@ namespace Opc.Ae
 
         public class SubConditionCollection : WriteableCollection
         {
-            public SubCondition this[int index]
-            {
-                get { return (SubCondition)this.Array[index]; }
-            }
+            public SubCondition this[int index] => (SubCondition)Array[index];
 
             public new SubCondition[] ToArray()
             {
-                return (SubCondition[])this.Array.ToArray();
+                return (SubCondition[])Array.ToArray();
             }
 
             internal SubConditionCollection() : base(null, typeof(SubCondition))

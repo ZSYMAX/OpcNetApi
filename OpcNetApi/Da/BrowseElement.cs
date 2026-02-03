@@ -7,44 +7,44 @@ namespace Opc.Da
     {
         public string Name
         {
-            get { return this.m_name; }
-            set { this.m_name = value; }
+            get => m_name;
+            set => m_name = value;
         }
 
         public string ItemName
         {
-            get { return this.m_itemName; }
-            set { this.m_itemName = value; }
+            get => m_itemName;
+            set => m_itemName = value;
         }
 
         public string ItemPath
         {
-            get { return this.m_itemPath; }
-            set { this.m_itemPath = value; }
+            get => m_itemPath;
+            set => m_itemPath = value;
         }
 
         public bool IsItem
         {
-            get { return this.m_isItem; }
-            set { this.m_isItem = value; }
+            get => m_isItem;
+            set => m_isItem = value;
         }
 
         public bool HasChildren
         {
-            get { return this.m_hasChildren; }
-            set { this.m_hasChildren = value; }
+            get => m_hasChildren;
+            set => m_hasChildren = value;
         }
 
         public ItemProperty[] Properties
         {
-            get { return this.m_properties; }
-            set { this.m_properties = value; }
+            get => m_properties;
+            set => m_properties = value;
         }
 
         public virtual object Clone()
         {
-            BrowseElement browseElement = (BrowseElement)base.MemberwiseClone();
-            browseElement.m_properties = (ItemProperty[])Convert.Clone(this.m_properties);
+            BrowseElement browseElement = (BrowseElement)MemberwiseClone();
+            browseElement.m_properties = (ItemProperty[])Convert.Clone(m_properties);
             return browseElement;
         }
 

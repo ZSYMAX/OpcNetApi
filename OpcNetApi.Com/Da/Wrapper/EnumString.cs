@@ -14,7 +14,7 @@ namespace OpcCom.Da.Wrapper
             {
                 foreach (object value in strings)
                 {
-                    this.m_strings.Add(value);
+                    m_strings.Add(value);
                 }
             }
         }
@@ -25,10 +25,10 @@ namespace OpcCom.Da.Wrapper
             {
                 try
                 {
-                    this.m_index += celt;
-                    if (this.m_index > this.m_strings.Count)
+                    m_index += celt;
+                    if (m_index > m_strings.Count)
                     {
-                        this.m_index = this.m_strings.Count;
+                        m_index = m_strings.Count;
                     }
                 }
                 catch (Exception e)
@@ -44,7 +44,7 @@ namespace OpcCom.Da.Wrapper
             {
                 try
                 {
-                    ppenum = new EnumString(this.m_strings);
+                    ppenum = new EnumString(m_strings);
                 }
                 catch (Exception e)
                 {
@@ -59,7 +59,7 @@ namespace OpcCom.Da.Wrapper
             {
                 try
                 {
-                    this.m_index = 0;
+                    m_index = 0;
                 }
                 catch (Exception e)
                 {
@@ -81,17 +81,17 @@ namespace OpcCom.Da.Wrapper
 
                     IntPtr[] array = new IntPtr[celt];
                     pceltFetched = 0;
-                    if (this.m_index < this.m_strings.Count)
+                    if (m_index < m_strings.Count)
                     {
                         int num = 0;
-                        while (num < this.m_strings.Count - this.m_index && num < array.Length)
+                        while (num < m_strings.Count - m_index && num < array.Length)
                         {
-                            array[num] = Marshal.StringToCoTaskMemUni((string)this.m_strings[this.m_index + num]);
+                            array[num] = Marshal.StringToCoTaskMemUni((string)m_strings[m_index + num]);
                             pceltFetched++;
                             num++;
                         }
 
-                        this.m_index += pceltFetched;
+                        m_index += pceltFetched;
                         Marshal.Copy(array, 0, rgelt, pceltFetched);
                     }
                 }

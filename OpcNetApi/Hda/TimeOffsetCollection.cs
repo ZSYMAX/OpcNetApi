@@ -9,8 +9,8 @@ namespace Opc.Hda
     {
         public TimeOffset this[int index]
         {
-            get { return this[index]; }
-            set { this[index] = value; }
+            get => this[index];
+            set => this[index] = value;
         }
 
         public int Add(int value, RelativeTime type)
@@ -42,7 +42,7 @@ namespace Opc.Hda
 
         public void Parse(string buffer)
         {
-            this.Clear();
+            Clear();
             bool positive = true;
             int num = 0;
             string text = "";
@@ -53,7 +53,7 @@ namespace Opc.Hda
                 {
                     if (num2 == 3)
                     {
-                        this.Add(TimeOffsetCollection.CreateOffset(positive, num, text));
+                        Add(CreateOffset(positive, num, text));
                         num = 0;
                         text = "";
                         num2 = 0;
@@ -71,7 +71,7 @@ namespace Opc.Hda
                 {
                     if (num2 == 3)
                     {
-                        this.Add(TimeOffsetCollection.CreateOffset(positive, num, text));
+                        Add(CreateOffset(positive, num, text));
                         num = 0;
                         text = "";
                         num2 = 0;
@@ -100,7 +100,7 @@ namespace Opc.Hda
 
             if (num2 == 3)
             {
-                this.Add(TimeOffsetCollection.CreateOffset(positive, num, text));
+                Add(CreateOffset(positive, num, text));
                 num2 = 0;
             }
 
@@ -112,32 +112,32 @@ namespace Opc.Hda
 
         public void CopyTo(TimeOffset[] array, int index)
         {
-            this.CopyTo(array, index);
+            CopyTo(array, index);
         }
 
         public void Insert(int index, TimeOffset value)
         {
-            this.Insert(index, value);
+            Insert(index, value);
         }
 
         public void Remove(TimeOffset value)
         {
-            this.Remove(value);
+            Remove(value);
         }
 
         public bool Contains(TimeOffset value)
         {
-            return this.Contains(value);
+            return Contains(value);
         }
 
         public int IndexOf(TimeOffset value)
         {
-            return this.IndexOf(value);
+            return IndexOf(value);
         }
 
         public int Add(TimeOffset value)
         {
-            return this.Add(value);
+            return Add(value);
         }
 
         private static TimeOffset CreateOffset(bool positive, int magnitude, string units)

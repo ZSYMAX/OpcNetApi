@@ -15,7 +15,7 @@ namespace OpcCom.Da.Wrapper
                 foreach (object obj in connectionPoints)
                 {
                     IConnectionPoint value = (IConnectionPoint)obj;
-                    this.m_connectionPoints.Add(value);
+                    m_connectionPoints.Add(value);
                 }
             }
         }
@@ -26,10 +26,10 @@ namespace OpcCom.Da.Wrapper
             {
                 try
                 {
-                    this.m_index += cConnections;
-                    if (this.m_index > this.m_connectionPoints.Count)
+                    m_index += cConnections;
+                    if (m_index > m_connectionPoints.Count)
                     {
-                        this.m_index = this.m_connectionPoints.Count;
+                        m_index = m_connectionPoints.Count;
                     }
                 }
                 catch (Exception e)
@@ -45,7 +45,7 @@ namespace OpcCom.Da.Wrapper
             {
                 try
                 {
-                    ppenum = new EnumConnectionPoints(this.m_connectionPoints);
+                    ppenum = new EnumConnectionPoints(m_connectionPoints);
                 }
                 catch (Exception e)
                 {
@@ -60,7 +60,7 @@ namespace OpcCom.Da.Wrapper
             {
                 try
                 {
-                    this.m_index = 0;
+                    m_index = 0;
                 }
                 catch (Exception e)
                 {
@@ -82,18 +82,18 @@ namespace OpcCom.Da.Wrapper
 
                     IntPtr[] array = new IntPtr[cConnections];
                     pcFetched = 0;
-                    if (this.m_index < this.m_connectionPoints.Count)
+                    if (m_index < m_connectionPoints.Count)
                     {
                         int num = 0;
-                        while (num < this.m_connectionPoints.Count - this.m_index && num < cConnections)
+                        while (num < m_connectionPoints.Count - m_index && num < cConnections)
                         {
-                            IConnectionPoint o = (IConnectionPoint)this.m_connectionPoints[this.m_index + num];
+                            IConnectionPoint o = (IConnectionPoint)m_connectionPoints[m_index + num];
                             array[num] = Marshal.GetComInterfaceForObject(o, typeof(IConnectionPoint));
                             pcFetched++;
                             num++;
                         }
 
-                        this.m_index += pcFetched;
+                        m_index += pcFetched;
                         Marshal.Copy(array, 0, ppCP, pcFetched);
                     }
                 }

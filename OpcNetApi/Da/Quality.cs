@@ -7,28 +7,28 @@ namespace Opc.Da
     {
         public qualityBits QualityBits
         {
-            get { return this.m_qualityBits; }
-            set { this.m_qualityBits = value; }
+            get => m_qualityBits;
+            set => m_qualityBits = value;
         }
 
         public limitBits LimitBits
         {
-            get { return this.m_limitBits; }
-            set { this.m_limitBits = value; }
+            get => m_limitBits;
+            set => m_limitBits = value;
         }
 
         public byte VendorBits
         {
-            get { return this.m_vendorBits; }
-            set { this.m_vendorBits = value; }
+            get => m_vendorBits;
+            set => m_vendorBits = value;
         }
 
         public short GetCode()
         {
             ushort num = 0;
-            num |= (ushort)this.QualityBits;
-            num |= (ushort)this.LimitBits;
-            num |= (ushort)(this.VendorBits << 8);
+            num |= (ushort)QualityBits;
+            num |= (ushort)LimitBits;
+            num |= (ushort)(VendorBits << 8);
             if (num > 32767)
             {
                 return (short)(-(short)(65536 - (int)num));
@@ -39,9 +39,9 @@ namespace Opc.Da
 
         public void SetCode(short code)
         {
-            this.m_qualityBits = (qualityBits)(code & 252);
-            this.m_limitBits = (limitBits)(code & 3);
-            this.m_vendorBits = (byte)((code & -253) >> 8);
+            m_qualityBits = (qualityBits)(code & 252);
+            m_limitBits = (limitBits)(code & 3);
+            m_vendorBits = (byte)((code & -253) >> 8);
         }
 
         public static bool operator ==(Quality a, Quality b)
@@ -56,29 +56,29 @@ namespace Opc.Da
 
         public Quality(qualityBits quality)
         {
-            this.m_qualityBits = quality;
-            this.m_limitBits = limitBits.none;
-            this.m_vendorBits = 0;
+            m_qualityBits = quality;
+            m_limitBits = limitBits.none;
+            m_vendorBits = 0;
         }
 
         public Quality(short code)
         {
-            this.m_qualityBits = (qualityBits)(code & 252);
-            this.m_limitBits = (limitBits)(code & 3);
-            this.m_vendorBits = (byte)((code & -253) >> 8);
+            m_qualityBits = (qualityBits)(code & 252);
+            m_limitBits = (limitBits)(code & 3);
+            m_vendorBits = (byte)((code & -253) >> 8);
         }
 
         public override string ToString()
         {
-            string text = this.QualityBits.ToString();
-            if (this.LimitBits != limitBits.none)
+            string text = QualityBits.ToString();
+            if (LimitBits != limitBits.none)
             {
-                text += string.Format("[{0}]", this.LimitBits.ToString());
+                text += string.Format("[{0}]", LimitBits.ToString());
             }
 
-            if (this.VendorBits != 0)
+            if (VendorBits != 0)
             {
-                text += string.Format(":{0,0:X}", this.VendorBits);
+                text += string.Format(":{0,0:X}", VendorBits);
             }
 
             return text;
@@ -92,12 +92,12 @@ namespace Opc.Da
             }
 
             Quality quality = (Quality)target;
-            return this.QualityBits == quality.QualityBits && this.LimitBits == quality.LimitBits && this.VendorBits == quality.VendorBits;
+            return QualityBits == quality.QualityBits && LimitBits == quality.LimitBits && VendorBits == quality.VendorBits;
         }
 
         public override int GetHashCode()
         {
-            return (int)this.GetCode();
+            return (int)GetCode();
         }
 
         private qualityBits m_qualityBits;

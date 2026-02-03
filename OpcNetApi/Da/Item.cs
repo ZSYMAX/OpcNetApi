@@ -29,68 +29,68 @@ namespace Opc.Da
 
         public System.Type ReqType
         {
-            get { return m_reqType; }
-            set { m_reqType = value; }
+            get => m_reqType;
+            set => m_reqType = value;
         }
 
         public int MaxAge
         {
-            get { return m_maxAge; }
-            set { m_maxAge = value; }
+            get => m_maxAge;
+            set => m_maxAge = value;
         }
 
         public bool MaxAgeSpecified
         {
-            get { return m_maxAgeSpecified; }
-            set { m_maxAgeSpecified = value; }
+            get => m_maxAgeSpecified;
+            set => m_maxAgeSpecified = value;
         }
 
         public bool Active
         {
-            get { return m_active; }
-            set { m_active = value; }
+            get => m_active;
+            set => m_active = value;
         }
 
         public bool ActiveSpecified
         {
-            get { return m_activeSpecified; }
-            set { m_activeSpecified = value; }
+            get => m_activeSpecified;
+            set => m_activeSpecified = value;
         }
 
         public float Deadband
         {
-            get { return m_deadband; }
-            set { m_deadband = value; }
+            get => m_deadband;
+            set => m_deadband = value;
         }
 
         public bool DeadbandSpecified
         {
-            get { return m_deadbandSpecified; }
-            set { m_deadbandSpecified = value; }
+            get => m_deadbandSpecified;
+            set => m_deadbandSpecified = value;
         }
 
         public int SamplingRate
         {
-            get { return m_samplingRate; }
-            set { m_samplingRate = value; }
+            get => m_samplingRate;
+            set => m_samplingRate = value;
         }
 
         public bool SamplingRateSpecified
         {
-            get { return m_samplingRateSpecified; }
-            set { m_samplingRateSpecified = value; }
+            get => m_samplingRateSpecified;
+            set => m_samplingRateSpecified = value;
         }
 
         public bool EnableBuffering
         {
-            get { return m_enableBuffering; }
-            set { m_enableBuffering = value; }
+            get => m_enableBuffering;
+            set => m_enableBuffering = value;
         }
 
         public bool EnableBufferingSpecified
         {
-            get { return m_enableBufferingSpecified; }
-            set { m_enableBufferingSpecified = value; }
+            get => m_enableBufferingSpecified;
+            set => m_enableBufferingSpecified = value;
         }
 
         public Item()
@@ -101,10 +101,10 @@ namespace Opc.Da
         {
             if (item != null)
             {
-                base.ItemName = item.ItemName;
-                base.ItemPath = item.ItemPath;
-                base.ClientHandle = item.ClientHandle;
-                base.ServerHandle = item.ServerHandle;
+                ItemName = item.ItemName;
+                ItemPath = item.ItemPath;
+                ClientHandle = item.ClientHandle;
+                ServerHandle = item.ServerHandle;
             }
         }
 

@@ -8,13 +8,13 @@ namespace OpcCom
     {
         public EnumString(object enumerator)
         {
-            this.m_enumerator = (IEnumString)enumerator;
+            m_enumerator = (IEnumString)enumerator;
         }
 
         public void Dispose()
         {
-            Interop.ReleaseServer(this.m_enumerator);
-            this.m_enumerator = null;
+            Interop.ReleaseServer(m_enumerator);
+            m_enumerator = null;
         }
 
         public string[] Next(int count)
@@ -25,8 +25,7 @@ namespace OpcCom
                 IntPtr intPtr = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(IntPtr)) * count);
                 try
                 {
-                    int num = 0;
-                    this.m_enumerator.RemoteNext(count, intPtr, out num);
+                    m_enumerator.RemoteNext(count, intPtr, out var num);
                     if (num == 0)
                     {
                         result = new string[0];
@@ -51,18 +50,17 @@ namespace OpcCom
 
         public void Skip(int count)
         {
-            this.m_enumerator.Skip(count);
+            m_enumerator.Skip(count);
         }
 
         public void Reset()
         {
-            this.m_enumerator.Reset();
+            m_enumerator.Reset();
         }
 
         public EnumString Clone()
         {
-            IEnumString enumerator = null;
-            this.m_enumerator.Clone(out enumerator);
+            m_enumerator.Clone(out var enumerator);
             return new EnumString(enumerator);
         }
 

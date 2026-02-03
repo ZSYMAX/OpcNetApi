@@ -8,8 +8,8 @@ namespace Opc.Hda
     {
         public DateTime this[int index]
         {
-            get { return (DateTime)this.m_times[index]; }
-            set { this.m_times[index] = value; }
+            get => (DateTime)m_times[index];
+            set => m_times[index] = value;
         }
 
         public ItemTimeCollection()
@@ -22,19 +22,19 @@ namespace Opc.Hda
 
         public ItemTimeCollection(ItemTimeCollection item) : base(item)
         {
-            this.m_times = new ArrayList(item.m_times.Count);
+            m_times = new ArrayList(item.m_times.Count);
             foreach (object obj in item.m_times)
             {
                 DateTime dateTime = (DateTime)obj;
-                this.m_times.Add(dateTime);
+                m_times.Add(dateTime);
             }
         }
 
         public override object Clone()
         {
             ItemTimeCollection itemTimeCollection = (ItemTimeCollection)base.Clone();
-            itemTimeCollection.m_times = new ArrayList(this.m_times.Count);
-            foreach (object obj in this.m_times)
+            itemTimeCollection.m_times = new ArrayList(m_times.Count);
+            foreach (object obj in m_times)
             {
                 DateTime dateTime = (DateTime)obj;
                 itemTimeCollection.m_times.Add(dateTime);
@@ -43,55 +43,46 @@ namespace Opc.Hda
             return itemTimeCollection;
         }
 
-        public bool IsSynchronized
-        {
-            get { return false; }
-        }
+        public bool IsSynchronized => false;
 
         public int Count
         {
             get
             {
-                if (this.m_times == null)
+                if (m_times == null)
                 {
                     return 0;
                 }
 
-                return this.m_times.Count;
+                return m_times.Count;
             }
         }
 
         public void CopyTo(Array array, int index)
         {
-            if (this.m_times != null)
+            if (m_times != null)
             {
-                this.m_times.CopyTo(array, index);
+                m_times.CopyTo(array, index);
             }
         }
 
         public void CopyTo(DateTime[] array, int index)
         {
-            this.CopyTo(array, index);
+            CopyTo(array, index);
         }
 
-        public object SyncRoot
-        {
-            get { return this; }
-        }
+        public object SyncRoot => this;
 
         public IEnumerator GetEnumerator()
         {
-            return this.m_times.GetEnumerator();
+            return m_times.GetEnumerator();
         }
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         object IList.this[int index]
         {
-            get { return this.m_times[index]; }
+            get => m_times[index];
             set
             {
                 if (!typeof(DateTime).IsInstanceOfType(value))
@@ -99,13 +90,13 @@ namespace Opc.Hda
                     throw new ArgumentException("May only add DateTime objects into the collection.");
                 }
 
-                this.m_times[index] = value;
+                m_times[index] = value;
             }
         }
 
         public void RemoveAt(int index)
         {
-            this.m_times.RemoveAt(index);
+            m_times.RemoveAt(index);
         }
 
         public void Insert(int index, object value)
@@ -115,27 +106,27 @@ namespace Opc.Hda
                 throw new ArgumentException("May only add DateTime objects into the collection.");
             }
 
-            this.m_times.Insert(index, value);
+            m_times.Insert(index, value);
         }
 
         public void Remove(object value)
         {
-            this.m_times.Remove(value);
+            m_times.Remove(value);
         }
 
         public bool Contains(object value)
         {
-            return this.m_times.Contains(value);
+            return m_times.Contains(value);
         }
 
         public void Clear()
         {
-            this.m_times.Clear();
+            m_times.Clear();
         }
 
         public int IndexOf(object value)
         {
-            return this.m_times.IndexOf(value);
+            return m_times.IndexOf(value);
         }
 
         public int Add(object value)
@@ -145,37 +136,34 @@ namespace Opc.Hda
                 throw new ArgumentException("May only add DateTime objects into the collection.");
             }
 
-            return this.m_times.Add(value);
+            return m_times.Add(value);
         }
 
-        public bool IsFixedSize
-        {
-            get { return false; }
-        }
+        public bool IsFixedSize => false;
 
         public void Insert(int index, DateTime value)
         {
-            this.Insert(index, value);
+            Insert(index, value);
         }
 
         public void Remove(DateTime value)
         {
-            this.Remove(value);
+            Remove(value);
         }
 
         public bool Contains(DateTime value)
         {
-            return this.Contains(value);
+            return Contains(value);
         }
 
         public int IndexOf(DateTime value)
         {
-            return this.IndexOf(value);
+            return IndexOf(value);
         }
 
         public int Add(DateTime value)
         {
-            return this.Add(value);
+            return Add(value);
         }
 
         private ArrayList m_times = new ArrayList();

@@ -80,8 +80,7 @@ namespace OpcCom.Da
 
                 try
                 {
-                    string ppString = null;
-                    ((IOPCServer)m_server).GetErrorString(resultID.Code, OpcCom.Interop.GetLocale(locale), out ppString);
+                    ((IOPCServer)m_server).GetErrorString(resultID.Code, OpcCom.Interop.GetLocale(locale), out var ppString);
                     return ppString;
                 }
                 catch (Exception e)
@@ -362,8 +361,7 @@ namespace OpcCom.Da
 
                 try
                 {
-                    int pdwRevisedKeepAliveTime = 0;
-                    ((IOPCGroupStateMgt2)ppUnk).SetKeepAlive(subscriptionState.KeepAlive, out pdwRevisedKeepAliveTime);
+                    ((IOPCGroupStateMgt2)ppUnk).SetKeepAlive(subscriptionState.KeepAlive, out var pdwRevisedKeepAliveTime);
                     subscriptionState.KeepAlive = pdwRevisedKeepAliveTime;
                 }
                 catch

@@ -15,20 +15,20 @@ namespace OpcCom.Hda
 
         internal string BranchPath
         {
-            get { return m_branchPath; }
-            set { m_branchPath = value; }
+            get => m_branchPath;
+            set => m_branchPath = value;
         }
 
         internal EnumString Enumerator
         {
-            get { return m_enumerator; }
-            set { m_enumerator = value; }
+            get => m_enumerator;
+            set => m_enumerator = value;
         }
 
         internal bool FetchingItems
         {
-            get { return m_fetchingItems; }
-            set { m_fetchingItems = value; }
+            get => m_fetchingItems;
+            set => m_fetchingItems = value;
         }
 
         internal BrowsePosition(string branchPath, EnumString enumerator, bool fetchingItems)

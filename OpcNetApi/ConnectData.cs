@@ -9,23 +9,23 @@ namespace Opc
     {
         public NetworkCredential Credentials
         {
-            get { return this.m_credentials; }
-            set { this.m_credentials = value; }
+            get => m_credentials;
+            set => m_credentials = value;
         }
 
         public string LicenseKey
         {
-            get { return this.m_licenseKey; }
-            set { this.m_licenseKey = value; }
+            get => m_licenseKey;
+            set => m_licenseKey = value;
         }
 
         public bool AlwaysUseDA20 { get; set; }
 
         public NetworkCredential GetCredential(Uri uri, string authenticationType)
         {
-            if (this.m_credentials != null)
+            if (m_credentials != null)
             {
-                return new NetworkCredential(this.m_credentials.UserName, this.m_credentials.Password, this.m_credentials.Domain);
+                return new NetworkCredential(m_credentials.UserName, m_credentials.Password, m_credentials.Domain);
             }
 
             return null;
@@ -33,9 +33,9 @@ namespace Opc
 
         public IWebProxy GetProxy()
         {
-            if (this.m_proxy != null)
+            if (m_proxy != null)
             {
-                return this.m_proxy;
+                return m_proxy;
             }
 
             return new WebProxy();
@@ -43,19 +43,19 @@ namespace Opc
 
         public void SetProxy(WebProxy proxy)
         {
-            this.m_proxy = proxy;
+            m_proxy = proxy;
         }
 
         public ConnectData(NetworkCredential credentials)
         {
-            this.m_credentials = credentials;
-            this.m_proxy = null;
+            m_credentials = credentials;
+            m_proxy = null;
         }
 
         public ConnectData(NetworkCredential credentials, WebProxy proxy)
         {
-            this.m_credentials = credentials;
-            this.m_proxy = proxy;
+            m_credentials = credentials;
+            m_proxy = proxy;
         }
 
         protected ConnectData(SerializationInfo info, StreamingContext context)
@@ -67,29 +67,29 @@ namespace Opc
             info.GetString("LK");
             if (string3 != null)
             {
-                this.m_credentials = new NetworkCredential(@string, string2, string3);
+                m_credentials = new NetworkCredential(@string, string2, string3);
             }
             else
             {
-                this.m_credentials = new NetworkCredential(@string, string2);
+                m_credentials = new NetworkCredential(@string, string2);
             }
 
             if (string4 != null)
             {
-                this.m_proxy = new WebProxy(string4);
+                m_proxy = new WebProxy(string4);
                 return;
             }
 
-            this.m_proxy = null;
+            m_proxy = null;
         }
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            if (this.m_credentials != null)
+            if (m_credentials != null)
             {
-                info.AddValue("UN", this.m_credentials.UserName);
-                info.AddValue("PW", this.m_credentials.Password);
-                info.AddValue("DO", this.m_credentials.Domain);
+                info.AddValue("UN", m_credentials.UserName);
+                info.AddValue("PW", m_credentials.Password);
+                info.AddValue("DO", m_credentials.Domain);
             }
             else
             {
@@ -98,9 +98,9 @@ namespace Opc
                 info.AddValue("DO", null);
             }
 
-            if (this.m_proxy != null)
+            if (m_proxy != null)
             {
-                info.AddValue("PU", this.m_proxy.Address);
+                info.AddValue("PU", m_proxy.Address);
                 return;
             }
 

@@ -7,43 +7,43 @@ namespace Opc.Ae
     {
         public string Name
         {
-            get { return this.m_name; }
-            set { this.m_name = value; }
+            get => m_name;
+            set => m_name = value;
         }
 
         public object ClientHandle
         {
-            get { return this.m_clientHandle; }
-            set { this.m_clientHandle = value; }
+            get => m_clientHandle;
+            set => m_clientHandle = value;
         }
 
         public bool Active
         {
-            get { return this.m_active; }
-            set { this.m_active = value; }
+            get => m_active;
+            set => m_active = value;
         }
 
         public int BufferTime
         {
-            get { return this.m_bufferTime; }
-            set { this.m_bufferTime = value; }
+            get => m_bufferTime;
+            set => m_bufferTime = value;
         }
 
         public int MaxSize
         {
-            get { return this.m_maxSize; }
-            set { this.m_maxSize = value; }
+            get => m_maxSize;
+            set => m_maxSize = value;
         }
 
         public int KeepAlive
         {
-            get { return this.m_keepAlive; }
-            set { this.m_keepAlive = value; }
+            get => m_keepAlive;
+            set => m_keepAlive = value;
         }
 
         public virtual object Clone()
         {
-            return base.MemberwiseClone();
+            return MemberwiseClone();
         }
 
         private string m_name;

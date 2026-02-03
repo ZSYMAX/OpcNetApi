@@ -7,14 +7,14 @@ namespace Opc
     {
         public string ID
         {
-            get { return this.m_id; }
-            set { this.m_id = value; }
+            get => m_id;
+            set => m_id = value;
         }
 
         public string Description
         {
-            get { return this.m_description; }
-            set { this.m_description = value; }
+            get => m_description;
+            set => m_description = value;
         }
 
         public static bool operator ==(Specification a, Specification b)
@@ -29,28 +29,28 @@ namespace Opc
 
         public Specification(string id, string description)
         {
-            this.m_id = id;
-            this.m_description = description;
+            m_id = id;
+            m_description = description;
         }
 
         public override bool Equals(object target)
         {
-            return target != null && target.GetType() == typeof(Specification) && this.ID == ((Specification)target).ID;
+            return target != null && target.GetType() == typeof(Specification) && ID == ((Specification)target).ID;
         }
 
         public override string ToString()
         {
-            return this.Description;
+            return Description;
         }
 
         public override int GetHashCode()
         {
-            if (this.ID == null)
+            if (ID == null)
             {
                 return base.GetHashCode();
             }
 
-            return this.ID.GetHashCode();
+            return ID.GetHashCode();
         }
 
         private string m_id;

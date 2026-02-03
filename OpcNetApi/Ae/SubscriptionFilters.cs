@@ -8,36 +8,27 @@ namespace Opc.Ae
     {
         public int EventTypes
         {
-            get { return this.m_eventTypes; }
-            set { this.m_eventTypes = value; }
+            get => m_eventTypes;
+            set => m_eventTypes = value;
         }
 
         public int HighSeverity
         {
-            get { return this.m_highSeverity; }
-            set { this.m_highSeverity = value; }
+            get => m_highSeverity;
+            set => m_highSeverity = value;
         }
 
         public int LowSeverity
         {
-            get { return this.m_lowSeverity; }
-            set { this.m_lowSeverity = value; }
+            get => m_lowSeverity;
+            set => m_lowSeverity = value;
         }
 
-        public SubscriptionFilters.CategoryCollection Categories
-        {
-            get { return this.m_categories; }
-        }
+        public CategoryCollection Categories => m_categories;
 
-        public SubscriptionFilters.StringCollection Areas
-        {
-            get { return this.m_areas; }
-        }
+        public StringCollection Areas => m_areas;
 
-        public SubscriptionFilters.StringCollection Sources
-        {
-            get { return this.m_sources; }
-        }
+        public StringCollection Sources => m_sources;
 
         public SubscriptionFilters()
         {
@@ -45,56 +36,53 @@ namespace Opc.Ae
 
         protected SubscriptionFilters(SerializationInfo info, StreamingContext context)
         {
-            this.m_eventTypes = (int)info.GetValue("ET", typeof(int));
-            this.m_categories = (SubscriptionFilters.CategoryCollection)info.GetValue("CT", typeof(SubscriptionFilters.CategoryCollection));
-            this.m_highSeverity = (int)info.GetValue("HS", typeof(int));
-            this.m_lowSeverity = (int)info.GetValue("LS", typeof(int));
-            this.m_areas = (SubscriptionFilters.StringCollection)info.GetValue("AR", typeof(SubscriptionFilters.StringCollection));
-            this.m_sources = (SubscriptionFilters.StringCollection)info.GetValue("SR", typeof(SubscriptionFilters.StringCollection));
+            m_eventTypes = (int)info.GetValue("ET", typeof(int));
+            m_categories = (CategoryCollection)info.GetValue("CT", typeof(CategoryCollection));
+            m_highSeverity = (int)info.GetValue("HS", typeof(int));
+            m_lowSeverity = (int)info.GetValue("LS", typeof(int));
+            m_areas = (StringCollection)info.GetValue("AR", typeof(StringCollection));
+            m_sources = (StringCollection)info.GetValue("SR", typeof(StringCollection));
         }
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("ET", this.m_eventTypes);
-            info.AddValue("CT", this.m_categories);
-            info.AddValue("HS", this.m_highSeverity);
-            info.AddValue("LS", this.m_lowSeverity);
-            info.AddValue("AR", this.m_areas);
-            info.AddValue("SR", this.m_sources);
+            info.AddValue("ET", m_eventTypes);
+            info.AddValue("CT", m_categories);
+            info.AddValue("HS", m_highSeverity);
+            info.AddValue("LS", m_lowSeverity);
+            info.AddValue("AR", m_areas);
+            info.AddValue("SR", m_sources);
         }
 
         public virtual object Clone()
         {
-            SubscriptionFilters subscriptionFilters = (SubscriptionFilters)base.MemberwiseClone();
-            subscriptionFilters.m_categories = (SubscriptionFilters.CategoryCollection)this.m_categories.Clone();
-            subscriptionFilters.m_areas = (SubscriptionFilters.StringCollection)this.m_areas.Clone();
-            subscriptionFilters.m_sources = (SubscriptionFilters.StringCollection)this.m_sources.Clone();
+            SubscriptionFilters subscriptionFilters = (SubscriptionFilters)MemberwiseClone();
+            subscriptionFilters.m_categories = (CategoryCollection)m_categories.Clone();
+            subscriptionFilters.m_areas = (StringCollection)m_areas.Clone();
+            subscriptionFilters.m_sources = (StringCollection)m_sources.Clone();
             return subscriptionFilters;
         }
 
         private int m_eventTypes = 65535;
 
-        private SubscriptionFilters.CategoryCollection m_categories = new SubscriptionFilters.CategoryCollection();
+        private CategoryCollection m_categories = new CategoryCollection();
 
         private int m_highSeverity = 1000;
 
         private int m_lowSeverity = 1;
 
-        private SubscriptionFilters.StringCollection m_areas = new SubscriptionFilters.StringCollection();
+        private StringCollection m_areas = new StringCollection();
 
-        private SubscriptionFilters.StringCollection m_sources = new SubscriptionFilters.StringCollection();
+        private StringCollection m_sources = new StringCollection();
 
         [Serializable]
         public class CategoryCollection : WriteableCollection
         {
-            public int this[int index]
-            {
-                get { return (int)this.Array[index]; }
-            }
+            public int this[int index] => (int)Array[index];
 
             public new int[] ToArray()
             {
-                return (int[])this.Array.ToArray(typeof(int));
+                return (int[])Array.ToArray(typeof(int));
             }
 
             internal CategoryCollection() : base(null, typeof(int))
@@ -109,14 +97,11 @@ namespace Opc.Ae
         [Serializable]
         public class StringCollection : WriteableCollection
         {
-            public string this[int index]
-            {
-                get { return (string)this.Array[index]; }
-            }
+            public string this[int index] => (string)Array[index];
 
             public new string[] ToArray()
             {
-                return (string[])this.Array.ToArray(typeof(string));
+                return (string[])Array.ToArray(typeof(string));
             }
 
             internal StringCollection() : base(null, typeof(string))

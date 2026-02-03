@@ -13,7 +13,7 @@ namespace OpcRcw.Cmd
         [MarshalAs(UnmanagedType.I4)]
         public int dwReserved;
 
-        public System.Runtime.InteropServices.ComTypes.FILETIME ftEventTime;
+        public FILETIME ftEventTime;
 
         [MarshalAs(UnmanagedType.LPWStr)]
         public string szEventData;

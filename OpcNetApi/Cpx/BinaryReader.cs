@@ -22,9 +22,8 @@ namespace Opc.Cpx
                 throw new ArgumentNullException("typeName");
             }
 
-            Context context = base.InitializeContext(buffer, dictionary, typeName);
-            ComplexValue result = null;
-            if (this.ReadType(context, out result) == 0)
+            Context context = InitializeContext(buffer, dictionary, typeName);
+            if (ReadType(context, out var result) == 0)
             {
                 throw new InvalidSchemaException("Type '" + typeName + "' not found in dictionary.");
             }
@@ -53,21 +52,20 @@ namespace Opc.Cpx
                 }
 
                 int num;
-                if (base.IsArrayField(fieldType))
+                if (IsArrayField(fieldType))
                 {
-                    num = this.ReadArrayField(context, fieldType, i, arrayList, out complexValue2.Value);
+                    num = ReadArrayField(context, fieldType, i, arrayList, out complexValue2.Value);
                 }
                 else if (fieldType.GetType() == typeof(TypeReference))
                 {
-                    object obj = null;
-                    num = this.ReadField(context, (TypeReference)fieldType, out obj);
+                    num = ReadField(context, (TypeReference)fieldType, out var obj);
                     complexValue2.Name = fieldType.Name;
                     complexValue2.Type = ((ComplexValue)obj).Type;
                     complexValue2.Value = ((ComplexValue)obj).Value;
                 }
                 else
                 {
-                    num = this.ReadField(context, fieldType, i, arrayList, out complexValue2.Value, ref b);
+                    num = ReadField(context, fieldType, i, arrayList, out complexValue2.Value, ref b);
                 }
 
                 if (num == 0 && b == 0)
@@ -109,27 +107,27 @@ namespace Opc.Cpx
             System.Type type = field.GetType();
             if (type == typeof(Integer) || type.IsSubclassOf(typeof(Integer)))
             {
-                return this.ReadField(context, (Integer)field, out fieldValue);
+                return ReadField(context, (Integer)field, out fieldValue);
             }
 
             if (type == typeof(FloatingPoint) || type.IsSubclassOf(typeof(FloatingPoint)))
             {
-                return this.ReadField(context, (FloatingPoint)field, out fieldValue);
+                return ReadField(context, (FloatingPoint)field, out fieldValue);
             }
 
             if (type == typeof(CharString) || type.IsSubclassOf(typeof(CharString)))
             {
-                return this.ReadField(context, (CharString)field, fieldIndex, fieldValues, out fieldValue);
+                return ReadField(context, (CharString)field, fieldIndex, fieldValues, out fieldValue);
             }
 
             if (type == typeof(BitString) || type.IsSubclassOf(typeof(BitString)))
             {
-                return this.ReadField(context, (BitString)field, out fieldValue, ref bitOffset);
+                return ReadField(context, (BitString)field, out fieldValue, ref bitOffset);
             }
 
             if (type == typeof(TypeReference))
             {
-                return this.ReadField(context, (TypeReference)field, out fieldValue);
+                return ReadField(context, (TypeReference)field, out fieldValue);
             }
 
             throw new NotImplementedException("Fields of type '" + type.ToString() + "' are not implemented yet.");
@@ -180,8 +178,7 @@ namespace Opc.Cpx
                 throw new InvalidSchemaException("Reference type '" + field.TypeID + "' not found.");
             }
 
-            ComplexValue complexValue = null;
-            int num = this.ReadType(context, out complexValue);
+            int num = ReadType(context, out var complexValue);
             if (num == 0)
             {
                 fieldValue = null;
@@ -251,7 +248,7 @@ namespace Opc.Cpx
 
             if (context.BigEndian)
             {
-                base.SwapBytes(array, 0, num);
+                SwapBytes(array, 0, num);
             }
 
             if (flag)
@@ -392,7 +389,7 @@ namespace Opc.Cpx
 
             if (field.CharCountRef != null)
             {
-                num2 = this.ReadReference(context, field, fieldIndex, fieldValues, field.CharCountRef);
+                num2 = ReadReference(context, field, fieldIndex, fieldValues, field.CharCountRef);
             }
 
             if (num2 == -1)
@@ -435,7 +432,7 @@ namespace Opc.Cpx
                 {
                     for (int l = 0; l < array.Length; l += num)
                     {
-                        base.SwapBytes(array, 0, num);
+                        SwapBytes(array, 0, num);
                     }
                 }
 
@@ -459,7 +456,7 @@ namespace Opc.Cpx
                         };
                         if (context.BigEndian)
                         {
-                            base.SwapBytes(array3, 0, 2);
+                            SwapBytes(array3, 0, 2);
                         }
 
                         array2[m] = BitConverter.ToChar(array3, 0);
@@ -537,7 +534,7 @@ namespace Opc.Cpx
             {
                 for (int i = 0; i < field.ElementCount; i++)
                 {
-                    int num = this.ReadField(context, field, fieldIndex, fieldValues, out value, ref b);
+                    int num = ReadField(context, field, fieldIndex, fieldValues, out value, ref b);
                     if (num == 0 && b == 0)
                     {
                         break;
@@ -549,10 +546,10 @@ namespace Opc.Cpx
             }
             else if (field.ElementCountRef != null)
             {
-                int num2 = this.ReadReference(context, field, fieldIndex, fieldValues, field.ElementCountRef);
+                int num2 = ReadReference(context, field, fieldIndex, fieldValues, field.ElementCountRef);
                 for (int j = 0; j < num2; j++)
                 {
-                    int num3 = this.ReadField(context, field, fieldIndex, fieldValues, out value, ref b);
+                    int num3 = ReadField(context, field, fieldIndex, fieldValues, out value, ref b);
                     if (num3 == 0 && b == 0)
                     {
                         break;
@@ -564,7 +561,7 @@ namespace Opc.Cpx
             }
             else if (field.FieldTerminator != null)
             {
-                byte[] terminator = base.GetTerminator(context, field);
+                byte[] terminator = GetTerminator(context, field);
                 while (context.Index < context.Buffer.Length)
                 {
                     bool flag = true;
@@ -583,7 +580,7 @@ namespace Opc.Cpx
                         break;
                     }
 
-                    int num4 = this.ReadField(context, field, fieldIndex, fieldValues, out value, ref b);
+                    int num4 = ReadField(context, field, fieldIndex, fieldValues, out value, ref b);
                     if (num4 == 0 && b == 0)
                     {
                         break;

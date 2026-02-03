@@ -4,14 +4,11 @@ namespace Opc.Ae
 {
     public class ItemUrlCollection : ReadOnlyCollection
     {
-        public ItemUrl this[int index]
-        {
-            get { return (ItemUrl)this.Array.GetValue(index); }
-        }
+        public ItemUrl this[int index] => (ItemUrl)Array.GetValue(index);
 
         public new ItemUrl[] ToArray()
         {
-            return (ItemUrl[])Convert.Clone(this.Array);
+            return (ItemUrl[])Convert.Clone(Array);
         }
 
         public ItemUrlCollection() : base(new ItemUrl[0])

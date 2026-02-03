@@ -7,48 +7,39 @@ namespace Opc.Ae
     {
         public BrowsePosition(string areaID, BrowseType browseType, string browseFilter)
         {
-            this.m_areaID = areaID;
-            this.m_browseType = browseType;
-            this.m_browseFilter = browseFilter;
+            m_areaID = areaID;
+            m_browseType = browseType;
+            m_browseFilter = browseFilter;
         }
 
-        public string AreaID
-        {
-            get { return this.m_areaID; }
-        }
+        public string AreaID => m_areaID;
 
-        public BrowseType BrowseType
-        {
-            get { return this.m_browseType; }
-        }
+        public BrowseType BrowseType => m_browseType;
 
-        public string BrowseFilter
-        {
-            get { return this.m_browseFilter; }
-        }
+        public string BrowseFilter => m_browseFilter;
 
         ~BrowsePosition()
         {
-            this.Dispose(false);
+            Dispose(false);
         }
 
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.m_disposed)
+            if (!m_disposed)
             {
-                this.m_disposed = true;
+                m_disposed = true;
             }
         }
 
         public virtual object Clone()
         {
-            return (BrowsePosition)base.MemberwiseClone();
+            return (BrowsePosition)MemberwiseClone();
         }
 
         private bool m_disposed;

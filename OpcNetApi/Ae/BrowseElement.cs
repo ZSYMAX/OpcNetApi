@@ -7,25 +7,25 @@ namespace Opc.Ae
     {
         public string Name
         {
-            get { return this.m_name; }
-            set { this.m_name = value; }
+            get => m_name;
+            set => m_name = value;
         }
 
         public string QualifiedName
         {
-            get { return this.m_qualifiedName; }
-            set { this.m_qualifiedName = value; }
+            get => m_qualifiedName;
+            set => m_qualifiedName = value;
         }
 
         public BrowseType NodeType
         {
-            get { return this.m_nodeType; }
-            set { this.m_nodeType = value; }
+            get => m_nodeType;
+            set => m_nodeType = value;
         }
 
         public virtual object Clone()
         {
-            return base.MemberwiseClone();
+            return MemberwiseClone();
         }
 
         private string m_name;

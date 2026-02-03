@@ -6,32 +6,32 @@ namespace Opc.Hda
     {
         public string Name
         {
-            get { return this.m_name; }
-            set { this.m_name = value; }
+            get => m_name;
+            set => m_name = value;
         }
 
         public bool IsItem
         {
-            get { return this.m_isItem; }
-            set { this.m_isItem = value; }
+            get => m_isItem;
+            set => m_isItem = value;
         }
 
         public bool HasChildren
         {
-            get { return this.m_hasChildren; }
-            set { this.m_hasChildren = value; }
+            get => m_hasChildren;
+            set => m_hasChildren = value;
         }
 
         public AttributeValueCollection Attributes
         {
-            get { return this.m_attributes; }
-            set { this.m_attributes = value; }
+            get => m_attributes;
+            set => m_attributes = value;
         }
 
         public override object Clone()
         {
-            BrowseElement browseElement = (BrowseElement)base.MemberwiseClone();
-            browseElement.Attributes = (AttributeValueCollection)this.m_attributes.Clone();
+            BrowseElement browseElement = (BrowseElement)MemberwiseClone();
+            browseElement.Attributes = (AttributeValueCollection)m_attributes.Clone();
             return browseElement;
         }
 

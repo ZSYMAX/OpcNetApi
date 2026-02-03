@@ -21,43 +21,43 @@ namespace Opc.Da
         {
             if (item != null)
             {
-                this.ResultID = item.ResultID;
-                this.DiagnosticInfo = item.DiagnosticInfo;
+                ResultID = item.ResultID;
+                DiagnosticInfo = item.DiagnosticInfo;
             }
         }
 
         public ItemValueResult(string itemName, ResultID resultID) : base(itemName)
         {
-            this.ResultID = resultID;
+            ResultID = resultID;
         }
 
         public ItemValueResult(string itemName, ResultID resultID, string diagnosticInfo) : base(itemName)
         {
-            this.ResultID = resultID;
-            this.DiagnosticInfo = diagnosticInfo;
+            ResultID = resultID;
+            DiagnosticInfo = diagnosticInfo;
         }
 
         public ItemValueResult(ItemIdentifier item, ResultID resultID) : base(item)
         {
-            this.ResultID = resultID;
+            ResultID = resultID;
         }
 
         public ItemValueResult(ItemIdentifier item, ResultID resultID, string diagnosticInfo) : base(item)
         {
-            this.ResultID = resultID;
-            this.DiagnosticInfo = diagnosticInfo;
+            ResultID = resultID;
+            DiagnosticInfo = diagnosticInfo;
         }
 
         public ResultID ResultID
         {
-            get { return this.m_resultID; }
-            set { this.m_resultID = value; }
+            get => m_resultID;
+            set => m_resultID = value;
         }
 
         public string DiagnosticInfo
         {
-            get { return this.m_diagnosticInfo; }
-            set { this.m_diagnosticInfo = value; }
+            get => m_diagnosticInfo;
+            set => m_diagnosticInfo = value;
         }
 
         private ResultID m_resultID = ResultID.S_OK;

@@ -7,14 +7,14 @@ namespace Opc.Hda
     {
         public int Value
         {
-            get { return this.m_value; }
-            set { this.m_value = value; }
+            get => m_value;
+            set => m_value = value;
         }
 
         public RelativeTime Type
         {
-            get { return this.m_type; }
-            set { this.m_type = value; }
+            get => m_type;
+            set => m_type = value;
         }
 
         internal static string OffsetTypeToString(RelativeTime offsetType)

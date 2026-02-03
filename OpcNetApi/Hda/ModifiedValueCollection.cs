@@ -7,8 +7,8 @@ namespace Opc.Hda
     {
         public ModifiedValue this[int index]
         {
-            get { return this[index]; }
-            set { this[index] = value; }
+            get => this[index];
+            set => this[index] = value;
         }
 
         public ModifiedValueCollection()

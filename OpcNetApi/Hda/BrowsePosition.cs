@@ -7,26 +7,26 @@ namespace Opc.Hda
     {
         ~BrowsePosition()
         {
-            this.Dispose(false);
+            Dispose(false);
         }
 
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.m_disposed)
+            if (!m_disposed)
             {
-                this.m_disposed = true;
+                m_disposed = true;
             }
         }
 
         public virtual object Clone()
         {
-            return (BrowsePosition)base.MemberwiseClone();
+            return (BrowsePosition)MemberwiseClone();
         }
 
         private bool m_disposed;

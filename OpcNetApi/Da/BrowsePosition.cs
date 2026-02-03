@@ -5,20 +5,14 @@ namespace Opc.Da
     [Serializable]
     public class BrowsePosition : IBrowsePosition, IDisposable, ICloneable
     {
-        public ItemIdentifier ItemID
-        {
-            get { return this.m_itemID; }
-        }
+        public ItemIdentifier ItemID => m_itemID;
 
-        public BrowseFilters Filters
-        {
-            get { return (BrowseFilters)this.m_filters.Clone(); }
-        }
+        public BrowseFilters Filters => (BrowseFilters)m_filters.Clone();
 
         public int MaxElementsReturned
         {
-            get { return this.m_filters.MaxElementsReturned; }
-            set { this.m_filters.MaxElementsReturned = value; }
+            get => m_filters.MaxElementsReturned;
+            set => m_filters.MaxElementsReturned = value;
         }
 
         public BrowsePosition(ItemIdentifier itemID, BrowseFilters filters)
@@ -28,32 +22,32 @@ namespace Opc.Da
                 throw new ArgumentNullException("filters");
             }
 
-            this.m_itemID = ((itemID != null) ? ((ItemIdentifier)itemID.Clone()) : null);
-            this.m_filters = (BrowseFilters)filters.Clone();
+            m_itemID = ((itemID != null) ? ((ItemIdentifier)itemID.Clone()) : null);
+            m_filters = (BrowseFilters)filters.Clone();
         }
 
         ~BrowsePosition()
         {
-            this.Dispose(false);
+            Dispose(false);
         }
 
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.m_disposed)
+            if (!m_disposed)
             {
-                this.m_disposed = true;
+                m_disposed = true;
             }
         }
 
         public virtual object Clone()
         {
-            return (BrowsePosition)base.MemberwiseClone();
+            return (BrowsePosition)MemberwiseClone();
         }
 
         private bool m_disposed;

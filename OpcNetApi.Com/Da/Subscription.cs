@@ -156,14 +156,14 @@ namespace OpcCom.Da
                 {
                     lock (this)
                     {
-                        this.m_dataChanged = (DataChangedEventHandler)Delegate.Combine(this.m_dataChanged, value);
+                        m_dataChanged = (DataChangedEventHandler)Delegate.Combine(m_dataChanged, value);
                     }
                 }
                 remove
                 {
                     lock (this)
                     {
-                        this.m_dataChanged = (DataChangedEventHandler)Delegate.Remove(this.m_dataChanged, value);
+                        m_dataChanged = (DataChangedEventHandler)Delegate.Remove(m_dataChanged, value);
                     }
                 }
             }
@@ -210,7 +210,7 @@ namespace OpcCom.Da
                 }
             }
 
-            public void OnDataChange(int dwTransid, int hGroup, int hrMasterquality, int hrMastererror, int dwCount, int[] phClientItems, object[] pvValues, short[] pwQualities, OpcRcw.Da.FILETIME[] pftTimeStamps, int[] pErrors)
+            public void OnDataChange(int dwTransid, int hGroup, int hrMasterquality, int hrMastererror, int dwCount, int[] phClientItems, object[] pvValues, short[] pwQualities, FILETIME[] pftTimeStamps, int[] pErrors)
             {
                 try
                 {
@@ -226,7 +226,7 @@ namespace OpcCom.Da
                             }
                         }
 
-                        if (this.m_dataChanged != null)
+                        if (m_dataChanged != null)
                         {
                             ItemValueResult[] array = UnmarshalValues(dwCount, phClientItems, pvValues, pwQualities, pftTimeStamps, pErrors);
                             lock (m_items)
@@ -234,7 +234,7 @@ namespace OpcCom.Da
                                 m_items.ApplyFilters(m_filters | 4, array);
                             }
 
-                            this.m_dataChanged(m_handle, request?.Handle, array);
+                            m_dataChanged(m_handle, request?.Handle, array);
                         }
                     }
                 }
@@ -244,7 +244,7 @@ namespace OpcCom.Da
                 }
             }
 
-            public void OnReadComplete(int dwTransid, int hGroup, int hrMasterquality, int hrMastererror, int dwCount, int[] phClientItems, object[] pvValues, short[] pwQualities, OpcRcw.Da.FILETIME[] pftTimeStamps, int[] pErrors)
+            public void OnReadComplete(int dwTransid, int hGroup, int hrMasterquality, int hrMastererror, int dwCount, int[] phClientItems, object[] pvValues, short[] pwQualities, FILETIME[] pftTimeStamps, int[] pErrors)
             {
                 try
                 {
@@ -350,7 +350,7 @@ namespace OpcCom.Da
                 }
             }
 
-            private ItemValueResult[] UnmarshalValues(int dwCount, int[] phClientItems, object[] pvValues, short[] pwQualities, OpcRcw.Da.FILETIME[] pftTimeStamps, int[] pErrors)
+            private ItemValueResult[] UnmarshalValues(int dwCount, int[] phClientItems, object[] pvValues, short[] pwQualities, FILETIME[] pftTimeStamps, int[] pErrors)
             {
                 ItemValueResult[] array = new ItemValueResult[dwCount];
                 for (int i = 0; i < array.Length; i++)
@@ -493,15 +493,9 @@ namespace OpcCom.Da
                 subscriptionState.ClientHandle = m_handle;
                 try
                 {
-                    string ppName = null;
-                    int pActive = 0;
-                    int pUpdateRate = 0;
-                    float pPercentDeadband = 0f;
                     int pTimeBias = 0;
-                    int pLCID = 0;
                     int phClientGroup = 0;
-                    int phServerGroup = 0;
-                    ((IOPCGroupStateMgt)m_group).GetState(out pUpdateRate, out pActive, out ppName, out pTimeBias, out pPercentDeadband, out pLCID, out phClientGroup, out phServerGroup);
+                    ((IOPCGroupStateMgt)m_group).GetState(out var pUpdateRate, out var pActive, out var ppName, out pTimeBias, out var pPercentDeadband, out var pLCID, out phClientGroup, out var phServerGroup);
                     subscriptionState.Name = ppName;
                     subscriptionState.ServerHandle = phServerGroup;
                     subscriptionState.Active = (pActive != 0);
@@ -511,8 +505,7 @@ namespace OpcCom.Da
                     m_name = subscriptionState.Name;
                     try
                     {
-                        int pdwKeepAliveTime = 0;
-                        ((IOPCGroupStateMgt2)m_group).GetKeepAlive(out pdwKeepAliveTime);
+                        ((IOPCGroupStateMgt2)m_group).GetKeepAlive(out var pdwKeepAliveTime);
                         subscriptionState.KeepAlive = pdwKeepAliveTime;
                     }
                     catch
@@ -939,7 +932,7 @@ namespace OpcCom.Da
                 catch (Exception ex)
                 {
                     m_callback.EndRequest(request2);
-                    throw ex;
+                    throw;
                 }
 
                 lock (m_items)
@@ -1008,7 +1001,7 @@ namespace OpcCom.Da
                 catch (Exception ex)
                 {
                     m_callback.EndRequest(request2);
-                    throw ex;
+                    throw;
                 }
 
                 lock (m_items)
@@ -1141,8 +1134,7 @@ namespace OpcCom.Da
 
                 try
                 {
-                    int pbEnable = 0;
-                    ((IOPCAsyncIO3)m_group).GetEnable(out pbEnable);
+                    ((IOPCAsyncIO3)m_group).GetEnable(out var pbEnable);
                     return pbEnable != 0;
                 }
                 catch (Exception e)
@@ -1164,11 +1156,7 @@ namespace OpcCom.Da
                     array2[i] = (items[i].MaxAgeSpecified ? items[i].MaxAge : 0);
                 }
 
-                IntPtr ppvValues = IntPtr.Zero;
-                IntPtr ppwQualities = IntPtr.Zero;
-                IntPtr ppftTimeStamps = IntPtr.Zero;
-                IntPtr ppErrors = IntPtr.Zero;
-                ((IOPCSyncIO2)m_group).ReadMaxAge(itemIDs.Length, array, array2, out ppvValues, out ppwQualities, out ppftTimeStamps, out ppErrors);
+                ((IOPCSyncIO2)m_group).ReadMaxAge(itemIDs.Length, array, array2, out var ppvValues, out var ppwQualities, out var ppftTimeStamps, out var ppErrors);
                 object[] vARIANTs = OpcCom.Interop.GetVARIANTs(ref ppvValues, itemIDs.Length, deallocate: true);
                 short[] int16s = OpcCom.Interop.GetInt16s(ref ppwQualities, itemIDs.Length, deallocate: true);
                 DateTime[] fILETIMEs = OpcCom.Interop.GetFILETIMEs(ref ppftTimeStamps, itemIDs.Length, deallocate: true);
@@ -1209,8 +1197,7 @@ namespace OpcCom.Da
                 }
 
                 OPCITEMVQT[] oPCITEMVQTs = Interop.GetOPCITEMVQTs(items);
-                IntPtr ppErrors = IntPtr.Zero;
-                ((IOPCSyncIO2)m_group).WriteVQT(itemIDs.Length, array, oPCITEMVQTs, out ppErrors);
+                ((IOPCSyncIO2)m_group).WriteVQT(itemIDs.Length, array, oPCITEMVQTs, out var ppErrors);
                 int[] int32s = OpcCom.Interop.GetInt32s(ref ppErrors, itemIDs.Length, deallocate: true);
                 IdentifiedResult[] array2 = new IdentifiedResult[itemIDs.Length];
                 for (int j = 0; j < itemIDs.Length; j++)
@@ -1244,8 +1231,7 @@ namespace OpcCom.Da
                     array2[i] = (items[i].MaxAgeSpecified ? items[i].MaxAge : 0);
                 }
 
-                IntPtr ppErrors = IntPtr.Zero;
-                ((IOPCAsyncIO3)m_group).ReadMaxAge(itemIDs.Length, array, array2, requestID, out cancelID, out ppErrors);
+                ((IOPCAsyncIO3)m_group).ReadMaxAge(itemIDs.Length, array, array2, requestID, out cancelID, out var ppErrors);
                 int[] int32s = OpcCom.Interop.GetInt32s(ref ppErrors, itemIDs.Length, deallocate: true);
                 IdentifiedResult[] array3 = new IdentifiedResult[itemIDs.Length];
                 for (int j = 0; j < itemIDs.Length; j++)
@@ -1278,8 +1264,7 @@ namespace OpcCom.Da
                 }
 
                 OPCITEMVQT[] oPCITEMVQTs = Interop.GetOPCITEMVQTs(items);
-                IntPtr ppErrors = IntPtr.Zero;
-                ((IOPCAsyncIO3)m_group).WriteVQT(itemIDs.Length, array, oPCITEMVQTs, requestID, out cancelID, out ppErrors);
+                ((IOPCAsyncIO3)m_group).WriteVQT(itemIDs.Length, array, oPCITEMVQTs, requestID, out cancelID, out var ppErrors);
                 int[] int32s = OpcCom.Interop.GetInt32s(ref ppErrors, itemIDs.Length, deallocate: true);
                 IdentifiedResult[] array2 = new IdentifiedResult[itemIDs.Length];
                 for (int j = 0; j < itemIDs.Length; j++)
@@ -1333,8 +1318,7 @@ namespace OpcCom.Da
                     array2[j] = (short)OpcCom.Interop.GetType(itemResult2.ReqType);
                 }
 
-                IntPtr ppErrors = IntPtr.Zero;
-                ((IOPCItemMgt)m_group).SetDatatypes(arrayList.Count, array, array2, out ppErrors);
+                ((IOPCItemMgt)m_group).SetDatatypes(arrayList.Count, array, array2, out var ppErrors);
                 int[] int32s = OpcCom.Interop.GetInt32s(ref ppErrors, array.Length, deallocate: true);
                 for (int k = 0; k < int32s.Length; k++)
                 {
@@ -1372,8 +1356,7 @@ namespace OpcCom.Da
                     array[i] = System.Convert.ToInt32(items[i].ServerHandle);
                 }
 
-                IntPtr ppErrors = IntPtr.Zero;
-                ((IOPCItemMgt)m_group).SetActiveState(items.Length, array, active ? 1 : 0, out ppErrors);
+                ((IOPCItemMgt)m_group).SetActiveState(items.Length, array, active ? 1 : 0, out var ppErrors);
                 int[] int32s = OpcCom.Interop.GetInt32s(ref ppErrors, array.Length, deallocate: true);
                 for (int j = 0; j < int32s.Length; j++)
                 {
@@ -1439,8 +1422,7 @@ namespace OpcCom.Da
                     array2[i] = items[i].Deadband;
                 }
 
-                IntPtr ppErrors = IntPtr.Zero;
-                ((IOPCItemDeadbandMgt)m_group).SetItemDeadband(array.Length, array, array2, out ppErrors);
+                ((IOPCItemDeadbandMgt)m_group).SetItemDeadband(array.Length, array, array2, out var ppErrors);
                 int[] int32s = OpcCom.Interop.GetInt32s(ref ppErrors, array.Length, deallocate: true);
                 for (int j = 0; j < int32s.Length; j++)
                 {
@@ -1476,8 +1458,7 @@ namespace OpcCom.Da
                     array[i] = System.Convert.ToInt32(items[i].ServerHandle);
                 }
 
-                IntPtr ppErrors = IntPtr.Zero;
-                ((IOPCItemDeadbandMgt)m_group).ClearItemDeadband(array.Length, array, out ppErrors);
+                ((IOPCItemDeadbandMgt)m_group).ClearItemDeadband(array.Length, array, out var ppErrors);
                 int[] int32s = OpcCom.Interop.GetInt32s(ref ppErrors, array.Length, deallocate: true);
                 for (int j = 0; j < int32s.Length; j++)
                 {
@@ -1543,9 +1524,7 @@ namespace OpcCom.Da
                     array2[i] = items[i].SamplingRate;
                 }
 
-                IntPtr ppdwRevisedSamplingRate = IntPtr.Zero;
-                IntPtr ppErrors = IntPtr.Zero;
-                ((IOPCItemSamplingMgt)m_group).SetItemSamplingRate(array.Length, array, array2, out ppdwRevisedSamplingRate, out ppErrors);
+                ((IOPCItemSamplingMgt)m_group).SetItemSamplingRate(array.Length, array, array2, out var ppdwRevisedSamplingRate, out var ppErrors);
                 int[] int32s = OpcCom.Interop.GetInt32s(ref ppdwRevisedSamplingRate, array.Length, deallocate: true);
                 int[] int32s2 = OpcCom.Interop.GetInt32s(ref ppErrors, array.Length, deallocate: true);
                 for (int j = 0; j < int32s2.Length; j++)
@@ -1587,8 +1566,7 @@ namespace OpcCom.Da
                     array[i] = System.Convert.ToInt32(items[i].ServerHandle);
                 }
 
-                IntPtr ppErrors = IntPtr.Zero;
-                ((IOPCItemSamplingMgt)m_group).ClearItemSamplingRate(array.Length, array, out ppErrors);
+                ((IOPCItemSamplingMgt)m_group).ClearItemSamplingRate(array.Length, array, out var ppErrors);
                 int[] int32s = OpcCom.Interop.GetInt32s(ref ppErrors, array.Length, deallocate: true);
                 for (int j = 0; j < int32s.Length; j++)
                 {
@@ -1669,8 +1647,7 @@ namespace OpcCom.Da
                     array2[j] = ((itemResult2.EnableBufferingSpecified && itemResult2.EnableBuffering) ? 1 : 0);
                 }
 
-                IntPtr ppErrors = IntPtr.Zero;
-                ((IOPCItemSamplingMgt)m_group).SetItemBufferEnable(array.Length, array, array2, out ppErrors);
+                ((IOPCItemSamplingMgt)m_group).SetItemBufferEnable(array.Length, array, array2, out var ppErrors);
                 int[] int32s = OpcCom.Interop.GetInt32s(ref ppErrors, array.Length, deallocate: true);
                 for (int k = 0; k < int32s.Length; k++)
                 {

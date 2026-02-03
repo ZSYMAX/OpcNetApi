@@ -38,8 +38,8 @@ namespace OpcCom.Da.Wrapper
 
         public Opc.Da.IServer IServer
         {
-            get { return m_server; }
-            set { m_server = value; }
+            get => m_server;
+            set => m_server = value;
         }
 
         protected Server()
@@ -1007,8 +1007,7 @@ namespace OpcCom.Da.Wrapper
                 browseFilters.ReturnAllProperties = false;
                 browseFilters.PropertyIDs = null;
                 browseFilters.ReturnPropertyValues = false;
-                Opc.Da.BrowsePosition position = null;
-                array = m_server.Browse(itemID, browseFilters, out position);
+                array = m_server.Browse(itemID, browseFilters, out var position);
                 if (position != null)
                 {
                     position.Dispose();
@@ -1104,8 +1103,7 @@ namespace OpcCom.Da.Wrapper
             BrowseElement[] array = null;
             try
             {
-                Opc.Da.BrowsePosition position = null;
-                array = m_server.Browse(itemID, browseFilters, out position);
+                array = m_server.Browse(itemID, browseFilters, out var position);
                 if (position != null)
                 {
                     position.Dispose();

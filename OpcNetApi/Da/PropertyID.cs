@@ -32,30 +32,24 @@ namespace Opc.Da
                 }
             }
 
-            this.m_name = new XmlQualifiedName(name, ns);
-            this.m_code = (int)info.GetValue("CO", typeof(int));
+            m_name = new XmlQualifiedName(name, ns);
+            m_code = (int)info.GetValue("CO", typeof(int));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            if (this.m_name != null)
+            if (m_name != null)
             {
-                info.AddValue("NA", this.m_name.Name);
-                info.AddValue("NS", this.m_name.Namespace);
+                info.AddValue("NA", m_name.Name);
+                info.AddValue("NS", m_name.Namespace);
             }
 
-            info.AddValue("CO", this.m_code);
+            info.AddValue("CO", m_code);
         }
 
-        public XmlQualifiedName Name
-        {
-            get { return this.m_name; }
-        }
+        public XmlQualifiedName Name => m_name;
 
-        public int Code
-        {
-            get { return this.m_code; }
-        }
+        public int Code => m_code;
 
         public static bool operator ==(PropertyID a, PropertyID b)
         {
@@ -69,20 +63,20 @@ namespace Opc.Da
 
         public PropertyID(XmlQualifiedName name)
         {
-            this.m_name = name;
-            this.m_code = 0;
+            m_name = name;
+            m_code = 0;
         }
 
         public PropertyID(int code)
         {
-            this.m_name = null;
-            this.m_code = code;
+            m_name = null;
+            m_code = code;
         }
 
         public PropertyID(string name, int code, string ns)
         {
-            this.m_name = new XmlQualifiedName(name, ns);
-            this.m_code = code;
+            m_name = new XmlQualifiedName(name, ns);
+            m_code = code;
         }
 
         public override bool Equals(object target)
@@ -90,14 +84,14 @@ namespace Opc.Da
             if (target != null && target.GetType() == typeof(PropertyID))
             {
                 PropertyID propertyID = (PropertyID)target;
-                if (propertyID.Code != 0 && this.Code != 0)
+                if (propertyID.Code != 0 && Code != 0)
                 {
-                    return propertyID.Code == this.Code;
+                    return propertyID.Code == Code;
                 }
 
-                if (propertyID.Name != null && this.Name != null)
+                if (propertyID.Name != null && Name != null)
                 {
-                    return propertyID.Name == this.Name;
+                    return propertyID.Name == Name;
                 }
             }
 
@@ -106,14 +100,14 @@ namespace Opc.Da
 
         public override int GetHashCode()
         {
-            if (this.Code != 0)
+            if (Code != 0)
             {
-                return this.Code.GetHashCode();
+                return Code.GetHashCode();
             }
 
-            if (this.Name != null)
+            if (Name != null)
             {
-                return this.Name.GetHashCode();
+                return Name.GetHashCode();
             }
 
             return base.GetHashCode();
@@ -121,19 +115,19 @@ namespace Opc.Da
 
         public override string ToString()
         {
-            if (this.Name != null && this.Code != 0)
+            if (Name != null && Code != 0)
             {
-                return string.Format("{0} ({1})", this.Name.Name, this.Code);
+                return string.Format("{0} ({1})", Name.Name, Code);
             }
 
-            if (this.Name != null)
+            if (Name != null)
             {
-                return this.Name.Name;
+                return Name.Name;
             }
 
-            if (this.Code != 0)
+            if (Code != 0)
             {
-                return string.Format("{0}", this.Code);
+                return string.Format("{0}", Code);
             }
 
             return "";

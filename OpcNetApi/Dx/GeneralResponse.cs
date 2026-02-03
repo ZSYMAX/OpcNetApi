@@ -8,8 +8,8 @@ namespace Opc.Dx
     {
         public string Version
         {
-            get { return this.m_version; }
-            set { this.m_version = value; }
+            get => m_version;
+            set => m_version = value;
         }
 
         public GeneralResponse()
@@ -18,19 +18,19 @@ namespace Opc.Dx
 
         public GeneralResponse(string version, ICollection results)
         {
-            this.Version = version;
-            this.Init(results);
+            Version = version;
+            Init(results);
         }
 
         public IdentifiedResult this[int index]
         {
-            get { return this.m_results[index]; }
-            set { this.m_results[index] = value; }
+            get => m_results[index];
+            set => m_results[index] = value;
         }
 
         public void Clear()
         {
-            this.m_results = new IdentifiedResult[0];
+            m_results = new IdentifiedResult[0];
         }
 
         public virtual object Clone()
@@ -38,50 +38,44 @@ namespace Opc.Dx
             return new IdentifiedResultCollection(this);
         }
 
-        public bool IsSynchronized
-        {
-            get { return false; }
-        }
+        public bool IsSynchronized => false;
 
         public int Count
         {
             get
             {
-                if (this.m_results == null)
+                if (m_results == null)
                 {
                     return 0;
                 }
 
-                return this.m_results.Length;
+                return m_results.Length;
             }
         }
 
         public void CopyTo(Array array, int index)
         {
-            if (this.m_results != null)
+            if (m_results != null)
             {
-                this.m_results.CopyTo(array, index);
+                m_results.CopyTo(array, index);
             }
         }
 
         public void CopyTo(IdentifiedResult[] array, int index)
         {
-            this.CopyTo(array, index);
+            CopyTo(array, index);
         }
 
-        public object SyncRoot
-        {
-            get { return this; }
-        }
+        public object SyncRoot => this;
 
         public IEnumerator GetEnumerator()
         {
-            return this.m_results.GetEnumerator();
+            return m_results.GetEnumerator();
         }
 
         private void Init(ICollection collection)
         {
-            this.Clear();
+            Clear();
             if (collection != null)
             {
                 ArrayList arrayList = new ArrayList(collection.Count);
@@ -93,7 +87,7 @@ namespace Opc.Dx
                     }
                 }
 
-                this.m_results = (IdentifiedResult[])arrayList.ToArray(typeof(IdentifiedResult));
+                m_results = (IdentifiedResult[])arrayList.ToArray(typeof(IdentifiedResult));
             }
         }
 

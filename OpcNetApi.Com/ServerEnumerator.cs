@@ -24,7 +24,7 @@ namespace OpcCom
 
         public Opc.Server[] GetAvailableServers(Specification specification)
         {
-            return this.GetAvailableServers(specification, null, null);
+            return GetAvailableServers(specification, null, null);
         }
 
         public Opc.Server[] GetAvailableServers(Specification specification, string host, ConnectData connectData)
@@ -33,18 +33,17 @@ namespace OpcCom
             lock (this)
             {
                 NetworkCredential credential = (connectData != null) ? connectData.GetCredential(null, null) : null;
-                this.m_server = (IOPCServerList2)Interop.CreateInstance(ServerEnumerator.CLSID, host, credential);
-                this.m_host = host;
+                m_server = (IOPCServerList2)Interop.CreateInstance(CLSID, host, credential);
+                m_host = host;
                 try
                 {
                     ArrayList arrayList = new ArrayList();
                     Guid guid = new Guid(specification.ID);
-                    IOPCEnumGUID iopcenumGUID = null;
-                    this.m_server.EnumClassesOfCategories(1, new Guid[]
+                    m_server.EnumClassesOfCategories(1, new Guid[]
                     {
                         guid
-                    }, 0, null, out iopcenumGUID);
-                    Guid[] array = this.ReadClasses(iopcenumGUID);
+                    }, 0, null, out var iopcenumGUID);
+                    Guid[] array = ReadClasses(iopcenumGUID);
                     Interop.ReleaseServer(iopcenumGUID);
                     iopcenumGUID = null;
                     foreach (Guid clsid in array)
@@ -52,7 +51,7 @@ namespace OpcCom
                         Factory factory = new Factory();
                         try
                         {
-                            URL url = this.CreateUrl(specification, clsid);
+                            URL url = CreateUrl(specification, clsid);
                             Opc.Server value = null;
                             if (specification == Specification.COM_DA_30)
                             {
@@ -86,8 +85,8 @@ namespace OpcCom
                 }
                 finally
                 {
-                    Interop.ReleaseServer(this.m_server);
-                    this.m_server = null;
+                    Interop.ReleaseServer(m_server);
+                    m_server = null;
                 }
             }
 
@@ -100,12 +99,12 @@ namespace OpcCom
             lock (this)
             {
                 NetworkCredential credential = (connectData != null) ? connectData.GetCredential(null, null) : null;
-                this.m_server = (IOPCServerList2)Interop.CreateInstance(ServerEnumerator.CLSID, host, credential);
-                this.m_host = host;
+                m_server = (IOPCServerList2)Interop.CreateInstance(CLSID, host, credential);
+                m_host = host;
                 Guid empty;
                 try
                 {
-                    this.m_server.CLSIDFromProgID(progID, out empty);
+                    m_server.CLSIDFromProgID(progID, out empty);
                 }
                 catch
                 {
@@ -113,8 +112,8 @@ namespace OpcCom
                 }
                 finally
                 {
-                    Interop.ReleaseServer(this.m_server);
-                    this.m_server = null;
+                    Interop.ReleaseServer(m_server);
+                    m_server = null;
                 }
 
                 result = empty;
@@ -164,7 +163,7 @@ namespace OpcCom
         private URL CreateUrl(Specification specification, Guid clsid)
         {
             URL url = new URL();
-            url.HostName = this.m_host;
+            url.HostName = m_host;
             url.Port = 0;
             url.Path = null;
             if (specification == Specification.COM_DA_30)
@@ -202,10 +201,8 @@ namespace OpcCom
 
             try
             {
-                string text = null;
                 string text2 = null;
-                string text3 = null;
-                this.m_server.GetClassDetails(ref clsid, out text, out text2, out text3);
+                m_server.GetClassDetails(ref clsid, out var text, out text2, out var text3);
                 if (text3 != null)
                 {
                     url.Path = string.Format("{0}/{1}", text3, "{" + clsid.ToString() + "}");

@@ -69,8 +69,7 @@ namespace OpcCom.Da20
                 m_separators = null;
                 try
                 {
-                    int pdwLcid = 0;
-                    ((IOPCCommon)m_server).GetLocaleID(out pdwLcid);
+                    ((IOPCCommon)m_server).GetLocaleID(out var pdwLcid);
                     int pRevisedUpdateRate = 0;
                     Guid riid = typeof(IOPCItemMgt).GUID;
                     ((IOPCServer)m_server).AddGroup("", 1, 0, 0, IntPtr.Zero, IntPtr.Zero, pdwLcid, out m_groupHandle, out pRevisedUpdateRate, ref riid, out m_group);
@@ -140,8 +139,7 @@ namespace OpcCom.Da20
                                 array3[j] = (int)((ItemValueResult)arrayList2[j]).ServerHandle;
                             }
 
-                            IntPtr ppErrors = IntPtr.Zero;
-                            ((IOPCItemMgt)m_group).SetActiveState(arrayList2.Count, array3, 1, out ppErrors);
+                            ((IOPCItemMgt)m_group).SetActiveState(arrayList2.Count, array3, 1, out var ppErrors);
                             Marshal.FreeCoTaskMem(ppErrors);
                         }
                         catch (Exception e)
@@ -410,8 +408,7 @@ namespace OpcCom.Da20
 
             IntPtr ppAddResults = IntPtr.Zero;
             IntPtr ppErrors = IntPtr.Zero;
-            int pdwLcid = 0;
-            ((IOPCCommon)m_server).GetLocaleID(out pdwLcid);
+            ((IOPCCommon)m_server).GetLocaleID(out var pdwLcid);
             GCHandle gCHandle = GCHandle.Alloc(pdwLcid, GCHandleType.Pinned);
             try
             {
@@ -479,8 +476,7 @@ namespace OpcCom.Da20
 
                 if (arrayList.Count != 0)
                 {
-                    IntPtr ppErrors = IntPtr.Zero;
-                    ((IOPCItemMgt)m_group).RemoveItems(arrayList.Count, (int[])arrayList.ToArray(typeof(int)), out ppErrors);
+                    ((IOPCItemMgt)m_group).RemoveItems(arrayList.Count, (int[])arrayList.ToArray(typeof(int)), out var ppErrors);
                     Interop.GetInt32s(ref ppErrors, arrayList.Count, deallocate: true);
                 }
             }
@@ -616,9 +612,7 @@ namespace OpcCom.Da20
                     array[i] = properties[i].ID.Code;
                 }
 
-                IntPtr ppszNewItemIDs = IntPtr.Zero;
-                IntPtr ppErrors = IntPtr.Zero;
-                ((IOPCItemProperties)m_server).LookupItemIDs(itemID, properties.Length, array, out ppszNewItemIDs, out ppErrors);
+                ((IOPCItemProperties)m_server).LookupItemIDs(itemID, properties.Length, array, out var ppszNewItemIDs, out var ppErrors);
                 string[] unicodeStrings = Interop.GetUnicodeStrings(ref ppszNewItemIDs, properties.Length, deallocate: true);
                 int[] int32s = Interop.GetInt32s(ref ppErrors, properties.Length, deallocate: true);
                 for (int j = 0; j < properties.Length; j++)
@@ -651,9 +645,7 @@ namespace OpcCom.Da20
                     array[i] = properties[i].ID.Code;
                 }
 
-                IntPtr ppvData = IntPtr.Zero;
-                IntPtr ppErrors = IntPtr.Zero;
-                ((IOPCItemProperties)m_server).GetItemProperties(itemID, properties.Length, array, out ppvData, out ppErrors);
+                ((IOPCItemProperties)m_server).GetItemProperties(itemID, properties.Length, array, out var ppvData, out var ppErrors);
                 object[] vARIANTs = Interop.GetVARIANTs(ref ppvData, properties.Length, deallocate: true);
                 int[] int32s = Interop.GetInt32s(ref ppErrors, properties.Length, deallocate: true);
                 for (int j = 0; j < properties.Length; j++)
@@ -785,14 +777,13 @@ namespace OpcCom.Da20
 
             try
             {
-                IEnumString ppIEnumString = null;
                 OPCBROWSETYPE dwBrowseFilterType = branches ? OPCBROWSETYPE.OPC_BRANCH : OPCBROWSETYPE.OPC_LEAF;
                 if (flat)
                 {
                     dwBrowseFilterType = OPCBROWSETYPE.OPC_FLAT;
                 }
 
-                iOPCBrowseServerAddressSpace.BrowseOPCItemIDs(dwBrowseFilterType, (filters.ElementNameFilter != null) ? filters.ElementNameFilter : "", 0, 0, out ppIEnumString);
+                iOPCBrowseServerAddressSpace.BrowseOPCItemIDs(dwBrowseFilterType, (filters.ElementNameFilter != null) ? filters.ElementNameFilter : "", 0, 0, out var ppIEnumString);
                 return new EnumString(ppIEnumString);
             }
             catch
@@ -856,8 +847,7 @@ namespace OpcCom.Da20
             browseElement.ItemPath = null;
             try
             {
-                string szItemID = null;
-                ((IOPCBrowseServerAddressSpace)m_server).GetItemID(browseElement.Name, out szItemID);
+                ((IOPCBrowseServerAddressSpace)m_server).GetItemID(browseElement.Name, out var szItemID);
                 browseElement.ItemName = szItemID;
                 if (browseElement.ItemName != null)
                 {
@@ -879,12 +869,10 @@ namespace OpcCom.Da20
                 oPCITEMDEF.vtRequestedDataType = 0;
                 oPCITEMDEF.dwBlobSize = 0;
                 oPCITEMDEF.pBlob = IntPtr.Zero;
-                IntPtr ppValidationResults = IntPtr.Zero;
-                IntPtr ppErrors = IntPtr.Zero;
                 ((IOPCItemMgt)m_group).ValidateItems(1, new OPCITEMDEF[1]
                 {
                     oPCITEMDEF
-                }, 0, out ppValidationResults, out ppErrors);
+                }, 0, out var ppValidationResults, out var ppErrors);
                 OpcCom.Da.Interop.GetItemResults(ref ppValidationResults, 1, deallocate: true);
                 int[] int32s = Interop.GetInt32s(ref ppErrors, 1, deallocate: true);
                 browseElement.IsItem = (int32s[0] >= 0);

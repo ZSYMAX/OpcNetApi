@@ -14,7 +14,7 @@ namespace OpcCom.Da.Wrapper
             {
                 foreach (object value in unknowns)
                 {
-                    this.m_unknowns.Add(value);
+                    m_unknowns.Add(value);
                 }
             }
         }
@@ -25,10 +25,10 @@ namespace OpcCom.Da.Wrapper
             {
                 try
                 {
-                    this.m_index += celt;
-                    if (this.m_index > this.m_unknowns.Count)
+                    m_index += celt;
+                    if (m_index > m_unknowns.Count)
                     {
-                        this.m_index = this.m_unknowns.Count;
+                        m_index = m_unknowns.Count;
                     }
                 }
                 catch (Exception e)
@@ -44,7 +44,7 @@ namespace OpcCom.Da.Wrapper
             {
                 try
                 {
-                    ppenum = new EnumUnknown(this.m_unknowns);
+                    ppenum = new EnumUnknown(m_unknowns);
                 }
                 catch (Exception e)
                 {
@@ -59,7 +59,7 @@ namespace OpcCom.Da.Wrapper
             {
                 try
                 {
-                    this.m_index = 0;
+                    m_index = 0;
                 }
                 catch (Exception e)
                 {
@@ -81,17 +81,17 @@ namespace OpcCom.Da.Wrapper
 
                     IntPtr[] array = new IntPtr[celt];
                     pceltFetched = 0;
-                    if (this.m_index < this.m_unknowns.Count)
+                    if (m_index < m_unknowns.Count)
                     {
                         int num = 0;
-                        while (num < this.m_unknowns.Count - this.m_index && num < array.Length)
+                        while (num < m_unknowns.Count - m_index && num < array.Length)
                         {
-                            array[num] = Marshal.GetIUnknownForObject(this.m_unknowns[this.m_index + num]);
+                            array[num] = Marshal.GetIUnknownForObject(m_unknowns[m_index + num]);
                             pceltFetched++;
                             num++;
                         }
 
-                        this.m_index += pceltFetched;
+                        m_index += pceltFetched;
                         Marshal.Copy(array, 0, rgelt, pceltFetched);
                     }
                 }

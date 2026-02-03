@@ -11,30 +11,24 @@ namespace Opc
         {
             string name = (string)info.GetValue("NA", typeof(string));
             string ns = (string)info.GetValue("NS", typeof(string));
-            this.m_name = new XmlQualifiedName(name, ns);
-            this.m_code = (int)info.GetValue("CO", typeof(int));
+            m_name = new XmlQualifiedName(name, ns);
+            m_code = (int)info.GetValue("CO", typeof(int));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            if (this.m_name != null)
+            if (m_name != null)
             {
-                info.AddValue("NA", this.m_name.Name);
-                info.AddValue("NS", this.m_name.Namespace);
+                info.AddValue("NA", m_name.Name);
+                info.AddValue("NS", m_name.Namespace);
             }
 
-            info.AddValue("CO", this.m_code);
+            info.AddValue("CO", m_code);
         }
 
-        public XmlQualifiedName Name
-        {
-            get { return this.m_name; }
-        }
+        public XmlQualifiedName Name => m_name;
 
-        public int Code
-        {
-            get { return this.m_code; }
-        }
+        public int Code => m_code;
 
         public static bool operator ==(ResultID a, ResultID b)
         {
@@ -48,56 +42,56 @@ namespace Opc
 
         public bool Succeeded()
         {
-            if (this.Code != -1)
+            if (Code != -1)
             {
-                return this.Code >= 0;
+                return Code >= 0;
             }
 
-            return this.Name != null && this.Name.Name.StartsWith("S_");
+            return Name != null && Name.Name.StartsWith("S_");
         }
 
         public bool Failed()
         {
-            if (this.Code != -1)
+            if (Code != -1)
             {
-                return this.Code < 0;
+                return Code < 0;
             }
 
-            return this.Name != null && this.Name.Name.StartsWith("E_");
+            return Name != null && Name.Name.StartsWith("E_");
         }
 
         public ResultID(XmlQualifiedName name)
         {
-            this.m_name = name;
-            this.m_code = -1;
+            m_name = name;
+            m_code = -1;
         }
 
         public ResultID(long code)
         {
-            this.m_name = null;
+            m_name = null;
             if (code > 2147483647L)
             {
                 code = -(4294967296L - code);
             }
 
-            this.m_code = (int)code;
+            m_code = (int)code;
         }
 
         public ResultID(string name, string ns)
         {
-            this.m_name = new XmlQualifiedName(name, ns);
-            this.m_code = -1;
+            m_name = new XmlQualifiedName(name, ns);
+            m_code = -1;
         }
 
         public ResultID(ResultID resultID, long code)
         {
-            this.m_name = resultID.Name;
+            m_name = resultID.Name;
             if (code > 2147483647L)
             {
                 code = -(4294967296L - code);
             }
 
-            this.m_code = (int)code;
+            m_code = (int)code;
         }
 
         public override bool Equals(object target)
@@ -105,14 +99,14 @@ namespace Opc
             if (target != null && target.GetType() == typeof(ResultID))
             {
                 ResultID resultID = (ResultID)target;
-                if (resultID.Code != -1 && this.Code != -1)
+                if (resultID.Code != -1 && Code != -1)
                 {
-                    return resultID.Code == this.Code && resultID.Name == this.Name;
+                    return resultID.Code == Code && resultID.Name == Name;
                 }
 
-                if (resultID.Name != null && this.Name != null)
+                if (resultID.Name != null && Name != null)
                 {
-                    return resultID.Name == this.Name;
+                    return resultID.Name == Name;
                 }
             }
 
@@ -121,12 +115,12 @@ namespace Opc
 
         public override string ToString()
         {
-            if (this.Name != null)
+            if (Name != null)
             {
-                return this.Name.Name;
+                return Name.Name;
             }
 
-            return string.Format("0x{0,0:X}", this.Code);
+            return string.Format("0x{0,0:X}", Code);
         }
 
         public override int GetHashCode()

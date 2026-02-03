@@ -723,8 +723,7 @@ namespace OpcCom.Da.Wrapper
                     }
 
                     pdwCancelID = AssignHandle();
-                    IRequest request = null;
-                    IdentifiedResult[] array2 = m_subscription.Read(array, pdwCancelID, OnReadComplete, out request);
+                    IdentifiedResult[] array2 = m_subscription.Read(array, pdwCancelID, OnReadComplete, out var request);
                     if (array2 == null || array2.Length != array.Length)
                     {
                         throw Server.CreateException(-2147467259);
@@ -777,8 +776,7 @@ namespace OpcCom.Da.Wrapper
                     }
 
                     pdwCancelID = AssignHandle();
-                    IRequest request = null;
-                    IdentifiedResult[] array2 = m_subscription.Write(array, pdwCancelID, OnWriteComplete, out request);
+                    IdentifiedResult[] array2 = m_subscription.Write(array, pdwCancelID, OnWriteComplete, out var request);
                     if (array2 == null || array2.Length != array.Length)
                     {
                         throw Server.CreateException(-2147467259);
@@ -928,8 +926,7 @@ namespace OpcCom.Da.Wrapper
                     }
 
                     pdwCancelID = AssignHandle();
-                    IRequest request = null;
-                    IdentifiedResult[] array2 = m_subscription.Read(array, pdwCancelID, OnReadComplete, out request);
+                    IdentifiedResult[] array2 = m_subscription.Read(array, pdwCancelID, OnReadComplete, out var request);
                     if (array2 == null || array2.Length != array.Length)
                     {
                         throw Server.CreateException(-2147467259);
@@ -982,8 +979,7 @@ namespace OpcCom.Da.Wrapper
                     }
 
                     pdwCancelID = AssignHandle();
-                    IRequest request = null;
-                    IdentifiedResult[] array2 = m_subscription.Write(array, pdwCancelID, OnWriteComplete, out request);
+                    IdentifiedResult[] array2 = m_subscription.Write(array, pdwCancelID, OnWriteComplete, out var request);
                     if (array2 == null || array2.Length != array.Length)
                     {
                         throw Server.CreateException(-2147467259);
@@ -1020,8 +1016,7 @@ namespace OpcCom.Da.Wrapper
                 try
                 {
                     pdwCancelID = AssignHandle();
-                    IRequest request = null;
-                    m_subscription.Refresh(pdwCancelID, out request);
+                    m_subscription.Refresh(pdwCancelID, out var request);
                     if (request != null)
                     {
                         m_requests[request] = dwTransactionID;
@@ -1688,7 +1683,7 @@ namespace OpcCom.Da.Wrapper
                 int[] array = null;
                 object[] array2 = null;
                 short[] array3 = null;
-                OpcRcw.Da.FILETIME[] array4 = null;
+                FILETIME[] array4 = null;
                 int[] array5 = null;
                 lock (this)
                 {
@@ -1723,14 +1718,14 @@ namespace OpcCom.Da.Wrapper
                         array = new int[results.Length];
                         array2 = new object[results.Length];
                         array3 = new short[results.Length];
-                        array4 = new OpcRcw.Da.FILETIME[results.Length];
+                        array4 = new FILETIME[results.Length];
                         array5 = new int[results.Length];
                         for (int i = 0; i < results.Length; i++)
                         {
                             array[i] = (int)results[i].ClientHandle;
                             array2[i] = results[i].Value;
                             array3[i] = (short)(results[i].QualitySpecified ? results[i].Quality.GetCode() : 0);
-                            ref OpcRcw.Da.FILETIME reference = ref array4[i];
+                            ref FILETIME reference = ref array4[i];
                             reference = Interop.Convert(OpcCom.Interop.GetFILETIME(results[i].Timestamp));
                             array5[i] = OpcCom.Interop.GetResultID(results[i].ResultID);
                             if (results[i].Quality.QualityBits != qualityBits.good)
