@@ -1,7 +1,7 @@
 # OpcNetApi
 
-base on opc api 
+Base on opc api 
 
-rebuild to dotnet 5
+Rebuild to netstandard2.0
 
-easy to use see sample
+Quick start see sample
